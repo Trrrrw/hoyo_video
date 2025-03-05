@@ -13,19 +13,23 @@ const data = ref(null)
 const types = ref(null)
 const currentPage = ref(1)
 const pageSize = ref(20)
-const setPageIcon = () => {
-  // 设置页面标题
-  document.title = `${type.value} - ${game.value}`
-  
-  // 设置页面图标
-  const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-  link.rel = 'icon'
-  link.href = `/src/assets/icons/${game.value}.png`  // 确保有对应的 .ico 文件
-  document.head.appendChild(link)
-}
+const iconPath = computed(() => {
+  return new URL(`../assets/icons/${game.value}.png`, import.meta.url).href
+})
 const logoPath = computed(() => {
   return new URL(`../assets/logos/${game.value}.svg`, import.meta.url).href
 })
+
+const setPageIcon = () => {
+  // 设置页面标题
+  document.title = `${type.value} - ${game.value}`
+
+  // 设置页面图标
+  const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
+  link.rel = 'icon'
+  link.href = iconPath.value
+  document.head.appendChild(link)
+}
 // 动态导入 JSON 文件
 const loadData = async () => {
   if (game.value && type.value) {

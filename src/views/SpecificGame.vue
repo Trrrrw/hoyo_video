@@ -17,14 +17,17 @@ watch(segmentedValue, (newValue) => {
 const data = ref(null)
 const types = ref(null)
 const typeList = ref([])
+const iconPath = computed(() => {
+  return new URL(`../assets/icons/${game.value}.png`, import.meta.url).href
+})
 const setPageIcon = () => {
   // 设置页面标题
-  document.title = `${game.value}`
-  
+  document.title = `${type.value} - ${game.value}`
+
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
-  link.href = `/src/assets/icons/${game.value}.png`  // 确保有对应的 .ico 文件
+  link.href = iconPath.value
   document.head.appendChild(link)
 }
 // 动态导入 JSON 文件
