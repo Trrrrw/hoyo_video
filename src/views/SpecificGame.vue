@@ -52,11 +52,11 @@ const loadData = async () => {
 watchEffect(loadData)
 
 const handleCardClick = (video_type) => {
-  // router.push({ path: `/${game.value}`, query: { type: video_type } })
-  window.location.href = `/${game.value}?type=${video_type}`
-}
-const handleButtonClick = (url) => {
-  window.open(url, '_blank')
+  router.push({
+    name: 'SpecificType',  // 使用命名路由
+    params: { game: game.value },
+    query: { type: video_type }
+  })
 }
 </script>
 

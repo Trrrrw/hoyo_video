@@ -23,6 +23,9 @@ const setPageIcon = () => {
   link.href = `/src/assets/icons/${game.value}.png`  // 确保有对应的 .ico 文件
   document.head.appendChild(link)
 }
+const logoPath = computed(() => {
+  return new URL(`../assets/logos/${game.value}.svg`, import.meta.url).href
+})
 // 动态导入 JSON 文件
 const loadData = async () => {
   if (game.value && type.value) {
@@ -62,9 +65,9 @@ watch(currentPage, () => {
   <div class="page-container">
     <div class="header-wrapper">
       <a-flex flex="1" align="center" class="specific-type-header">
-        <img v-if="game !== `崩坏：星穹铁道`" :src="`/src/assets/logos/${game}.svg`" alt="logo" @click="goBack"
+        <img v-if="game !== `崩坏：星穹铁道`" :src="logoPath" alt="logo" @click="goBack"
           :class="['game-logo', { 'invert': isDark }]" />
-        <img v-else :src="`/src/assets/logos/${game}.svg`" alt="logo" @click="goBack" class="game-logo no-filter" />
+        <img v-else :src="logoPath" alt="logo" @click="goBack" class="game-logo no-filter" />
         <a-divider type="vertical" style="height: 60%;" />
         <h2 class="type-h1">{{ type }}</h2>
       </a-flex>

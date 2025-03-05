@@ -70,7 +70,7 @@ const openOfficialWebsite = (url) => {
         <a-divider type="vertical" />
         <p v-if="data && data[videoId]">{{ data[videoId].intro }}</p>
       </a-flex>
-      <video v-if="data && data[videoId]" :key="data[videoId].src" controls muted :poster="data[videoId].post">
+      <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay muted :poster="data[videoId].post">
         <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
       </video>
       <div class="button-group">
