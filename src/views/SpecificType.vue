@@ -124,7 +124,6 @@ watch(currentPage, () => {
 
 .specific-type-content {
   padding: 20px;
-  justify-content: center;
   width: 100%;
 }
 

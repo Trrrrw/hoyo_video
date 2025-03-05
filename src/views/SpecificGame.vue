@@ -22,7 +22,7 @@ const iconPath = computed(() => {
 })
 const setPageIcon = () => {
   // 设置页面标题
-  document.title = `${type.value} - ${game.value}`
+  document.title = `${game.value}`
 
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
@@ -45,7 +45,7 @@ const loadData = async () => {
           type_name: video_type,
           post: data.value[ids[0]].post
         }))
-        setPageIcon()
+      setPageIcon()
     } catch (error) {
       console.error("Failed to load data:", error)
     }
