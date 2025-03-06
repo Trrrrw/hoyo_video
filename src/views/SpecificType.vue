@@ -53,6 +53,35 @@ const handleCardClick = (itemId) => {
 const goBack = () => {
   router.push({ path: `/${game.value}` })
 }
+const formatTitle = computed(() => {
+  if (!data.value || !types.value) return ''
+  return (itemId) => {
+    const title = data.value[itemId].title
+    if (title == '《绝区零》×《街霸6》制作人对谈') return title
+    if (type.value == '其他') return title
+      .replace(`《${game.value}》——`, '') // 游戏名
+      .replace(`《${game.value}》`, '') // 游戏名
+      .trim()
+    const result = title
+      .replace(`《${game.value}》——`, '') // 游戏名
+      .replace(`《${game.value}》`, '') // 游戏名
+      .replace(`${type.value}-`, '')
+      .replace(`${type.value}———`, '')
+      .replace(`${type.value}——`, '')
+      .replace(`${type.value}—`, '')
+      .replace(`${type.value}：`, '')
+      .replace(`「${type.value}」——`, '')
+      .replace(`${type.value} | `, '')
+      .replace(`特别${type.value} - `, '') // EP
+      .replace(`${type.value} - `, '') // EP
+      .replace(`${type.value} ：`, '') // EP
+      .replace(`${type.value}PV：`, '') //千星纪游
+      .replace(`${type.value}`, '')
+      .trim()
+    if (result === '') return title
+    return result
+  }
+})
 const onShowSizeChange = (currentPage, pageSize) => {
   console.log(currentPage, pageSize)
 }
@@ -79,7 +108,7 @@ watch(currentPage, () => {
     <div class="content-wrapper">
       <a-flex wrap="wrap" gap="middle" class="specific-type-content">
         <Card v-for="itemId in (types[type] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-          :key="itemId" v-if="data && types" :cover="data[itemId].post" :type-name="data[itemId].title"
+          :key="itemId" v-if="data && types" :cover="data[itemId].post" :title="formatTitle(itemId)"
           @click="handleCardClick(itemId)" style="height: fit-content;" />
       </a-flex>
     </div>
@@ -119,11 +148,23 @@ watch(currentPage, () => {
 .content-wrapper {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
+.content-wrapper ::-webkit-scrollbar {
+  display: none;
+}
+
+.content-wrapper {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 .specific-type-content {
-  padding: 20px;
+  padding: 10px;
   width: 100%;
 }
 

@@ -4,7 +4,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  typeName: {
+  title: {
     type: String,
     required: true,
   },
@@ -16,18 +16,18 @@ const props = defineProps({
     <template #cover>
       <img class="card-cover" alt="cover" :src="cover" />
     </template>
-    <a-card-meta :title="typeName">
+    <a-card-meta :title="title">
     </a-card-meta>
   </a-card>
 </template>
 
 <style scoped>
 .card-container {
-  width: 320px;
+  max-width: 320px;
 }
 
 .card-cover {
-  width: 320px;
+  max-width: 320px;
   height: 180px;
   object-fit: cover;
   /* 保持图片比例并填充容器 */

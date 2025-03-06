@@ -72,7 +72,7 @@ const handleCardClick = (video_type) => {
     <div class="content-wrapper">
       <a-flex wrap="wrap" gap="middle" class="specific-type-content">
         <Card v-for="item in (typeList || [])" :key="item.post" v-if="data && types" :cover="item.post"
-          :type-name="item.type_name" @click="handleCardClick(item.type_name)" style="height: fit-content;" />
+          :title="item.type_name" @click="handleCardClick(item.type_name)" style="height: fit-content;" />
       </a-flex>
     </div>
   </div>
@@ -85,6 +85,7 @@ const handleCardClick = (video_type) => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-width: 100vw;
 }
 
 .header-wrapper {
@@ -106,7 +107,18 @@ const handleCardClick = (video_type) => {
   -webkit-overflow-scrolling: touch;
 }
 
+.content-wrapper ::-webkit-scrollbar {
+  display: none;
+}
+
+.content-wrapper {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 .specific-type-content {
-  padding: 20px;
+  padding: 10px;
 }
 </style>
