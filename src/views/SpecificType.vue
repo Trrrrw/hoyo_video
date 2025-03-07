@@ -58,7 +58,7 @@ const formatTitle = computed(() => {
   return (itemId) => {
     const title = data.value[itemId].title
     if (title == '《绝区零》×《街霸6》制作人对谈') return title
-    if (type.value == '其他') return title
+    if (type.value == '其他' | type.value == '幕后') return title
       .replace(`《${game.value}》——`, '') // 游戏名
       .replace(`《${game.value}》`, '') // 游戏名
       .trim()
