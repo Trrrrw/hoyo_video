@@ -119,7 +119,7 @@ const formatTitle = computed(() => {
 
 
 <template>
-  <a-flex wrap="wrap" gap="small" class="video-playback-container">
+  <a-flex wrap="wrap" justify="center" gap="small" class="video-playback-container">
     <!-- 左侧内容 -->
     <a-flex flex="1" justify="flex-start" align="flex-start" vertical class="left-content">
       <h2 v-if="data && data[videoId]">{{ data[videoId].title }}</h2>

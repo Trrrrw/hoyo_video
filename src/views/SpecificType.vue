@@ -72,6 +72,7 @@ const formatTitle = computed(() => {
       .replace(`${type.value}：`, '')
       .replace(`「${type.value}」——`, '')
       .replace(`${type.value} | `, '')
+      .replace(`${type.value}丨`, '')
       .replace(`特别${type.value} - `, '') // EP
       .replace(`${type.value} - `, '') // EP
       .replace(`${type.value} ：`, '') // EP

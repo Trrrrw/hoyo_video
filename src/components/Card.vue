@@ -23,11 +23,11 @@ const props = defineProps({
 
 <style scoped>
 .card-container {
-  max-width: 320px;
+  width: 320px;
 }
 
 .card-cover {
-  max-width: 320px;
+  width: 320px;
   height: 180px;
   object-fit: cover;
   /* 保持图片比例并填充容器 */
