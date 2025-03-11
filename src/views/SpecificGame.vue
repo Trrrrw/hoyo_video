@@ -97,20 +97,20 @@ const isMobileDevice = computed(() => {
 <style scoped>
 .page-layout {
   height: 100%;
+  background: none;
 }
 
 .page-header {
   height: 64;
   padding-inline: 50;
   line-height: 64px;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .page-content {
   height: 100%;
   min-height: 120;
   line-height: 120px;
-  background-color: #fff;
 }
 
 .scrollable-container {
@@ -131,6 +131,5 @@ const isMobileDevice = computed(() => {
 
 .page-footer {
   text-align: center;
-  background-color: #fff;
 }
 </style>
