@@ -20,17 +20,16 @@ const logoPath = computed(() => {
   return new URL(`../assets/logos/${game.value}.svg`, import.meta.url).href
 })
 
+/** 设置页面标题和图标 */
 const setPageIcon = () => {
-  // 设置页面标题
-  document.title = `${type.value} - ${game.value}`
-
+  document.title = `${type.value} - ${game.value}`// 设置页面标题
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
   link.href = iconPath.value
   document.head.appendChild(link)
 }
-// 动态导入 JSON 文件
+/** 动态导入 JSON 文件 */
 const loadData = async () => {
   if (game.value && type.value) {
     try {
@@ -44,53 +43,55 @@ const loadData = async () => {
     }
   }
 }
+
 // 监听路由参数变化并重新加载数据
 watchEffect(loadData)
 
+/** 处理卡片的点击 */
 const handleCardClick = (itemId) => {
   router.push({ path: `/${game.value}/video`, query: { id: itemId } })
 }
+/** 点击图标返回上级 */
 const goBack = () => {
   router.push({ path: `/${game.value}` })
 }
+/** 格式化卡片标题 */
 const formatTitle = computed(() => {
   if (!data.value || !types.value) return ''
   return (itemId) => {
     const title = data.value[itemId].title
     if (title == '《绝区零》×《街霸6》制作人对谈') return title
-    if (type.value == '其他' | type.value == '幕后') return title
+    if (['其他', '幕后', 'CM短片'].includes(type.value)) return title
       .replace(`《${game.value}》——`, '') // 游戏名
       .replace(`《${game.value}》`, '') // 游戏名
       .trim()
     const result = title
       .replace(`《${game.value}》——`, '') // 游戏名
       .replace(`《${game.value}》`, '') // 游戏名
+      .replace(`全新${type.value}-`, '')// 菲谢尔角色预告
       .replace(`${type.value}-`, '')
       .replace(`${type.value}———`, '')
       .replace(`${type.value}——`, '')
       .replace(`${type.value}—`, '')
       .replace(`${type.value}：`, '')
-      .replace(`「${type.value}」——`, '')
+      .replace(`「${type.value}」——`, '')//流光拾遗之旅
+      .replace(`「${type.value}」`, '') // 璃月雅集
+      .replace(`声优小剧场——`, '') // 璃月雅集
+      .replace(`小剧场——`, '') // 璃月雅集
       .replace(`${type.value} | `, '')
       .replace(`${type.value}丨`, '')
       .replace(`特别${type.value} - `, '') // EP
       .replace(`${type.value} - `, '') // EP
       .replace(`${type.value} ：`, '') // EP
       .replace(`${type.value}PV：`, '') //千星纪游
+      .replace(`${type.value}回顾`, '')
+      .replace(`提瓦特风尚·`, '')
+      .replace(`——${type.value}SP`, '')
       .replace(`${type.value}`, '')
       .trim()
     if (result === '') return title
     return result
   }
-})
-const onShowSizeChange = (currentPage, pageSize) => {
-  console.log(currentPage, pageSize)
-}
-watch(pageSize, () => {
-  console.log('pageSize', pageSize.value)
-})
-watch(currentPage, () => {
-  console.log('currentPage', currentPage.value)
 })
 </script>
 
@@ -115,7 +116,7 @@ watch(currentPage, () => {
     </div>
     <div class="footer-wrapper">
       <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
-        :total="types && type ? types[type].length : 0" @showSizeChange="onShowSizeChange" />
+        :total="types && type ? types[type].length : 0" />
     </div>
   </div>
 </template>
@@ -123,7 +124,7 @@ watch(currentPage, () => {
 <style scoped>
 .page-container {
   width: 100%;
-  height: 100vh;
+  height: 95vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;

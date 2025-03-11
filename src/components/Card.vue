@@ -27,9 +27,7 @@ const props = defineProps({
 }
 
 .card-cover {
-  width: 320px;
   height: 180px;
   object-fit: cover;
-  /* 保持图片比例并填充容器 */
 }
 </style>

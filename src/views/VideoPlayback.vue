@@ -1,36 +1,38 @@
 <script setup>
 import Card from "../components/Card.vue"
-import { useRoute, useRouter } from "vue-router"
 import { ref, computed, watchEffect } from "vue"
+import { useRoute, useRouter } from "vue-router"
 import { message } from 'ant-design-vue';
 
 const route = useRoute()
 const router = useRouter()
 const game = computed(() => route.params.game)
 const videoId = computed(() => route.query.id)
-// 动态导入 JSON 文件
 const data = ref(null)
 const types = ref(null)
 const config = ref(null)
 const iconPath = computed(() => {
   return new URL(`../assets/icons/${game.value}.png`, import.meta.url).href
 })
+
+
+/** 设置页面标题和图标 */
 const setPageIcon = () => {
   // 设置页面标题
-  if (data.value && videoId.value && data.value[videoId.value]) {  // 修改条件判断
+  if (data.value && videoId.value && data.value[videoId.value]) {
     const title = data.value[videoId.value].title
       .replace(`《${game.value}》——`, '') // 游戏名
       .replace(`《${game.value}》`, '') // 游戏名
       .trim()
     document.title = `${title} - ${game.value}`
   }
-
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
   link.href = iconPath.value
   document.head.appendChild(link)
 }
+/** 动态导入 JSON 文件 */
 const loadData = async () => {
   if (game.value && videoId.value) {
     try {
@@ -46,12 +48,16 @@ const loadData = async () => {
     }
   }
 }
+
 // 监听路由参数变化并重新加载数据
 watchEffect(loadData)
 
+/** 处理卡片的点击 */
 const handleCardClick = (itemId) => {
   router.push({ path: `/${game.value}/video`, query: { id: itemId } })
 }
+
+/** 点击返回按钮 */
 const goBack = () => {
   const currentType = computed(() => {
     if (!types.value || !videoId.value) return null
@@ -64,12 +70,12 @@ const goBack = () => {
   })
   router.push({ path: `/${game.value}`, query: { type: currentType.value } })
 }
+/** 点击下载按钮 */
 const downloadButtonClick = () => {
   if (data.value && videoId.value && data.value[videoId.value]) {
     const videoUrl = data.value[videoId.value].src
     const videoTitle = data.value[videoId.value].title
     const extension = videoUrl.split('.').pop() // 获取文件后缀
-
     // 创建一个临时的 a 标签用于下载
     const link = document.createElement('a')
     link.href = videoUrl
@@ -79,29 +85,23 @@ const downloadButtonClick = () => {
     document.body.removeChild(link)
   }
 }
+/** 点击分享按钮 */
 const shareButtonClick = () => {
-  // 在这里添加分享按钮的点击事件处理逻辑
-  // 可以使用第三方分享库或者自定义分享逻辑
-  console.log('Share button clicked!')
   //复制当前链接
   const currentUrl = window.location.href;
-  // 创建一个临时的 textarea 元素
-  const tempTextarea = document.createElement('textarea');
-  // 设置 textarea 的值为当前链接
-  tempTextarea.value = currentUrl;
-  // 将 textarea 添加到文档中
-  document.body.appendChild(tempTextarea);
-  // 选择 textarea 的内容
-  tempTextarea.select();
-  // 复制内容到剪贴板
-  document.execCommand('copy');
-  // 移除 textarea 元素
-  document.body.removeChild(tempTextarea);
+  const tempTextarea = document.createElement('textarea'); // 创建一个临时的 textarea 元素
+  tempTextarea.value = currentUrl; // 设置 textarea 的值为当前链接
+  document.body.appendChild(tempTextarea); // 将 textarea 添加到文档中
+  tempTextarea.select(); // 选择 textarea 的内容
+  document.execCommand('copy'); // 复制内容到剪贴板
+  document.body.removeChild(tempTextarea); // 移除 textarea 元素
   message.info('已复制链接');
 }
+/** 打开官网链接 */
 const openOfficialWebsite = (url) => {
   window.open(url, '_blank');
 }
+/** 格式化卡片标题 */
 const formatTitle = computed(() => {
   if (!data.value || !types.value) return ''
   return (itemId) => {
