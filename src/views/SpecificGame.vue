@@ -19,7 +19,7 @@ const iconPath = computed(() => {
 
 /** 设置页面标题和图标 */
 const setPageIcon = () => {
-  document.title = `${game.value}`// 设置页面标题
+  document.title = `${game.value} | 米哈游游戏视频`// 设置页面标题
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
@@ -101,8 +101,7 @@ const isMobileDevice = computed(() => {
 }
 
 .page-header {
-  height: 64;
-  padding-inline: 50;
+  padding-inline: 0;
   line-height: 64px;
   background-color: transparent;
 }
@@ -131,5 +130,8 @@ const isMobileDevice = computed(() => {
 
 .page-footer {
   text-align: center;
+  height: 10px;
+  padding: 5px 50px;
+  background-color: transparent;
 }
 </style>

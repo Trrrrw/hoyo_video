@@ -1,5 +1,6 @@
 <script setup>
 import Card from "../components/Card.vue"
+import Footer from "../components/Footer.vue"
 import { ref, computed, watchEffect, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { useDark } from '@vueuse/core'
@@ -22,7 +23,7 @@ const logoPath = computed(() => {
 
 /** 设置页面标题和图标 */
 const setPageIcon = () => {
-  document.title = `${type.value} - ${game.value}`// 设置页面标题
+  document.title = `${type.value} | ${game.value}`// 设置页面标题
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
@@ -97,7 +98,30 @@ const formatTitle = computed(() => {
 
 
 <template>
-  <div class="page-container">
+  <a-layout class="page-layout">
+    <a-layout class="page-layout">
+      <a-layout-header class="page-header">
+        <a-button type="text" size="large" style="width: 50%;" @click="goBack">{{ type }}</a-button>
+      </a-layout-header>
+      <a-layout-content class="page-content scrollable-container">
+        <a-flex wrap="wrap" justify="center" gap="middle">
+          <Card v-for="itemId in (types[type] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
+            :key="itemId" v-if="data && types" :cover="data[itemId].post" :title="formatTitle(itemId)"
+            @click="handleCardClick(itemId)" style="height: fit-content;" />
+        </a-flex>
+      </a-layout-content>
+      <a-layout-footer class="pagination">
+        <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
+          :total="types && type ? types[type].length : 0" />
+      </a-layout-footer>
+    </a-layout>
+    <a-layout-footer class="page-footer">
+      <Footer></Footer>
+    </a-layout-footer>
+  </a-layout>
+
+
+  <!-- <div class="page-container">
     <div class="header-wrapper">
       <a-flex flex="1" align="center" class="specific-type-header">
         <img v-if="game !== `崩坏：星穹铁道`" :src="logoPath" alt="logo" @click="goBack"
@@ -118,10 +142,58 @@ const formatTitle = computed(() => {
       <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
         :total="types && type ? types[type].length : 0" />
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
+.page-layout {
+  height: 100%;
+  background: none;
+}
+
+.page-header {
+  padding-inline: 0;
+  line-height: 64px;
+  background-color: transparent;
+}
+
+
+.page-content {
+  height: 100%;
+  min-height: 120;
+  line-height: 120px;
+}
+
+.scrollable-container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable-container {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.pagination {
+  background-color: transparent;
+}
+
+.page-footer {
+  text-align: center;
+  height: 10px;
+  padding: 5px 50px;
+  background-color: transparent;
+}
+</style>
+
+
+<!-- <style scoped>
 .page-container {
   width: 100%;
   height: 95vh;
@@ -137,10 +209,6 @@ const formatTitle = computed(() => {
   z-index: 10;
 }
 
-.specific-type-header {
-  margin-top: max(20px, env(safe-area-inset-top));
-  padding: 0 20px;
-}
 
 .game-logo {
   height: 9em;
@@ -191,4 +259,4 @@ const formatTitle = computed(() => {
 .type-h1 {
   padding-top: 12px;
 }
-</style>
+</style> -->

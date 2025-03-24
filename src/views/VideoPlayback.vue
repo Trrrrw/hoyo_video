@@ -1,5 +1,6 @@
 <script setup>
 import Card from "../components/Card.vue"
+import Footer from "../components/Footer.vue"
 import { ref, computed, watchEffect } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { message } from 'ant-design-vue';
@@ -24,7 +25,7 @@ const setPageIcon = () => {
       .replace(`《${game.value}》——`, '') // 游戏名
       .replace(`《${game.value}》`, '') // 游戏名
       .trim()
-    document.title = `${title} - ${game.value}`
+    document.title = `${title} | ${game.value}`
   }
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
@@ -119,53 +120,63 @@ const formatTitle = computed(() => {
 
 
 <template>
-  <a-flex wrap="wrap" justify="center" gap="small" class="video-playback-container">
-    <!-- 左侧内容 -->
-    <a-flex flex="1" justify="flex-start" align="flex-start" vertical class="left-content">
-      <h2 v-if="data && data[videoId]">{{ data[videoId].title }}</h2>
-      <a-flex>
-        <p v-if="data && data[videoId]">{{ data[videoId].time }}</p>
-        <a-divider type="vertical" />
-        <p v-if="data && data[videoId]">{{ data[videoId].intro }}</p>
+  <a-layout class="page-layout">
+    <a-flex wrap="wrap" justify="center" gap="small" class="video-playback-container">
+      <!-- 左侧内容 -->
+      <a-flex flex="1" justify="flex-start" align="flex-start" vertical class="left-content">
+        <h2 v-if="data && data[videoId]">{{ data[videoId].title }}</h2>
+        <a-flex>
+          <p v-if="data && data[videoId]">{{ data[videoId].time }}</p>
+          <a-divider type="vertical" />
+          <p v-if="data && data[videoId]">{{ data[videoId].intro }}</p>
+        </a-flex>
+        <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay :poster="data[videoId].post">
+          <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
+        </video>
+        <div class="button-group">
+          <a-row :gutter="16">
+            <a-col class="gutter-row" :span="6">
+              <a-button class="gutter-box" @click="goBack">返回</a-button>
+            </a-col>
+            <a-col class="gutter-row" :span="6">
+              <a-button class="gutter-box" @click="downloadButtonClick">下载</a-button>
+            </a-col>
+            <a-col class="gutter-row" :span="6">
+              <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
+            </a-col>
+            <a-col class="gutter-row" :span="6">
+              <a-button class="gutter-box"
+                @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}`)">官网</a-button>
+            </a-col>
+          </a-row>
+        </div>
       </a-flex>
-      <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay muted :poster="data[videoId].post">
-        <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
-      </video>
-      <div class="button-group">
-        <a-row :gutter="16">
-          <a-col class="gutter-row" :span="6">
-            <a-button class="gutter-box" @click="goBack">返回</a-button>
-          </a-col>
-          <a-col class="gutter-row" :span="6">
-            <a-button class="gutter-box" @click="downloadButtonClick">下载</a-button>
-          </a-col>
-          <a-col class="gutter-row" :span="6">
-            <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
-          </a-col>
-          <a-col class="gutter-row" :span="6">
-            <a-button class="gutter-box"
-              @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}`)">官网</a-button>
-          </a-col>
-        </a-row>
-      </div>
-    </a-flex>
 
-    <!-- 右侧内容 -->
-    <a-flex vertical class="right-content">
-      <a-divider>更多视频</a-divider>
-      <div class="scrollable-container">
-        <a-card class="video-card-list">
-          <a-flex gap="middle" vertical>
-            <Card v-for="itemId in types[data[videoId]?.type] || []" :key="itemId" v-if="data && data[videoId]"
-              :cover="data[itemId].post" :title="formatTitle(itemId)" @click="handleCardClick(itemId)" />
-          </a-flex>
-        </a-card>
-      </div>
+      <!-- 右侧内容 -->
+      <a-flex vertical class="right-content">
+        <a-divider>更多视频</a-divider>
+        <div class="scrollable-container">
+          <a-card class="video-card-list">
+            <a-flex gap="middle" vertical>
+              <Card v-for="itemId in types[data[videoId]?.type] || []" :key="itemId" v-if="data && data[videoId]"
+                :cover="data[itemId].post" :title="formatTitle(itemId)" @click="handleCardClick(itemId)" />
+            </a-flex>
+          </a-card>
+        </div>
+      </a-flex>
     </a-flex>
-  </a-flex>
+    <a-layout-footer class="page-footer">
+      <Footer></Footer>
+    </a-layout-footer>
+  </a-layout>
 </template>
 
 <style scoped>
+.page-layout {
+  height: 100%;
+  background: none;
+}
+
 /* 容器 */
 .video-playback-container {
   height: 100vh;
@@ -222,5 +233,12 @@ const formatTitle = computed(() => {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+
+.page-footer {
+  text-align: center;
+  height: 10px;
+  padding: 5px 50px;
+  background-color: transparent;
 }
 </style>
