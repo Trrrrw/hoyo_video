@@ -237,8 +237,8 @@ const formatTitle = computed(() => {
 
 .page-footer {
   text-align: center;
-  height: 10px;
-  padding: 5px 50px;
+  height: 38px;
+  padding: 0px 0px;
   background-color: transparent;
 }
 </style>

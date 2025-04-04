@@ -104,7 +104,7 @@ const formatTitle = computed(() => {
         <a-button type="text" size="large" style="width: 50%;" @click="goBack">{{ type }}</a-button>
       </a-layout-header>
       <a-layout-content class="page-content scrollable-container">
-        <a-flex wrap="wrap" justify="center" gap="middle">
+        <a-flex wrap="wrap" justify="flex-start" gap="middle">
           <Card v-for="itemId in (types[type] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
             :key="itemId" v-if="data && types" :cover="data[itemId].post" :title="formatTitle(itemId)"
             @click="handleCardClick(itemId)" style="height: fit-content;" />
@@ -119,30 +119,6 @@ const formatTitle = computed(() => {
       <Footer></Footer>
     </a-layout-footer>
   </a-layout>
-
-
-  <!-- <div class="page-container">
-    <div class="header-wrapper">
-      <a-flex flex="1" align="center" class="specific-type-header">
-        <img v-if="game !== `崩坏：星穹铁道`" :src="logoPath" alt="logo" @click="goBack"
-          :class="['game-logo', { 'invert': isDark }]" />
-        <img v-else :src="logoPath" alt="logo" @click="goBack" class="game-logo no-filter" />
-        <a-divider type="vertical" style="height: 60%;" />
-        <h2 class="type-h1">{{ type }}</h2>
-      </a-flex>
-    </div>
-    <div class="content-wrapper">
-      <a-flex wrap="wrap" gap="middle" class="specific-type-content">
-        <Card v-for="itemId in (types[type] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-          :key="itemId" v-if="data && types" :cover="data[itemId].post" :title="formatTitle(itemId)"
-          @click="handleCardClick(itemId)" style="height: fit-content;" />
-      </a-flex>
-    </div>
-    <div class="footer-wrapper">
-      <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
-        :total="types && type ? types[type].length : 0" />
-    </div>
-  </div> -->
 </template>
 
 <style scoped>
@@ -186,77 +162,8 @@ const formatTitle = computed(() => {
 
 .page-footer {
   text-align: center;
-  height: 10px;
-  padding: 5px 50px;
+  height: 38px;
+  padding: 0px 0px;
   background-color: transparent;
 }
 </style>
-
-
-<!-- <style scoped>
-.page-container {
-  width: 100%;
-  height: 95vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.header-wrapper {
-  padding: env(safe-area-inset-top) 0 10px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-
-.game-logo {
-  height: 9em;
-  padding: 1.5em;
-}
-
-.content-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-.content-wrapper ::-webkit-scrollbar {
-  display: none;
-}
-
-.content-wrapper {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.specific-type-content {
-  padding: 10px;
-  width: 100%;
-}
-
-.footer-wrapper {
-  padding: 20px 0;
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-}
-
-/* 其他样式保持不变 */
-.invert {
-  filter: invert(1);
-}
-
-.no-filter {
-  filter: none;
-}
-
-.type-h1 {
-  padding-top: 12px;
-}
-</style> -->

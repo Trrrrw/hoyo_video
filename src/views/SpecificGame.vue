@@ -83,7 +83,7 @@ const isMobileDevice = computed(() => {
       <a-segmented v-else v-model:value="segmentedValue" block :options="games" />
     </a-layout-header>
     <a-layout-content class="page-content scrollable-container">
-      <a-flex wrap="wrap" justify="center" gap="middle">
+      <a-flex wrap="wrap" justify="flex-start" gap="middle">
         <Card v-for="item in (typeList || [])" :key="item.post" v-if="data && types" :cover="item.post"
           :title="item.type_name" @click="handleCardClick(item.type_name)" style="height: fit-content;" />
       </a-flex>
@@ -130,8 +130,8 @@ const isMobileDevice = computed(() => {
 
 .page-footer {
   text-align: center;
-  height: 10px;
-  padding: 5px 50px;
+  height: 38px;
+  padding: 0px 0px;
   background-color: transparent;
 }
 </style>
