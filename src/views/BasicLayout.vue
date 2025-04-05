@@ -1,12 +1,12 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import Header from '../components/Header.vue'
 import Sider from '../components/Sider.vue'
 import Footer from '../components/Footer.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+/** 检测屏幕大小并调整侧边栏 */
 const collapsed = ref(false)
 const collapsedWidth = ref(80)
 const collapsible = ref(false)
-
 const checkScreenSize = () => {
     const width = window.innerWidth
     if (width >= 1200) {
@@ -26,7 +26,6 @@ onMounted(() => {
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
 })
-
 onUnmounted(() => {
     window.removeEventListener('resize', checkScreenSize)
 })
@@ -42,12 +41,15 @@ onUnmounted(() => {
                 theme="light" class="content-sider">
                 <Sider />
             </a-layout-sider>
-            <a-layout-content class="page-content scrollable-container">
-            </a-layout-content>
+            <a-layout class="page-layout">
+                <a-layout-content class="page-content scrollable-container">
+                    <router-view />
+                </a-layout-content>
+                <a-layout-footer class="page-footer">
+                    <Footer />
+                </a-layout-footer>
+            </a-layout>
         </a-layout>
-        <a-layout-footer class="page-footer">
-            <Footer />
-        </a-layout-footer>
     </a-layout>
 </template>
 
@@ -58,19 +60,28 @@ onUnmounted(() => {
 }
 
 .page-header {
-    padding-inline: 0;
-    line-height: 64px;
+    padding-top: 12px;
+    padding-inline: 15px;
+    align-items: center;
     background-color: transparent;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.content-layout {
+    height: 100%;
 }
 
 .content-sider {
     background-color: white;
+    border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
 }
 
 .page-content {
-    /* height: 100%; */
+    height: 100%;
     min-height: 120;
     line-height: 120px;
+    background-color: white;
 }
 
 .scrollable-container {
@@ -91,6 +102,6 @@ onUnmounted(() => {
 
 .page-footer {
     text-align: center;
-    background-color: transparent;
+    background-color: white;
 }
 </style>
