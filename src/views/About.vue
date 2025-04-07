@@ -17,7 +17,7 @@ const marked = new Marked(
 )
 const markdownPreview = shallowRef()
 const loadAboutMD = () => {
-    const res = fetch('../../README.md')
+    const res = fetch('/README.md')
     res.then(res => {
         res.text().then(text => {
             markdownPreview.value = marked.parse(text)
