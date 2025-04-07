@@ -20,7 +20,11 @@ const loadAboutMD = () => {
     const res = fetch('/README.md')
     res.then(res => {
         res.text().then(text => {
-            markdownPreview.value = marked.parse(text)
+            const correctedText = text.replace(
+                'src="src/assets/logos/logo.png"',
+                'src="/assets/logos/logo.png"'
+            )
+            markdownPreview.value = marked.parse(correctedText)
         })
     })
 }
