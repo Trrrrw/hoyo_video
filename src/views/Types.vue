@@ -19,7 +19,7 @@ const iconPath = computed(() => {
 
 /** 设置页面标题和图标 */
 const setPageIcon = () => {
-  document.title = `${game.value} | 米哈游游戏视频`// 设置页面标题
+  document.title = `${game.value} | 影像档案架`// 设置页面标题
   // 设置页面图标
   const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
   link.rel = 'icon'
@@ -64,13 +64,6 @@ const handleCardClick = (video_type) => {
     query: { type: video_type, page: 1, pageSize: 20 }
   })
 }
-/** 判断是否是手机 */
-const isMobileDevice = computed(() => {
-  const userAgent = navigator.userAgent.toLowerCase()
-  const isMobileUA = /mobile|iP|android/.test(userAgent)
-  const isSmallScreen = window.matchMedia('(max-width: 768px)').matches
-  return isMobileUA || isSmallScreen
-})
 </script>
 
 
@@ -100,6 +93,7 @@ const isMobileDevice = computed(() => {
 .page-content {
   height: 100%;
   min-height: 120;
+  padding: 24px 24px 0 24px;
   line-height: 120px;
 }
 

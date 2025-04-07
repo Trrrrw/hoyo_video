@@ -1,6 +1,6 @@
 <script setup>
 import Card from "../components/Card.vue"
-import { ref, computed, watchEffect, h } from "vue"
+import { ref, computed, watchEffect, watch, h } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { LeftOutlined } from '@ant-design/icons-vue'
 import TopMenuBar from "../components/TopMenuBar.vue"
@@ -40,8 +40,17 @@ const loadData = async () => {
   }
 }
 
+const contentRef = ref(null)
+const scrollToTop = () => {
+  console.log('scrollToTop')
+  if (contentRef.value?.$el) {
+    contentRef.value.$el.scrollTo({ top: 0 })
+  }
+}
+
 // 监听路由参数变化并重新加载数据
 watchEffect(loadData)
+watch([currentPage, pageSize], scrollToTop)
 
 /** 处理卡片的点击 */
 const handleCardClick = (itemId) => {
@@ -96,12 +105,12 @@ const formatTitle = computed(() => {
   <a-layout class="page-layout">
     <a-layout class="page-layout">
       <a-layout-header class="page-header">
-        <a-flex align="center">
+        <a-flex align="center" style="padding-left: 5px;">
           <a-button :icon="h(LeftOutlined)" @click="goBack"></a-button>
           <TopMenuBar />
         </a-flex>
       </a-layout-header>
-      <a-layout-content class="page-content scrollable-container">
+      <a-layout-content ref="contentRef" class="page-content scrollable-container">
         <a-flex wrap="wrap" justify="flex-start" gap="middle">
           <Card v-for="itemId in (types[type] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
             :key="itemId" v-if="data && types" :cover="data[itemId].post" :title="formatTitle(itemId)"
@@ -133,6 +142,7 @@ const formatTitle = computed(() => {
   height: 100%;
   min-height: 120;
   line-height: 120px;
+  padding: 24px 24px 0 24px;
 }
 
 .scrollable-container {
