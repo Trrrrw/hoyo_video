@@ -22,7 +22,7 @@ const loadAboutMD = () => {
         res.text().then(text => {
             const correctedText = text.replace(
                 'src="src/assets/logos/logo.png"',
-                'src="/assets/logos/logo.png"'
+                'src="/assets/logo-BLK9MVtV.png"'
             )
             markdownPreview.value = marked.parse(correctedText)
         })
