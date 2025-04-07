@@ -1,5 +1,5 @@
 <h1>
-   <a href="https://hoyo-video.trrw.tech/"><img src="./src/assets/logos/logo.png" width="200"></a>
+   <a href="https://hoyo-video.trrw.tech/"><img src="src/assets/logos/logo.png" width="200"></a>
    <a href="https://hoyo-video.trrw.tech/">影像档案架</a>
 </h1>
 
