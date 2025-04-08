@@ -1,7 +1,10 @@
 <script setup>
+import { ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import { message } from 'ant-design-vue'
+import DownloadDialog from "./DownloadDialog.vue"
 
+const currentUrl = window.location.href
 const router = useRouter()
 const props = defineProps({
     data: {
@@ -41,23 +44,24 @@ const goBack = () => {
 }
 
 /** 点击下载按钮 */
-const downloadButtonClick = () => {
-    if (props.data && props.videoId && props.data[props.videoId]) {
-        const videoUrl = props.data[props.videoId].src
-        const videoTitle = props.data[props.videoId].title
-        const extension = videoUrl.split('.').pop()
-        const link = document.createElement('a')
-        link.href = videoUrl
-        link.download = `${videoTitle}.${extension}`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
+const modalVisible = ref(false)
+const downloadButtonClick = async () => {
+    modalVisible.value = true
+    // if (props.data && props.videoId && props.data[props.videoId]) {
+    //     const videoUrl = props.data[props.videoId].src
+    //     const videoTitle = props.data[props.videoId].title
+    //     const extension = videoUrl.split('.').pop()
+    //     const link = document.createElement('a')
+    //     link.href = videoUrl
+    //     link.download = `${videoTitle}.${extension}`
+    //     document.body.appendChild(link)
+    //     link.click()
+    //     document.body.removeChild(link)
+    // }
 }
 
 /** 点击分享按钮 */
 const shareButtonClick = () => {
-    const currentUrl = window.location.href
     const tempTextarea = document.createElement('textarea')
     tempTextarea.value = currentUrl
     document.body.appendChild(tempTextarea)
@@ -77,10 +81,16 @@ const openOfficialWebsite = (url) => {
     <a-flex gap="middle" style="padding-top: 5px;">
         <a-button class="gutter-box" @click="goBack">返回</a-button>
         <a-button class="gutter-box" @click="downloadButtonClick">下载</a-button>
-        <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
+        <a-popover placement="bottom" :overlay-inner-style="{ padding: 0 }">
+            <template #content>
+                <a-qrcode :value="currentUrl" :bordered="false" />
+            </template>
+            <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
+        </a-popover>
         <a-button class="gutter-box"
             @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}`)">官网</a-button>
     </a-flex>
+    <DownloadDialog v-model:modalVisible="modalVisible" :data="data" :videoId="videoId" />
 </template>
 
 <style scoped></style>

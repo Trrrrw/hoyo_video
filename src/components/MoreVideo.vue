@@ -18,6 +18,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    isMobileDevice: {
+        type: Boolean,
+        required: true,
+    },
 })
 
 /** 格式化卡片标题 */
@@ -45,14 +49,12 @@ const handleCardClick = (itemId) => {
         <a-divider>更多视频</a-divider>
         <div class="scrollable-container">
             <a-card>
-                <a-flex gap="middle" vertical>
+                <a-flex gap="middle" justify="center" :vertical="!props.isMobileDevice"
+                    :wrap="props.isMobileDevice ? 'wrap' : ''">
                     <Card
                         v-for="itemId in props.types[props.data[props.videoId]?.type]?.filter(id => Number(id) !== Number(props.videoId)) || []"
-                        :key="itemId" 
-                        v-if="props.data && props.data[props.videoId]"
-                        :cover="props.data[itemId]?.post"
-                        :title="formatTitle(itemId)" 
-                        @click="handleCardClick(itemId)" />
+                        :key="itemId" v-if="props.data && props.data[props.videoId]" :cover="props.data[itemId]?.post"
+                        :title="formatTitle(itemId)" @click="handleCardClick(itemId)" />
                 </a-flex>
             </a-card>
         </div>
@@ -61,8 +63,10 @@ const handleCardClick = (itemId) => {
 
 <style scoped>
 .more-video-content {
+    /* width: 100%; */
     height: 100%;
-    padding-right: 10px;
+    padding: 0 10px;
+    margin: 0 -10px;
 }
 
 /* 滚动容器 */

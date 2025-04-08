@@ -53,7 +53,7 @@ const props = defineProps({
   .card-container {
     width: 100%;
     /* 单列布局 */
-    /* max-width: 400px; */
+    max-width: 100%;
   }
 }
 
