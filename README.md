@@ -31,4 +31,4 @@ yarn build
 ---
 
 > 📢 本项目为爱好者制作，与米哈游官方无关，所有素材版权归米哈游所有。  
-> 🐛 问题反馈：[GitHub Issues](https://github.com/Trrrrw/hoyo_calendar/issues)、[QQ群](https://qm.qq.com/q/6l9M3S5YUU)  
+> 🐛 问题反馈: [GitHub Issues](https://github.com/Trrrrw/hoyo_calendar/issues)、[QQ群](https://qm.qq.com/q/6l9M3S5YUU)  

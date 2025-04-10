@@ -4,15 +4,23 @@ import Types from "../views/Types.vue"
 import Videos from "../views/Videos.vue"
 import Player from "../views/Player.vue"
 import About from '../views/About.vue'
+import Search from '../views/Search.vue'
+import LatestUpdates from '../views/LatestUpdates.vue'
 import BasicLayout from '../views/BasicLayout.vue'
+
 
 const routes = [
     {
         path: '/',
         name: 'Home',
-        redirect: '/原神',
+        // redirect: '/原神',
         component: BasicLayout,
         children: [
+            {
+                path: '/',
+                name: 'LatestUpdates',
+                component: LatestUpdates,
+            },
             {
                 path: '/:game',
                 name: 'Types',
@@ -40,6 +48,11 @@ const routes = [
                 name: 'About',
                 component: About
             },
+            {
+                path: 'search',
+                name: 'Search',
+                component: Search
+            }
         ]
     },
 ]

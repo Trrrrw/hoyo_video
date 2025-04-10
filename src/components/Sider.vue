@@ -1,8 +1,9 @@
 <script setup>
+import { getItem } from '../utils/menuItemGet'
+import gamesListData from "../data/data.json"
 import { ref, reactive, computed, onMounted, onUnmounted, h } from 'vue'
 import { useRoute, useRouter } from "vue-router"
 import { InfoCircleOutlined, createFromIconfontCN } from '@ant-design/icons-vue'
-import gamesListData from "../data/data.json"
 
 const route = useRoute()
 const router = useRouter()
@@ -45,15 +46,6 @@ onUnmounted(() => {
     window.removeEventListener('resize', checkScreenSize)
 })
 
-function getItem(label, key, icon, children, type) {
-    return {
-        label,
-        icon,
-        children,
-        key,
-        type,
-    };
-}
 const loadSidebarItems = async () => {
     for (const [index, game] of gamesList.entries()) {
         sideBarItems.push(

@@ -14,9 +14,6 @@ import Sider from '../components/Sider.vue'
                 <a-layout-content class="page-content scrollable-container">
                     <router-view />
                 </a-layout-content>
-                <!-- <a-layout-footer class="page-footer">
-                    <Footer />
-                </a-layout-footer> -->
             </a-layout>
         </a-layout>
     </a-layout>
@@ -62,10 +59,5 @@ import Sider from '../components/Sider.vue'
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
-}
-
-.page-footer {
-    text-align: center;
-    background-color: white;
 }
 </style>

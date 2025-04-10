@@ -1,9 +1,10 @@
 <script setup>
-import { shallowRef, watchEffect } from 'vue'
+import { ref, shallowRef, watchEffect } from 'vue'
 import { Marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
+const loading = ref(true)
 const marked = new Marked(
     markedHighlight({
 
@@ -17,6 +18,7 @@ const marked = new Marked(
 )
 const markdownPreview = shallowRef()
 const loadAboutMD = () => {
+    loading.value = true
     const res = fetch('/README.md')
     res.then(res => {
         res.text().then(text => {
@@ -27,6 +29,7 @@ const loadAboutMD = () => {
             markdownPreview.value = marked.parse(correctedText)
         })
     })
+    loading.value = false
 }
 const setPageIcon = () => {
     document.title = '关于 | 影像档案架'// 设置页面标题
@@ -40,9 +43,11 @@ watchEffect([loadAboutMD, setPageIcon])
 </script>
 
 <template>
-    <a-flex justify="flex-start" align="flex-start" vertical class="about-container">
-        <div class="markdown-preview" v-html="markdownPreview"></div>
-    </a-flex>
+    <a-spin delay="500" tip="Loading..." :spinning="loading">
+        <a-flex justify="flex-start" align="flex-start" vertical class="about-container">
+            <div class="markdown-preview" v-html="markdownPreview"></div>
+        </a-flex>
+    </a-spin>
 </template>
 
 <style scoped>
