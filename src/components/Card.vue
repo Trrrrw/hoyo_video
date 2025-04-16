@@ -1,6 +1,6 @@
 <script setup>
 import { getColorFromString } from '../utils/getColorFromString'
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 const props = defineProps({
     cover: {
         type: String,
