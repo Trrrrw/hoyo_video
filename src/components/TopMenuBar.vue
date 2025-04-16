@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from "vue-router"
 import { getItem } from '../utils/menuItemGet'
 
@@ -13,9 +13,7 @@ const selectedGameOrAbout = computed(() => {
     return route.name === 'About' ? ['about'] :
         route.params.game ? [route.params.game] : []
 })
-const currentType = computed(() => {
-    return route.query.type ? [route.query.type] : []
-})
+const currentType = ref(route.query.type ? [route.query.type] : [])
 
 const loadTopMenuBarItems = async () => {
     try {
@@ -33,11 +31,18 @@ onMounted(() => {
 })
 const handleClick = clickedType => {
     router.push({
-        name: 'Videos',
+        // name: 'Videos',
         params: { game: selectedGameOrAbout.value[0] },
-        query: { type: clickedType.key }
+        // path: `/${selectedGameOrAbout.value[0]}`,
+        query: { type: clickedType.key, page: 1, pageSize: 20 }
     })
 }
+watch(
+    () => route.query.type,
+    (newType) => {
+        currentType.value = newType ? [newType] : []
+    }
+)
 </script>
 
 <template>

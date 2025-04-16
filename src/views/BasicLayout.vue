@@ -29,7 +29,7 @@ import Sider from '../components/Sider.vue'
     padding-top: 12px;
     padding-inline: 15px;
     align-items: center;
-    background-color: transparent;
+    background-color: white;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
     z-index: 1;
 }

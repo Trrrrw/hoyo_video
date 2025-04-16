@@ -1,7 +1,10 @@
 <script setup>
 import Card from "../components/Card.vue"
 import gamesListData from "../data/data.json"
-import { ref, reactive, computed, onMounted, onUnmounted, h, watchEffect } from 'vue'
+import { ref, reactive, watchEffect } from 'vue'
+import { useRouter } from "vue-router"
+
+const router = useRouter()
 
 const gamesList = reactive(gamesListData.games)
 const getIconPath = game => {
@@ -53,8 +56,15 @@ const loadData = async () => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
-    const url = `${window.location.origin}/#/${item.game}/video?id=${item.id}`
-    window.open(url, '_blank')
+    // const url = `${window.location.origin}/#/${item.game}/video?id=${item.id}`
+    // window.open(url, '_blank')
+    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    router.push({ path: `/${item.game}/video`, query: { id: item.id } })
+}
+
+/** 处理游戏标题点击 */
+const handleGameTitleClick = (game) => {
+    router.push({ path: `/${game}` })
 }
 
 watchEffect(loadData)   // 监听路由参数变化并重新加载数据
@@ -65,14 +75,14 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
         <a-layout-content class="page-content scrollable-container">
             <a-flex vertical gap="small">
                 <a-card v-for="game in gamesList">
-                    <a-card-meta :title="game">
+                    <a-card-meta :title="game" @click="handleGameTitleClick(game)">
                         <template #avatar>
                             <a-avatar :src="getIconPath(game)" style="border-radius: 0;" />
                         </template>
                     </a-card-meta>
                     <a-divider />
-                    <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap" justify="flex-start"
-                        gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
+                    <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap"
+                        justify="flex-start" gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
                         <Card v-for="(item, index) in (gamesData[game] || [])" :key="item.post" :cover="item.post"
                             :title="item.title" :badge="index == 0 ? 'New!' : ''" badgeColor="red"
                             :description="item.time" @click="handleCardClick(item)" />

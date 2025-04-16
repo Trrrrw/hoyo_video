@@ -33,7 +33,7 @@ const badgeColor = computed(() => props.badgeColor ? props.badgeColor : getColor
                 <a-badge-ribbon v-if="badge" :color="badgeColor" placement="start" :text="badge">
                     <a-image class="card-cover" height="180px" :preview="false" :src="cover">
                         <template #placeholder>
-                            <a-spin delay="500" />
+                            <a-spin :delay="500" />
                         </template>
                     </a-image>
                 </a-badge-ribbon>
@@ -41,13 +41,14 @@ const badgeColor = computed(() => props.badgeColor ? props.badgeColor : getColor
             <template v-else>
                 <a-image class="card-cover" height="180px" :preview="false" :src="cover">
                     <template #placeholder>
-                        <a-spin delay="500" />
+                        <a-spin :delay="500" />
                     </template>
                 </a-image>
             </template>
         </template>
-        <a-card-meta :title="title" :description="props.description">
-        </a-card-meta>
+        <a-tooltip placement="bottom" :title="props.title" :mouseEnterDelay="0.5">
+            <a-card-meta :title="props.title" :description="props.description" />
+        </a-tooltip>
     </a-card>
 </template>
 

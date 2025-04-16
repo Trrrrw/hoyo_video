@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 import { message } from 'ant-design-vue'
 import DownloadDialog from "./DownloadDialog.vue"
 
@@ -15,10 +15,6 @@ const props = defineProps({
         type: [String, Number],
         required: true,
     },
-    types: {
-        type: Object,
-        required: true,
-    },
     game: {
         type: String,
         required: true
@@ -31,33 +27,16 @@ const props = defineProps({
 
 /** 点击返回按钮 */
 const goBack = () => {
-    const currentType = () => {
-        if (!props.types || !props.videoId) return null
-        for (const [type, ids] of Object.entries(props.types)) {
-            if (ids.includes(Number(props.videoId))) {
-                return type
-            }
-        }
-        return null
-    }
-    router.push({ path: `/${props.game}`, query: { type: currentType() } })
+    const returnUrl = sessionStorage.getItem('returnUrl') || '/'
+    router.push(returnUrl)
+    sessionStorage.removeItem('returnUrl')
+    sessionStorage.removeItem('returnType')
 }
 
 /** 点击下载按钮 */
 const modalVisible = ref(false)
 const downloadButtonClick = async () => {
     modalVisible.value = true
-    // if (props.data && props.videoId && props.data[props.videoId]) {
-    //     const videoUrl = props.data[props.videoId].src
-    //     const videoTitle = props.data[props.videoId].title
-    //     const extension = videoUrl.split('.').pop()
-    //     const link = document.createElement('a')
-    //     link.href = videoUrl
-    //     link.download = `${videoTitle}.${extension}`
-    //     document.body.appendChild(link)
-    //     link.click()
-    //     document.body.removeChild(link)
-    // }
 }
 
 /** 点击分享按钮 */

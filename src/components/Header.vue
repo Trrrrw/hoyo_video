@@ -1,8 +1,9 @@
 <script setup>
 import { ref, h } from 'vue'
 import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 
+const route = useRoute()
 const router = useRouter()
 const handleTitleClick = () => {
     router.push({ path: '/' })
@@ -11,7 +12,7 @@ const handleGHButtonClick = () => {
     window.open('https://github.com/Trrrrw/hoyo_video')
 }
 const handleSearchButtonClick = () => {
-    router.push({ path: '/search' })
+    router.push({ path: '/search', query: { game: '全部游戏' } })
 }
 </script>
 
@@ -25,7 +26,8 @@ const handleSearchButtonClick = () => {
             </span>
         </template>
         <template #extra>
-            <a-button type="text" :icon="h(SearchOutlined)" key="2" @click="handleSearchButtonClick" />
+            <a-button :type="route.name == 'Search' ? 'primary' : 'text'" :ghost="route.name == 'Search'"
+                :icon="h(SearchOutlined)" key="2" @click="handleSearchButtonClick" />
             <a-button type="text" :icon="h(GithubOutlined)" key="1" @click="handleGHButtonClick" />
         </template>
     </a-page-header>

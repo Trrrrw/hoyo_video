@@ -1,9 +1,9 @@
 <script setup>
 import { getItem } from '../utils/menuItemGet'
 import gamesListData from "../data/data.json"
-import { ref, reactive, computed, onMounted, onUnmounted, h } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, h, watchEffect } from 'vue'
 import { useRoute, useRouter } from "vue-router"
-import { InfoCircleOutlined, createFromIconfontCN } from '@ant-design/icons-vue'
+import { InfoCircleOutlined, createFromIconfontCN, FieldTimeOutlined } from '@ant-design/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,10 +14,7 @@ const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/c/font_4881579_1z7gxtmeqtb.js',
 })
 const sideBarItems = reactive([])
-const selectedGameOrAbout = computed(() => {
-    return route.name === 'About' ? ['about'] :
-        route.params.game ? [route.params.game] : []
-})
+const selectedGameOrAboutAndRecently = ref([])
 
 /** 检测屏幕大小并调整侧边栏 */
 const collapsed = ref(false)    // 当前收起状态
@@ -45,13 +42,21 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', checkScreenSize)
 })
-
 const loadSidebarItems = async () => {
+    sideBarItems.push(
+        getItem('最近更新', '', h(FieldTimeOutlined), null, null)
+    )
     for (const [index, game] of gamesList.entries()) {
         sideBarItems.push(
             getItem(game, game, () => h(IconFont, { type: gameIconName[index] }), null, null)
         )
     }
+}
+
+const setSelectedItem = () => {
+    selectedGameOrAboutAndRecently.value =
+        route.name === 'About' ? ['about'] : route.name === 'Search' ? ['search'] :
+            route.params.game ? [route.params.game] : ['']
 }
 
 const handleClick = sidebarItems => {
@@ -63,19 +68,19 @@ const handleClick = sidebarItems => {
 onMounted(() => {
     loadSidebarItems()
 })
-
+watchEffect(setSelectedItem)
 </script>
 
 <template>
     <a-layout-sider v-model:collapsed="collapsed" :collapsedWidth="collapsedWidth" :collapsible="collapsible"
         theme="light" class="content-sider">
         <a-flex vertical justify="space-between" style="height: 100%;">
-            <a-menu id="gamesMenu" class="sider-menu" v-model:openKeys="selectedGameOrAbout"
-                v-model:selectedKeys="selectedGameOrAbout" mode="inline" :items="sideBarItems" @click="handleClick"
-                style="padding-top: 5px;"></a-menu>
-            <a-menu id="bottomMenu" class="sider-menu" v-model:openKeys="selectedGameOrAbout"
-                v-model:selectedKeys="selectedGameOrAbout" mode="inline"
-                :items="[getItem('关于', 'about', h(InfoCircleOutlined), null, null)]" @click="handleClick"></a-menu>
+            <a-menu id="gamesMenu" class="sider-menu" v-model:openKeys="selectedGameOrAboutAndRecently"
+                v-model:selectedKeys="selectedGameOrAboutAndRecently" mode="inline" :items="sideBarItems"
+                @click="handleClick" style="padding-top: 5px;" />
+            <a-menu id="bottomMenu" class="sider-menu" v-model:openKeys="selectedGameOrAboutAndRecently"
+                v-model:selectedKeys="selectedGameOrAboutAndRecently" mode="inline"
+                :items="[getItem('关于', 'about', h(InfoCircleOutlined), null, null)]" @click="handleClick" />
         </a-flex>
 
     </a-layout-sider>

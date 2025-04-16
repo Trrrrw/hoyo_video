@@ -12,8 +12,8 @@ const currentGame = computed(() => route.params.game)
 const currentType = computed(() => route.query.type)
 const gameData = ref(null)
 const videoTypesData = ref(null)
-const currentPage = ref(1)
-const pageSize = ref(20)
+const currentPage = ref(parseInt(route.query.page) || 1)
+const pageSize = ref(parseInt(route.query.pageSize) || 20)
 const iconPath = computed(() => {
     return new URL(`../assets/icons/${currentGame.value}.png`, import.meta.url).href
 })
@@ -35,6 +35,8 @@ const loadData = async () => {
             gameData.value = (await import(`../data/${currentGame.value}/data.json`)).default
             videoTypesData.value = (await import(`../data/${currentGame.value}/types.json`)).default
             setPageIcon()
+            currentPage.value = parseInt(route.query.page) || 1
+            pageSize.value = parseInt(route.query.pageSize) || 20
         } catch (error) {
             console.error("Failed to load data:", error)
         }
@@ -50,6 +52,8 @@ const scrollToTop = () => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (videoId) => {
+    sessionStorage.setItem('returnType', currentType.value)
+    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
     router.push({ path: `/${currentGame.value}/video`, query: { id: videoId } })
 }
 
@@ -69,7 +73,16 @@ const formatTitleComputed = computed(() => {
 })
 
 watchEffect(loadData)   // 监听路由参数变化并重新加载数据
-watch([currentPage, pageSize], scrollToTop) // 监听分页参数变化并滚动到顶部
+watch([currentPage, pageSize], ([newPage, newSize]) => {
+    router.push({
+        query: {
+            ...route.query,
+            page: newPage,
+            pageSize: newSize
+        }
+    })
+    scrollToTop()
+}) // 监听分页参数变化并滚动到顶部
 </script>
 
 <template>
@@ -82,7 +95,7 @@ watch([currentPage, pageSize], scrollToTop) // 监听分页参数变化并滚动
                 </a-flex>
             </a-layout-header>
             <a-layout-content ref="contentRef" class="page-content scrollable-container">
-                <a-spin delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
+                <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                     <a-flex wrap="wrap" justify="flex-start" gap="middle">
                         <Card
                             v-for="itemId in (videoTypesData[currentType] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"

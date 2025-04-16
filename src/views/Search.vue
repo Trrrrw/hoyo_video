@@ -1,16 +1,17 @@
 <script setup>
 import Card from "../components/Card.vue"
 import gamesListData from "../data/data.json"
-import { ref, reactive, computed, onMounted, onUnmounted, h,watchEffect } from 'vue'
+import { ref, reactive, watchEffect, watch } from 'vue'
 import { useRoute, useRouter } from "vue-router"
 
+const route = useRoute()
 const router = useRouter()
 const gamesList = reactive(['全部游戏', ...gamesListData.games])
-const selectedGame = ref(gamesList[0])
+const selectedGame = ref(route.query.game || gamesList[0])
 const gameData = ref(null)
 const searchResults = ref([])
 const loading = ref(false)
-const searchValue = ref('')
+const searchValue = ref(route.query.q || '')
 
 /** 设置页面标题和图标 */
 const setPageIcon = () => {
@@ -42,7 +43,11 @@ const loadData = async () => {
             gameData.value = allData
         } else {
             // 导入单个游戏数据
-            gameData.value = (await import(`../data/${selectedGame.value}/data.json`)).default
+            const data = (await import(`../data/${selectedGame.value}/data.json`)).default
+            Object.entries(data).forEach(([id, item]) => {
+                data[id] = { ...item, game: selectedGame.value }
+            })
+            gameData.value = data
         }
     } catch (error) {
         console.error("Failed to load data:", error)
@@ -80,25 +85,32 @@ const onSearch = async _ => {
                 };
             })
     }
-    console.log(searchResults.value.length)
 
     loading.value = false
 }
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
-    const url = `${window.location.origin}/#/${item.game}/video?id=${item.id}`
-    window.open(url, '_blank')
+    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    router.push({ path: `/${item.game}/video`, query: { id: item.id } })
 }
 
-watchEffect(setPageIcon)   // 监听路由参数变化并设置图标
+watchEffect([setPageIcon, onSearch])   // 监听路由参数变化并设置图标
+watch([selectedGame, searchValue], () => {
+    const query = {
+        game: selectedGame.value,
+        ...(searchValue.value && { q: searchValue.value })
+    }
+    router.push({ path: `/search`, query })
+})
 </script>
 
 <template>
     <a-layout class="page-layout">
         <a-layout-header class="page-header">
             <a-flex vertical>
-                <a-input-search class="header-content" v-model:value="searchValue" size="large" @search="onSearch">
+                <a-input-search class="header-content" v-model:value="searchValue" size="large" @search="onSearch"
+                    @change="onSearch">
                     <template #addonBefore>
                         <a-select v-model:value="selectedGame" @change="onSearch" style="width: 140px">
                             <a-select-option v-for="game in gamesList" :value="game">{{ game }}</a-select-option>
@@ -109,7 +121,7 @@ watchEffect(setPageIcon)   // 监听路由参数变化并设置图标
         </a-layout-header>
         <a-layout-content class="page-content scrollable-container">
             <a-empty v-if="searchResults.length == 0" />
-            <a-spin delay="500" tip="Loading..." :spinning="loading">
+            <a-spin :delay="500" tip="Loading..." :spinning="loading">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
                     <Card v-for="item in (searchResults || [])" :key="item.post" :cover="item.post" :title="item.title"
                         :badge="selectedGame == '全部游戏' ? item.game : ''" @click="handleCardClick(item)" />

@@ -43,7 +43,7 @@ watchEffect([loadAboutMD, setPageIcon])
 </script>
 
 <template>
-    <a-spin delay="500" tip="Loading..." :spinning="loading">
+    <a-spin :delay="500" tip="Loading..." :spinning="loading">
         <a-flex justify="flex-start" align="flex-start" vertical class="about-container">
             <div class="markdown-preview" v-html="markdownPreview"></div>
         </a-flex>

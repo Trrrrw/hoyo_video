@@ -22,6 +22,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    returnType: {
+        type: String,
+        required: true,
+    },
 })
 
 /** 格式化卡片标题 */
@@ -52,7 +56,7 @@ const handleCardClick = (itemId) => {
                 <a-flex gap="middle" justify="center" :vertical="!props.isMobileDevice"
                     :wrap="props.isMobileDevice ? 'wrap' : ''">
                     <Card
-                        v-for="itemId in props.types[props.data[props.videoId]?.type]?.filter(id => Number(id) !== Number(props.videoId)) || []"
+                        v-for="itemId in props.types[returnType]?.filter(id => Number(id) !== Number(props.videoId)) || []"
                         :key="itemId" v-if="props.data && props.data[props.videoId]" :cover="props.data[itemId]?.post"
                         :title="formatTitle(itemId)" @click="handleCardClick(itemId)" />
                 </a-flex>

@@ -57,9 +57,9 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
 <template>
     <a-layout class="page-layout">
         <a-layout-content class="page-content scrollable-container">
-            <a-spin delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
+            <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
-                    <Card v-for="item in (videoTypeList || [])" :key="item.post" :cover="item.post"
+                    <Card v-for="item in (videoTypeList || [])" :key="item.type_name" :cover="item.post"
                         :title="item.type_name" @click="handleCardClick(item.type_name)" />
                 </a-flex>
             </a-spin>
