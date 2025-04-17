@@ -1,7 +1,8 @@
 <script setup>
 import Card from "../components/Card.vue"
+import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
 import gamesListData from "../data/data.json"
-import { ref, reactive, watchEffect, watch } from 'vue'
+import { ref, reactive, watchEffect, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()
@@ -87,11 +88,16 @@ const onSearch = async _ => {
     }
 
     loading.value = false
+    nextTick(() => {
+        setTimeout(scrollToPreviousPosition('#app > section > section > section > main > section > main'), 50)
+    })
 }
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
     sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    const scrollContainer = document.querySelector('#app > section > section > section > main > section > main')
+    sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop)
     router.push({ path: `/${item.game}/video`, query: { id: item.id } })
 }
 

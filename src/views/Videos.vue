@@ -2,7 +2,8 @@
 import Card from "../components/Card.vue"
 import TopMenuBar from "../components/TopMenuBar.vue"
 import { formatTitle } from "../utils/formatTitle"
-import { ref, computed, watchEffect, watch, h } from "vue"
+import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
+import { ref, computed, watchEffect, watch, h, nextTick } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { LeftOutlined } from '@ant-design/icons-vue'
 
@@ -37,6 +38,9 @@ const loadData = async () => {
             setPageIcon()
             currentPage.value = parseInt(route.query.page) || 1
             pageSize.value = parseInt(route.query.pageSize) || 20
+            nextTick(() => {
+                setTimeout(scrollToPreviousPosition('#app > section > section > section > main > section > section > main'), 50)
+            })
         } catch (error) {
             console.error("Failed to load data:", error)
         }
@@ -54,6 +58,8 @@ const scrollToTop = () => {
 const handleCardClick = (videoId) => {
     sessionStorage.setItem('returnType', currentType.value)
     sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    const scrollContainer = document.querySelector('#app > section > section > section > main > section > section > main')
+    sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop)
     router.push({ path: `/${currentGame.value}/video`, query: { id: videoId } })
 }
 
