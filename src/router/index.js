@@ -27,7 +27,12 @@ const routes = [
                 component: Types,
                 beforeEnter: (to, from, next) => {
                     if (to.query.type) {
-                        next({ name: 'Videos', params: { game: to.params.game }, query: to.query })
+                        const query = {
+                            ...to.query,
+                            page: to.query.page || '1',
+                            pageSize: to.query.pageSize || '20'
+                        }
+                        next({ name: 'Videos', params: { game: to.params.game }, query })
                     } else {
                         next()
                     }
