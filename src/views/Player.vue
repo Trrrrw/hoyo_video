@@ -109,7 +109,7 @@ onUnmounted(() => {
                     :config="config" />
                 <div style="width: 100%;">
                     <MoreVideo v-if="isMobileDevice" :data="data" :videoId="videoId" :types="types"
-                        v-model:isMobileDevice="isMobileDevice" />
+                        v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />
                 </div>
             </a-flex>
         </a-layout-content>

@@ -1,7 +1,9 @@
 <script setup>
+import { IconFont } from '../utils/iconFont'
 import { ref, h } from 'vue'
 import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from "vue-router"
+import { handleRSSButtonClick } from '../utils/handleRSSButtonClick'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,6 +30,8 @@ const handleSearchButtonClick = () => {
         <template #extra>
             <a-button :type="route.name == 'Search' ? 'primary' : 'text'" :ghost="route.name == 'Search'"
                 :icon="h(SearchOutlined)" key="2" @click="handleSearchButtonClick" />
+            <a-button type="text" :icon="h(IconFont, { type: 'icon-dingyue' })" key="1"
+                @click="handleRSSButtonClick(route.params.game || 'index')" />
             <a-button type="text" :icon="h(GithubOutlined)" key="1" @click="handleGHButtonClick" />
         </template>
     </a-page-header>

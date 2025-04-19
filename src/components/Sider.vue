@@ -1,18 +1,16 @@
 <script setup>
+import { IconFont } from '../utils/iconFont'
 import { getItem } from '../utils/menuItemGet'
 import gamesListData from "../data/data.json"
 import { ref, reactive, onMounted, onUnmounted, h, watchEffect } from 'vue'
 import { useRoute, useRouter } from "vue-router"
-import { InfoCircleOutlined, createFromIconfontCN, FieldTimeOutlined } from '@ant-design/icons-vue'
+import { InfoCircleOutlined, FieldTimeOutlined } from '@ant-design/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
 
 const gamesList = reactive(gamesListData.games)
 const gameIconName = reactive(gamesListData.icons)
-const IconFont = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_4881579_1z7gxtmeqtb.js',
-})
 const sideBarItems = reactive([])
 const selectedGameOrAboutAndRecently = ref([])
 
