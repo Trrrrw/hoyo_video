@@ -22,10 +22,14 @@ const loadAboutMD = () => {
     const res = fetch('/README.md')
     res.then(res => {
         res.text().then(text => {
+            const logoPath = new URL('../assets/logos/logo.png', import.meta.url).href;
             const correctedText = text.replace(
                 'src="src/assets/logos/logo.png"',
-                'src="/assets/logo-BLK9MVtV.png"'
-            )
+                `src="${logoPath}"`
+            ).replace(
+                '[![Product Screen Shot][product-screenshot]](https://hoyo-video.trrw.tech/)',
+                ''
+            ).replace(/href="#.+"/g, '')
             markdownPreview.value = marked.parse(correctedText)
         })
     })
@@ -48,6 +52,7 @@ watchEffect([loadAboutMD, setPageIcon])
             <div class="markdown-preview" v-html="markdownPreview"></div>
         </a-flex>
     </a-spin>
+    <!-- <img src="../assets/images/screenshot.webp" alt="logo" class="logo"> -->
 </template>
 
 <style scoped>

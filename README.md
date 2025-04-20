@@ -68,7 +68,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Screen Shot][product-screenshot]](https://example.com)
+[![Product Screen Shot][product-screenshot]](https://hoyo-video.trrw.tech/)
 
 官网的画质比蜀黍的好的多，但是官网用起来不是很方便，所以就有了这个项目。
 

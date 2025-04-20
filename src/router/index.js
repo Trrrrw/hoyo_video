@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Types from "../views/Types.vue"
@@ -7,7 +8,10 @@ import About from '../views/About.vue'
 import Search from '../views/Search.vue'
 import LatestUpdates from '../views/LatestUpdates.vue'
 import BasicLayout from '../views/BasicLayout.vue'
+import NotFound from '../views/NotFound.vue'
 
+import gamesListData from "../data/data.json"
+const gamesList = reactive(gamesListData.games)
 
 const routes = [
     {
@@ -26,7 +30,8 @@ const routes = [
                 name: 'Types',
                 component: Types,
                 beforeEnter: (to, from, next) => {
-                    if (to.query.type) {
+                    if (!gamesList.includes(to.params.game)){ next({ name: 'NotFound' }) }
+                    else if (to.query.type) {
                         const query = {
                             ...to.query,
                             page: to.query.page || '1',
@@ -57,6 +62,11 @@ const routes = [
                 path: 'search',
                 name: 'Search',
                 component: Search
+            },
+            {
+                path: '/:pathMatch(.*)*',
+                name: 'NotFound',
+                component: NotFound
             }
         ]
     },
