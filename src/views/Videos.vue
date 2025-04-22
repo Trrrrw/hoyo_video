@@ -58,7 +58,7 @@ const scrollToTop = () => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (videoId) => {
-    sessionStorage.setItem('returnType', currentType.value)
+    sessionStorage.setItem('returnType', currentType.value == '全部视频' ? '' : currentType.value)
     sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
     const scrollContainer = document.querySelector('#app > section > section > section > main > section > section > main')
     sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop)
@@ -107,15 +107,24 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
                 <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                     <a-flex wrap="wrap" justify="flex-start" gap="middle">
                         <Card
+                            v-for="[itemId, item] in (Object.entries(gameData).reverse() || {}).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
+                            v-if="currentType == '全部视频' && gameData && videoTypesData" :key="itemId" :cover="item.post"
+                            :title="formatTitleComputed(itemId)" :description="item.time"
+                            @click="handleCardClick(itemId)" />
+                        <Card
                             v-for="itemId in (videoTypesData[currentType] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-                            v-if="gameData && videoTypesData" :key="itemId" :cover="gameData[itemId].post"
-                            :title="formatTitleComputed(itemId)" @click="handleCardClick(itemId)" />
+                            v-if="currentType != '全部视频' && gameData && videoTypesData" :key="itemId"
+                            :cover="gameData[itemId].post" :title="formatTitleComputed(itemId)"
+                            :description="gameData[itemId].time"
+                            @click="handleCardClick(itemId)" />
                     </a-flex>
                 </a-spin>
             </a-layout-content>
             <a-layout-footer class="pagination">
-                <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
-                    :total="videoTypesData && currentType ? videoTypesData[currentType].length : 0" />
+                <a-pagination v-if="currentType != '全部视频'" v-model:current="currentPage" v-model:pageSize="pageSize"
+                    show-size-changer :total="videoTypesData && currentType ? videoTypesData[currentType].length : 0" />
+                <a-pagination v-else v-model:current="currentPage" v-model:pageSize="pageSize" show-size-changer
+                    :total="gameData ? Object.keys(gameData).length : 0" />
             </a-layout-footer>
         </a-layout>
     </a-layout>

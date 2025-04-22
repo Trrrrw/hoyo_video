@@ -62,6 +62,8 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
         <a-layout-content class="page-content scrollable-container">
             <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
+                    <Card v-if="gameData" key="全部视频" :cover="Object.values(gameData)[0].post" title="全部视频"
+                        @click="handleCardClick('全部视频')" />
                     <Card v-for="item in (videoTypeList || [])" :key="item.type_name" :cover="item.post"
                         :title="item.type_name" @click="handleCardClick(item.type_name)" />
                 </a-flex>

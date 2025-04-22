@@ -7,6 +7,9 @@
     <loc>https://hoyo-video.trrw.tech/%E5%8E%9F%E7%A5%9E</loc>
   </url>
   <url>
+    <loc>https://hoyo-video.trrw.tech/%E5%8E%9F%E7%A5%9E?type=全部视频</loc>
+  </url>
+  <url>
     <loc>https://hoyo-video.trrw.tech/%E5%8E%9F%E7%A5%9E?type=%E8%A7%92%E8%89%B2%E6%BC%94%E7%A4%BA</loc>
   </url>
   <url>
@@ -1849,6 +1852,9 @@
     <loc>https://hoyo-video.trrw.tech/%E5%B4%A9%E5%9D%8F%EF%BC%9A%E6%98%9F%E7%A9%B9%E9%93%81%E9%81%93</loc>
   </url>
   <url>
+    <loc>https://hoyo-video.trrw.tech/%E5%B4%A9%E5%9D%8F%EF%BC%9A%E6%98%9F%E7%A9%B9%E9%93%81%E9%81%93?type=全部视频</loc>
+  </url>
+  <url>
     <loc>https://hoyo-video.trrw.tech/%E5%B4%A9%E5%9D%8F%EF%BC%9A%E6%98%9F%E7%A9%B9%E9%93%81%E9%81%93?type=%E8%B5%B0%E8%BF%91%E6%98%9F%E7%A9%B9</loc>
   </url>
   <url>
@@ -2411,6 +2417,9 @@
   </url>
   <url>
     <loc>https://hoyo-video.trrw.tech/%E7%BB%9D%E5%8C%BA%E9%9B%B6</loc>
+  </url>
+  <url>
+    <loc>https://hoyo-video.trrw.tech/%E7%BB%9D%E5%8C%BA%E9%9B%B6?type=全部视频</loc>
   </url>
   <url>
     <loc>https://hoyo-video.trrw.tech/%E7%BB%9D%E5%8C%BA%E9%9B%B6?type=%E8%A7%92%E8%89%B2%E5%B1%95%E7%A4%BA</loc>

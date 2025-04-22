@@ -22,6 +22,7 @@ const loadTopMenuBarItems = async () => {
         allTypes.value = Object.keys(allTypesWithData.value).map(typeName =>
             getItem(typeName, typeName, null, null, null)
         )
+        allTypes.value.unshift(getItem('全部视频', '全部视频', null, null, null))
     } catch (error) {
         console.error("Failed to load data:", error)
     }

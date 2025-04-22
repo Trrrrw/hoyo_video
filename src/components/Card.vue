@@ -22,6 +22,10 @@ const props = defineProps({
         type: String,
         required: false,
     },
+    tooltip: {
+        type: String,
+        required: false,
+    }
 })
 const badgeColor = computed(() => props.badgeColor ? props.badgeColor : getColorFromString(props.badge))
 </script>
@@ -46,7 +50,7 @@ const badgeColor = computed(() => props.badgeColor ? props.badgeColor : getColor
                 </a-image>
             </template>
         </template>
-        <a-tooltip placement="bottom" :title="props.title" :mouseEnterDelay="0.5">
+        <a-tooltip placement="bottom" :title="props.tooltip || props.title" :mouseEnterDelay="0.5">
             <a-card-meta :title="props.title" :description="props.description" />
         </a-tooltip>
     </a-card>

@@ -2,7 +2,6 @@
 import MoreVideo from "../components/MoreVideo.vue";
 import VideoActionButtons from "../components/VideoActionButtons.vue";
 import router from "../router";
-import { getColorFromString } from '../utils/getColorFromString'
 import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue"
 import { useRoute } from "vue-router"
 import { setMetaDescription } from "../utils/setMetaDescription";
@@ -13,6 +12,7 @@ const videoId = computed(() => route.query.id)
 const data = ref(null)
 const types = ref(null)
 const config = ref(null)
+const showOverlay = ref(false)
 const iconPath = computed(() => {
     return new URL(`../assets/icons/${game.value}.png`, import.meta.url).href
 })
@@ -59,6 +59,50 @@ const loadData = async () => {
 // 监听路由参数变化并重新加载数据
 watchEffect(loadData)
 
+const cleanupOldRecords = () => {
+    const oneMonthAgo = Date.now() - (30 * 24 * 60 * 60 * 1000) // 一个月前的时间戳
+    const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+
+    // 过滤掉一个月前的记录
+    const filteredProgress = Object.entries(gameProgress).reduce((acc, [videoId, data]) => {
+        if (data.timestamp > oneMonthAgo) {
+            acc[videoId] = data
+        }
+        return acc
+    }, {})
+
+    localStorage.setItem(game.value, JSON.stringify(filteredProgress))
+}
+const saveVideoProgress = (currentTime) => {
+    if (game.value && videoId.value) {
+        const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+        gameProgress[videoId.value] = {
+            progress: currentTime,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(game.value, JSON.stringify(gameProgress))
+
+        // 每次保存时检查并清理旧记录
+        cleanupOldRecords()
+    }
+}
+const getVideoProgress = () => {
+    const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+    const currentTime = gameProgress[videoId.value]?.progress || 0
+    if (currentTime !== 0) {
+        showOverlay.value = true
+    }
+    return currentTime
+}
+const restartVideo = () => {
+    const video = document.querySelector('video')
+    if (video) {
+        video.currentTime = 0
+        video.play()
+        showOverlay.value = false
+    }
+}
+
 /** 判断是否是手机 */
 const isMobileDevice = ref(false) // 改为 ref 而不是 computed
 
@@ -79,6 +123,9 @@ const handleTagClick = (tag) => {
 onMounted(() => {
     updateDeviceStatus()
     mediaQuery.addEventListener('change', updateDeviceStatus)
+    setTimeout(() => {
+        showOverlay.value = false
+    }, 5000)
 })
 
 onUnmounted(() => {
@@ -92,11 +139,17 @@ onUnmounted(() => {
     <a-layout class="page-layout">
         <a-layout-content class="page-content">
             <a-flex vertical justify="center" align="flex-start">
-                <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay
-                    :poster="data[videoId].post"
-                    style="width: 100%;height: auto;border: 1px solid rgba(5, 5, 5, 0.06);">
-                    <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
-                </video>
+                <div class="video-container">
+                    <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay
+                        :poster="data[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
+                        @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()"
+                        style="width: 100%;height: auto;border: 1px solid rgba(5, 5, 5, 0.06);">
+                        <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
+                    </video>
+                    <div v-if="showOverlay" class="video-overlay">
+                        <a-button type="primary" @click="restartVideo" @contextmenu="showOverlay = false">从头开始</a-button>
+                    </div>
+                </div>
                 <h2 v-if="data && data[videoId] && !isMobileDevice" style="padding-top: 10px;">{{ data[videoId].title }}
                 </h2>
                 <h3 v-if="data && data[videoId] && isMobileDevice" style="padding-top: 10px;">{{ data[videoId].title }}
@@ -132,6 +185,18 @@ onUnmounted(() => {
 .page-content {
     line-height: 1 !important;
     padding: 24px 24px 0 24px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+}
+
+.video-overlay {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    z-index: 1;
 }
 
 .content-sider {

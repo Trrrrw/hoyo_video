@@ -77,7 +77,7 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
         <a-layout-content class="page-content scrollable-container">
             <a-flex vertical gap="small">
                 <a-card v-for="game in gamesList">
-                    <a-card-meta :title="game" @click="handleGameTitleClick(game)">
+                    <a-card-meta :title="game" @click="handleGameTitleClick(game)" style="cursor: pointer;">
                         <template #avatar>
                             <a-avatar :src="getIconPath(game)" style="border-radius: 0;" />
                         </template>

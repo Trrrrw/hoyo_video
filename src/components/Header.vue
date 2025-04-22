@@ -22,7 +22,7 @@ const handleSearchButtonClick = () => {
     <a-page-header style="padding-top: 0; padding-bottom: 0;">
         <template #title>
             <img src="../assets/logos/logo.png" @click="handleTitleClick"
-                style="height: 40px !important;padding: 0 5px 3px 0;" />
+                style="height: 40px !important;padding: 0 5px 3px 0; cursor: pointer;" />
             <span @click="handleTitleClick" style="height: 80%; cursor: pointer;">
                 影像档案架
             </span>

@@ -58,14 +58,16 @@ watchEffect([loadAboutMD, setPageIcon, setMetaDescription(`关于 | 影像档案
 
 <style scoped>
 .about-container {
-    margin: auto;
-    max-width: 1000px;
-    padding: 24px 24px 0 24px;
+    margin: 0 auto;
+    width: min(100% - 48px, 1000px);
+    padding-top: 24px;
 }
 
 .markdown-preview {
     line-height: 2 !important;
     text-align: left !important;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 :deep(code) {

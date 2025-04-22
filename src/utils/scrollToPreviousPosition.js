@@ -4,7 +4,7 @@ export const scrollToPreviousPosition = (selector) => {
         const scrollContainer = document.querySelector(selector)
         scrollContainer.scroll({
             top: parseInt(savedPosition),
-            behavior: 'smooth'
+            // behavior: 'smooth'
         })
         sessionStorage.removeItem('scrollPosition')
     }
