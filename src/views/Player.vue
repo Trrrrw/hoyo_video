@@ -89,6 +89,11 @@ const saveVideoProgress = (currentTime) => {
 const getVideoProgress = () => {
     const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
     const currentTime = gameProgress[videoId.value]?.progress || 0
+    const video = document.querySelector('video')
+    // 如果视频已加载且历史进度超过90%，直接从头开始播放
+    if (video && video.duration && currentTime > video.duration * 0.9) {
+        currentTime = 0
+    }
     if (currentTime !== 0) {
         showOverlay.value = true
     }
@@ -147,7 +152,8 @@ onUnmounted(() => {
                         <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
                     </video>
                     <div v-if="showOverlay" class="video-overlay">
-                        <a-button type="primary" @click="restartVideo" @contextmenu="showOverlay = false">从头开始</a-button>
+                        <a-button type="primary" @click="restartVideo"
+                            @contextmenu="showOverlay = false">从头开始</a-button>
                     </div>
                 </div>
                 <h2 v-if="data && data[videoId] && !isMobileDevice" style="padding-top: 10px;">{{ data[videoId].title }}
