@@ -2,6 +2,7 @@
 import Card from "../components/Card.vue"
 import { ref, computed, watchEffect } from "vue"
 import { useRoute, useRouter } from "vue-router"
+import { setMetaDescription } from "../utils/setMetaDescription"
 
 const route = useRoute()
 const router = useRouter()
@@ -36,6 +37,7 @@ const loadData = async () => {
                     post: gameData.value[ids[0]].post
                 }))
             setPageIcon()
+            setMetaDescription(`影像档案架 - 整合${currentGame.value}的官方高清视频，支持视频分类、下载和 RSS 订阅`)
         } catch (error) {
             console.error("Failed to load data:", error)
         }
@@ -55,6 +57,7 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
 </script>
 
 <template>
+    <h1 style="display: none;">{{ `${currentGame} | 影像档案架` }}</h1>
     <a-layout class="page-layout">
         <a-layout-content class="page-content scrollable-container">
             <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">

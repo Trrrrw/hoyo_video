@@ -4,6 +4,7 @@ import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
 import gamesListData from "../data/data.json"
 import { ref, reactive, watchEffect, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from "vue-router"
+import { setMetaDescription } from "../utils/setMetaDescription"
 
 const route = useRoute()
 const router = useRouter()
@@ -101,7 +102,7 @@ const handleCardClick = (item) => {
     router.push({ path: `/${item.game}/video`, query: { id: item.id } })
 }
 
-watchEffect([setPageIcon, onSearch])   // 监听路由参数变化并设置图标
+watchEffect([setPageIcon, onSearch, setMetaDescription(`搜索 | 影像档案架`)])   // 监听路由参数变化并设置图标
 watch([selectedGame, searchValue], () => {
     const query = {
         game: selectedGame.value,

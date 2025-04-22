@@ -6,6 +6,7 @@ import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
 import { ref, computed, watchEffect, watch, h, nextTick } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { LeftOutlined } from '@ant-design/icons-vue'
+import { setMetaDescription } from "../utils/setMetaDescription"
 
 const route = useRoute()
 const router = useRouter()
@@ -36,6 +37,7 @@ const loadData = async () => {
             gameData.value = (await import(`../data/${currentGame.value}/data.json`)).default
             videoTypesData.value = (await import(`../data/${currentGame.value}/types.json`)).default
             setPageIcon()
+            setMetaDescription(`影像档案架 - 整合${currentGame}的官方高清${currentType}视频，支持视频分类、下载和 RSS 订阅`)
             currentPage.value = parseInt(route.query.page) || 1
             pageSize.value = parseInt(route.query.pageSize) || 20
             nextTick(() => {
@@ -92,6 +94,7 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
 </script>
 
 <template>
+    <h1 style="display: none;">{{ `${currentType} | ${currentGame} | 影像档案架` }}</h1>
     <a-layout class="page-layout">
         <a-layout class="page-layout">
             <a-layout-header class="page-header">

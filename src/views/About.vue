@@ -4,6 +4,7 @@ import { Marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
+import { setMetaDescription } from '../utils/setMetaDescription'
 const loading = ref(true)
 const marked = new Marked(
     markedHighlight({
@@ -43,7 +44,7 @@ const setPageIcon = () => {
     link.href = '/favicon.ico'
     document.head.appendChild(link)
 }
-watchEffect([loadAboutMD, setPageIcon])
+watchEffect([loadAboutMD, setPageIcon, setMetaDescription(`关于 | 影像档案架`)])
 </script>
 
 <template>

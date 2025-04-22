@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Types from "../views/Types.vue"
 import Videos from "../views/Videos.vue"
@@ -30,7 +30,7 @@ const routes = [
                 name: 'Types',
                 component: Types,
                 beforeEnter: (to, from, next) => {
-                    if (!gamesList.includes(to.params.game)){ next({ name: 'NotFound' }) }
+                    if (!gamesList.includes(to.params.game)) { next({ name: 'NotFound' }) }
                     else if (to.query.type) {
                         const query = {
                             ...to.query,
@@ -73,7 +73,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
 

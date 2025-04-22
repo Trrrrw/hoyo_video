@@ -3,6 +3,7 @@ import Card from "../components/Card.vue"
 import gamesListData from "../data/data.json"
 import { ref, reactive, watchEffect } from 'vue'
 import { useRouter } from "vue-router"
+import { setMetaDescription } from "../utils/setMetaDescription"
 
 const router = useRouter()
 
@@ -20,11 +21,13 @@ const setPageIcon = () => {
     link.rel = 'icon'
     link.href = './favicon.ico'
     document.head.appendChild(link)
+    setMetaDescription()
 }
 
 /** 导入 JSON 文件 */
 const loadData = async () => {
     setPageIcon()
+    setMetaDescription(`影像档案架 - 整合原神、崩铁、绝区零的官方高清视频，支持视频分类、下载和 RSS 订阅`)
     try {
         const allData = {}
         for (const game of gamesList) {
@@ -56,8 +59,6 @@ const loadData = async () => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
-    // const url = `${window.location.origin}/#/${item.game}/video?id=${item.id}`
-    // window.open(url, '_blank')
     sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
     router.push({ path: `/${item.game}/video`, query: { id: item.id } })
 }
@@ -71,6 +72,7 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
 </script>
 
 <template>
+    <h1 style="display: none;">影像档案架</h1>
     <a-layout class="page-layout">
         <a-layout-content class="page-content scrollable-container">
             <a-flex vertical gap="small">

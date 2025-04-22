@@ -133,6 +133,7 @@ Just [open the link](https://hoyo-video.trrw.tech/) and enjoy it!
 
 - [ ] 记录播放进度
 - [ ] 搜索结果排序
+- [ ] 时间线页面
 
 See the [open issues](https://github.com/Trrrrw/hoyo_video/issues) for a full list of proposed features (and known issues).
 

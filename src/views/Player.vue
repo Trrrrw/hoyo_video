@@ -5,6 +5,7 @@ import router from "../router";
 import { getColorFromString } from '../utils/getColorFromString'
 import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue"
 import { useRoute } from "vue-router"
+import { setMetaDescription } from "../utils/setMetaDescription";
 
 const route = useRoute()
 const game = computed(() => route.params.game)
@@ -48,6 +49,7 @@ const loadData = async () => {
             const config_re = await import(`../data/${game.value}/config.json`)
             config.value = config_re.default
             setPageIcon()
+            setMetaDescription(`影像档案架 - ${data.value[videoId.value].title}`)
             getReturnInfo()
         } catch (error) {
             console.error("Failed to load data:", error)
@@ -86,6 +88,7 @@ onUnmounted(() => {
 
 
 <template>
+    <h1 v-if="data && data[videoId]" style="display: none;">{{ `${data[videoId].title} | 影像档案架` }}</h1>
     <a-layout class="page-layout">
         <a-layout-content class="page-content">
             <a-flex vertical justify="center" align="flex-start">
@@ -105,7 +108,7 @@ onUnmounted(() => {
                         style="height: fit-content;cursor: pointer;" @click="handleTagClick(tag)">{{ tag
                         }}</a-tag>
                 </a-flex>
-                <VideoActionButtons v-if="data && data[videoId]" :data="data" :videoId="videoId" :game="game"
+                <VideoActionButtons v-if="data && data[videoId] && config" :data="data" :videoId="videoId" :game="game"
                     :config="config" />
                 <div style="width: 100%;">
                     <MoreVideo v-if="isMobileDevice" :data="data" :videoId="videoId" :types="types"
@@ -114,7 +117,7 @@ onUnmounted(() => {
             </a-flex>
         </a-layout-content>
         <a-layout-sider v-if="!isMobileDevice" width="370" class="content-sider">
-            <MoreVideo v-if="data && videoId && returnType !== null" :data="data" :videoId="videoId" :types="types"
+            <MoreVideo v-if="data && videoId && types && returnType" :data="data" :videoId="videoId" :types="types"
                 v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />
         </a-layout-sider>
     </a-layout>
