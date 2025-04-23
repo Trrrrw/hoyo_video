@@ -44,7 +44,11 @@ const setPageIcon = () => {
     link.href = '/favicon.ico'
     document.head.appendChild(link)
 }
-watchEffect([loadAboutMD, setPageIcon, setMetaDescription(`关于 | 影像档案架`)])
+watchEffect(() => {
+    loadAboutMD()
+    setPageIcon()
+    setMetaDescription(`关于 | 影像档案架`)
+})
 </script>
 
 <template>

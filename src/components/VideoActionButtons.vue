@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from "vue"
-import { useRouter } from "vue-router"
 import { message } from 'ant-design-vue'
 import DownloadDialog from "./DownloadDialog.vue"
+import { navigateTo } from "../utils/routerHandlers"
 
 const currentUrl = window.location.href
-const router = useRouter()
 const props = defineProps({
     data: {
         type: Object,
@@ -28,7 +27,7 @@ const props = defineProps({
 /** 点击返回按钮 */
 const goBack = () => {
     const returnUrl = sessionStorage.getItem('returnUrl') || '/'
-    router.push(returnUrl)
+    navigateTo(returnUrl)
     sessionStorage.removeItem('returnUrl')
     sessionStorage.removeItem('returnType')
 }

@@ -1,17 +1,11 @@
 <script setup>
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const handleBackHomeButtonClick = () => {
-    router.push('/')
-}
+import { navigateToHome } from '../utils/routerHandlers'
 </script>
 
 <template>
     <a-result status="404" title="404" sub-title="Page not found">
         <template #extra>
-            <a-button type="primary" @click="handleBackHomeButtonClick">Back Home</a-button>
+            <a-button type="primary" @click="navigateToHome">Back Home</a-button>
         </template>
     </a-result>
 </template>

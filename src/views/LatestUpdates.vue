@@ -1,11 +1,10 @@
 <script setup>
-import Card from "../components/Card.vue"
-import gamesListData from "../data/data.json"
 import { ref, reactive, watchEffect } from 'vue'
-import { useRouter } from "vue-router"
+import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
+import { navigateToSpecificGame, navigateToVideo } from "../utils/routerHandlers"
+import gamesListData from "../data/data.json"
 
-const router = useRouter()
 
 const gamesList = reactive(gamesListData.games)
 const getIconPath = game => {
@@ -59,13 +58,8 @@ const loadData = async () => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
-    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
-    router.push({ path: `/${item.game}/video`, query: { id: item.id } })
-}
-
-/** 处理游戏标题点击 */
-const handleGameTitleClick = (game) => {
-    router.push({ path: `/${game}` })
+    sessionStorage.setItem('returnUrl', window.location.pathname + window.location.search)
+    navigateToVideo(item.game, item.id)
 }
 
 watchEffect(loadData)   // 监听路由参数变化并重新加载数据
@@ -77,7 +71,7 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
         <a-layout-content class="page-content scrollable-container">
             <a-flex vertical gap="small">
                 <a-card v-for="game in gamesList">
-                    <a-card-meta :title="game" @click="handleGameTitleClick(game)" style="cursor: pointer;">
+                    <a-card-meta :title="game" @click="navigateToSpecificGame(game)" style="cursor: pointer;">
                         <template #avatar>
                             <a-avatar :src="getIconPath(game)" style="border-radius: 0;" />
                         </template>

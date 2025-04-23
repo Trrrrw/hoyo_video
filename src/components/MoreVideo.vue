@@ -1,9 +1,9 @@
 <script setup>
-import Card from "../components/Card.vue"
-import { useRouter, useRoute } from "vue-router"
 import { computed } from "vue"
+import { useRoute } from "vue-router"
+import Card from "../components/Card.vue"
+import { navigateToVideo } from "../utils/routerHandlers"
 
-const router = useRouter()
 const route = useRoute()
 const props = defineProps({
     data: {
@@ -41,11 +41,6 @@ const formatTitle = computed(() => {
         return result === '' ? title : result
     }
 })
-
-/** 处理卡片的点击 */
-const handleCardClick = (itemId) => {
-    router.push({ path: `/${route.params.game}/video`, query: { id: itemId } })
-}
 </script>
 
 <template>
@@ -58,7 +53,7 @@ const handleCardClick = (itemId) => {
                     <Card
                         v-for="itemId in props.types[returnType]?.filter(id => Number(id) !== Number(props.videoId)) || []"
                         :key="itemId" v-if="props.data && props.data[props.videoId]" :cover="props.data[itemId]?.post"
-                        :title="formatTitle(itemId)" @click="handleCardClick(itemId)" />
+                        :title="formatTitle(itemId)" @click="navigateToVideo(route.params.game, itemId)" />
                 </a-flex>
             </a-card>
         </div>

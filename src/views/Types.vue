@@ -1,11 +1,11 @@
 <script setup>
-import Card from "../components/Card.vue"
 import { ref, computed, watchEffect } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
+import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
+import { navigateToSpecificType } from "../utils/routerHandlers"
 
 const route = useRoute()
-const router = useRouter()
 const currentGame = computed(() => route.params.game)
 const gameData = ref(null)
 const videoTypesData = ref(null)
@@ -44,15 +44,6 @@ const loadData = async () => {
     }
 }
 
-/** 处理卡片的点击 */
-const handleCardClick = (video_type) => {
-    router.push({
-        name: 'Videos',
-        params: { game: currentGame.value },
-        query: { type: video_type, page: 1, pageSize: 20 }
-    })
-}
-
 watchEffect(loadData)   // 监听路由参数变化并重新加载数据
 </script>
 
@@ -63,9 +54,9 @@ watchEffect(loadData)   // 监听路由参数变化并重新加载数据
             <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
                     <Card v-if="gameData" key="全部视频" :cover="Object.values(gameData)[0].post" title="全部视频"
-                        @click="handleCardClick('全部视频')" />
+                        @click="navigateToSpecificType(currentGame, '全部视频')" />
                     <Card v-for="item in (videoTypeList || [])" :key="item.type_name" :cover="item.post"
-                        :title="item.type_name" @click="handleCardClick(item.type_name)" />
+                        :title="item.type_name" @click="navigateToSpecificType(currentGame, item.type_name)" />
                 </a-flex>
             </a-spin>
         </a-layout-content>

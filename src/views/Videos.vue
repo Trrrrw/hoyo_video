@@ -1,15 +1,15 @@
 <script setup>
+import { ref, computed, watchEffect, watch, h, nextTick } from "vue"
+import { useRoute } from "vue-router"
+import { LeftOutlined } from '@ant-design/icons-vue'
 import Card from "../components/Card.vue"
 import TopMenuBar from "../components/TopMenuBar.vue"
 import { formatTitle } from "../utils/formatTitle"
-import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
-import { ref, computed, watchEffect, watch, h, nextTick } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import { LeftOutlined } from '@ant-design/icons-vue'
 import { setMetaDescription } from "../utils/setMetaDescription"
+import { scrollToTop, scrollToPreviousPosition } from "../utils/scrollHandlers"
+import { navigateTo, navigateToSpecificGame, navigateToVideo } from "../utils/routerHandlers"
 
 const route = useRoute()
-const router = useRouter()
 const currentGame = computed(() => route.params.game)
 const currentType = computed(() => route.query.type)
 const gameData = ref(null)
@@ -49,25 +49,15 @@ const loadData = async () => {
     }
 }
 
-const contentRef = ref(null)
-const scrollToTop = () => {
-    if (contentRef.value?.$el) {
-        contentRef.value.$el.scrollTo({ top: 0 })
-    }
-}
+const scrollableContainerRef = ref(null)
 
 /** 处理卡片的点击 */
 const handleCardClick = (videoId) => {
     sessionStorage.setItem('returnType', currentType.value == '全部视频' ? '' : currentType.value)
-    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    sessionStorage.setItem('returnUrl', window.location.pathname + window.location.search)
     const scrollContainer = document.querySelector('#app > section > section > section > main > section > section > main')
     sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop)
-    router.push({ path: `/${currentGame.value}/video`, query: { id: videoId } })
-}
-
-/** 点击图标返回上级 */
-const goBack = () => {
-    router.push({ path: `/${currentGame.value}` })
+    navigateToVideo(currentGame.value, videoId)
 }
 
 /** 格式化卡片标题 */
@@ -80,16 +70,19 @@ const formatTitleComputed = computed(() => {
     )
 })
 
-watchEffect(loadData)   // 监听路由参数变化并重新加载数据
+watchEffect(() => {
+    loadData()
+    scrollToTop(scrollableContainerRef.value)
+})   // 监听路由参数变化并重新加载数据
 watch([currentPage, pageSize], ([newPage, newSize]) => {
-    router.push({
+    navigateTo({
         query: {
             ...route.query,
             page: newPage,
             pageSize: newSize
         }
     })
-    scrollToTop()
+    scrollToTop(scrollableContainerRef.value)
 }) // 监听分页参数变化并滚动到顶部
 </script>
 
@@ -99,11 +92,11 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
         <a-layout class="page-layout">
             <a-layout-header class="page-header">
                 <a-flex align="center" style="padding-left: 5px;">
-                    <a-button :icon="h(LeftOutlined)" @click="goBack"></a-button>
+                    <a-button :icon="h(LeftOutlined)" @click="navigateToSpecificGame(currentGame)"></a-button>
                     <TopMenuBar />
                 </a-flex>
             </a-layout-header>
-            <a-layout-content ref="contentRef" class="page-content scrollable-container">
+            <a-layout-content ref="scrollableContainerRef" class="page-content scrollable-container">
                 <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                     <a-flex wrap="wrap" justify="flex-start" gap="middle">
                         <Card
@@ -115,8 +108,7 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
                             v-for="itemId in (videoTypesData[currentType] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
                             v-if="currentType != '全部视频' && gameData && videoTypesData" :key="itemId"
                             :cover="gameData[itemId].post" :title="formatTitleComputed(itemId)"
-                            :description="gameData[itemId].time"
-                            @click="handleCardClick(itemId)" />
+                            :description="gameData[itemId].time" @click="handleCardClick(itemId)" />
                     </a-flex>
                 </a-spin>
             </a-layout-content>

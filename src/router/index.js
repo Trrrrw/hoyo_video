@@ -17,7 +17,6 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        // redirect: '/原神',
         component: BasicLayout,
         children: [
             {
@@ -65,6 +64,10 @@ const routes = [
             },
             {
                 path: '/:pathMatch(.*)*',
+                redirect: '/404'
+            },
+            {
+                path: '404',
                 name: 'NotFound',
                 component: NotFound
             }

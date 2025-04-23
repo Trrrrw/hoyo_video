@@ -1,10 +1,10 @@
 <script setup>
-import MoreVideo from "../components/MoreVideo.vue";
-import VideoActionButtons from "../components/VideoActionButtons.vue";
-import router from "../router";
 import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue"
 import { useRoute } from "vue-router"
-import { setMetaDescription } from "../utils/setMetaDescription";
+import MoreVideo from "../components/MoreVideo.vue"
+import VideoActionButtons from "../components/VideoActionButtons.vue"
+import { setMetaDescription } from "../utils/setMetaDescription"
+import { navigateToSpecificType } from "../utils/routerHandlers"
 
 const route = useRoute()
 const game = computed(() => route.params.game)
@@ -122,7 +122,7 @@ const updateDeviceStatus = () => {
 const handleTagClick = (tag) => {
     sessionStorage.removeItem('returnUrl')
     sessionStorage.removeItem('returnType')
-    router.push({ path: `/${game.value}`, query: { type: tag } })
+    navigateToSpecificType(game.value, tag)
 }
 
 onMounted(() => {

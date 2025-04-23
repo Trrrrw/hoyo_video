@@ -1,13 +1,13 @@
 <script setup>
-import Card from "../components/Card.vue"
-import { scrollToPreviousPosition } from "../utils/scrollToPreviousPosition"
-import gamesListData from "../data/data.json"
 import { ref, reactive, watchEffect, watch, nextTick } from 'vue'
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
+import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
+import { scrollToPreviousPosition } from "../utils/scrollHandlers"
+import { navigateToSearch, navigateToVideo } from "../utils/routerHandlers"
+import gamesListData from "../data/data.json"
 
 const route = useRoute()
-const router = useRouter()
 const gamesList = reactive(['全部游戏', ...gamesListData.games])
 const selectedGame = ref(route.query.game || gamesList[0])
 const gameData = ref(null)
@@ -96,19 +96,19 @@ const onSearch = async _ => {
 
 /** 处理卡片的点击 */
 const handleCardClick = (item) => {
-    sessionStorage.setItem('returnUrl', router.currentRoute.value.fullPath)
+    sessionStorage.setItem('returnUrl', window.location.pathname + window.location.search)
     const scrollContainer = document.querySelector('#app > section > section > section > main > section > main')
     sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop)
-    router.push({ path: `/${item.game}/video`, query: { id: item.id } })
+    navigateToVideo(item.game, item.id)
 }
 
-watchEffect([setPageIcon, onSearch, setMetaDescription(`搜索 | 影像档案架`)])   // 监听路由参数变化并设置图标
+watchEffect(() => {
+    setPageIcon()
+    onSearch()
+    setMetaDescription(`搜索 | 影像档案架`)
+})   // 监听路由参数变化并设置图标
 watch([selectedGame, searchValue], () => {
-    const query = {
-        game: selectedGame.value,
-        ...(searchValue.value && { q: searchValue.value })
-    }
-    router.push({ path: `/search`, query })
+    navigateToSearch(selectedGame.value, searchValue.value)
 })
 </script>
 

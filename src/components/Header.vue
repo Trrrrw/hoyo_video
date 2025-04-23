@@ -1,38 +1,40 @@
 <script setup>
-import { IconFont } from '../utils/iconFont'
-import { ref, h } from 'vue'
+import { computed, h } from 'vue'
+import { useRoute } from "vue-router"
 import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
-import { useRoute, useRouter } from "vue-router"
+import { IconFont } from '../utils/iconFont'
 import { handleRSSButtonClick } from '../utils/handleRSSButtonClick'
+import { navigateToHome, navigateToSearch, openGitHubRepo } from '../utils/routerHandlers'
 
 const route = useRoute()
-const router = useRouter()
-const handleTitleClick = () => {
-    router.push({ path: '/' })
-}
-const handleGHButtonClick = () => {
-    window.open('https://github.com/Trrrrw/hoyo_video')
-}
-const handleSearchButtonClick = () => {
-    router.push({ path: '/search', query: { game: '全部游戏' } })
-}
+const searchButtonTitle = computed(() => `搜索${route.params.game ? ' - ' + route.params.game : ''}`)
+const rssButtonTitle = computed(() => `RSS订阅${route.params.game ? ' - ' + route.params.game : ''}`)
+const GitHubButtonTitle = "GitHub"
 </script>
 
 <template>
     <a-page-header style="padding-top: 0; padding-bottom: 0;">
         <template #title>
-            <img src="../assets/logos/logo.png" @click="handleTitleClick"
+            <img src="../assets/logos/logo.png" @click="navigateToHome"
                 style="height: 40px !important;padding: 0 5px 3px 0; cursor: pointer;" />
-            <span @click="handleTitleClick" style="height: 80%; cursor: pointer;">
+            <span @click="navigateToHome" style="height: 80%; cursor: pointer;">
                 影像档案架
             </span>
         </template>
         <template #extra>
-            <a-button :type="route.name == 'Search' ? 'primary' : 'text'" :ghost="route.name == 'Search'"
-                :icon="h(SearchOutlined)" key="2" @click="handleSearchButtonClick" />
-            <a-button type="text" :icon="h(IconFont, { type: 'icon-dingyue' })" key="1"
-                @click="handleRSSButtonClick(route.params.game || 'index')" />
-            <a-button type="text" :icon="h(GithubOutlined)" key="1" @click="handleGHButtonClick" />
+            <a-tooltip placement="bottom" :title="searchButtonTitle">
+                <a-button :type="route.name == 'Search' ? 'primary' : 'text'" :ghost="route.name == 'Search'"
+                    :icon="h(SearchOutlined)" key="3" :aria-label="searchButtonTitle"
+                    @click="navigateToSearch(route.params.game || '全部游戏')" />
+            </a-tooltip>
+            <a-tooltip placement="bottom" :title="rssButtonTitle">
+                <a-button type="text" :icon="h(IconFont, { type: 'icon-dingyue' })" key="2" :aria-label="rssButtonTitle"
+                    @click="handleRSSButtonClick(route.params.game || 'index')" />
+            </a-tooltip>
+            <a-tooltip placement="bottom" :title="GitHubButtonTitle">
+                <a-button type="text" :icon="h(GithubOutlined)" key="1" :aria-label="GitHubButtonTitle"
+                    @click="openGitHubRepo" />
+            </a-tooltip>
         </template>
     </a-page-header>
 </template>

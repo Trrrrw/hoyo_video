@@ -1,13 +1,13 @@
 <script setup>
+import { ref, reactive, onMounted, onUnmounted, h, watchEffect } from 'vue'
+import { useRoute } from "vue-router"
+import { InfoCircleOutlined, FieldTimeOutlined } from '@ant-design/icons-vue'
 import { IconFont } from '../utils/iconFont'
 import { getItem } from '../utils/menuItemGet'
+import { navigateToSpecificGame } from '../utils/routerHandlers'
 import gamesListData from "../data/data.json"
-import { ref, reactive, onMounted, onUnmounted, h, watchEffect } from 'vue'
-import { useRoute, useRouter } from "vue-router"
-import { InfoCircleOutlined, FieldTimeOutlined } from '@ant-design/icons-vue'
 
 const route = useRoute()
-const router = useRouter()
 
 const gamesList = reactive(gamesListData.games)
 const gameIconName = reactive(gamesListData.icons)
@@ -58,7 +58,7 @@ const setSelectedItem = () => {
 }
 
 const handleClick = sidebarItems => {
-    router.push(`/${sidebarItems.key}`)
+    navigateToSpecificGame(sidebarItems.key)
     if (collapsible.value) {
         collapsed.value = true
     }
