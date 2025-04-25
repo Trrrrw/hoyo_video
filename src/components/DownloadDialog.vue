@@ -39,7 +39,6 @@ const downloadVideo = () => {
 const downloadCover = () => {
     if (props.data && props.videoId && props.data[props.videoId]) {
         const coverUrl = props.data[props.videoId].post
-        console.log(coverUrl)
         download(coverUrl)
     }
 }

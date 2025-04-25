@@ -1,4 +1,4 @@
-export function getColorFromString(str) {
+export const getColorFromString = str => {
     if (!str) return '#1890ff' // 默认颜色
 
     // 简单的哈希算法

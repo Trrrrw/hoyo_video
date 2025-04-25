@@ -1,6 +1,6 @@
 import { message } from 'ant-design-vue'
 
-export const handleRSSButtonClick = (fileName) => {
+export const handleRSSButtonClick = fileName => {
     const rssUrl = `${window.location.origin}/${fileName}.xml`
     const tempTextarea = document.createElement('textarea')
     tempTextarea.value = rssUrl

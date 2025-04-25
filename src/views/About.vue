@@ -5,6 +5,7 @@ import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import { setMetaDescription } from '../utils/setMetaDescription'
+import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
 const loading = ref(true)
 const marked = new Marked(
     markedHighlight({
@@ -36,17 +37,9 @@ const loadAboutMD = () => {
     })
     loading.value = false
 }
-const setPageIcon = () => {
-    document.title = '关于 | 影像档案架'// 设置页面标题
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = '/favicon.ico'
-    document.head.appendChild(link)
-}
 watchEffect(() => {
     loadAboutMD()
-    setPageIcon()
+    updatePageTitleAndIcon('关于 | 影像档案架', '/favicon.ico')
     setMetaDescription(`关于 | 影像档案架`)
 })
 </script>

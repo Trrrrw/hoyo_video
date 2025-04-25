@@ -1,6 +1,6 @@
 import router from "../router"
 
-export const navigateTo = (to) => {
+export const navigateTo = to => {
     router.push(to)
 }
 
@@ -8,7 +8,7 @@ export const navigateToHome = () => {
     navigateTo("/")
 }
 
-export const navigateToSpecificGame = (gameName) => {
+export const navigateToSpecificGame = gameName => {
     navigateTo(`/${gameName}`)
 }
 

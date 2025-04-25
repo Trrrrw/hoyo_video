@@ -4,6 +4,7 @@ import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { navigateToSpecificGame, navigateToVideo } from "../utils/routerHandlers"
 import gamesListData from "../data/data.json"
+import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
 
 
 const gamesList = reactive(gamesListData.games)
@@ -12,20 +13,8 @@ const getIconPath = game => {
 }
 const gamesData = ref({})
 
-/** 设置页面标题和图标 */
-const setPageIcon = () => {
-    document.title = `影像档案架`// 设置页面标题
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = './favicon.ico'
-    document.head.appendChild(link)
-    setMetaDescription()
-}
-
 /** 导入 JSON 文件 */
 const loadData = async () => {
-    setPageIcon()
     setMetaDescription(`影像档案架 - 整合原神、崩铁、绝区零的官方高清视频，支持视频分类、下载和 RSS 订阅`)
     try {
         const allData = {}
@@ -62,7 +51,10 @@ const handleCardClick = (item) => {
     navigateToVideo(item.game, item.id)
 }
 
-watchEffect(loadData)   // 监听路由参数变化并重新加载数据
+watchEffect(() => {
+    loadData()
+    updatePageTitleAndIcon('影像档案架', '/favicon.ico')
+})
 </script>
 
 <template>

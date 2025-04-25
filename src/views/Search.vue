@@ -6,6 +6,7 @@ import { setMetaDescription } from "../utils/setMetaDescription"
 import { scrollToPreviousPosition } from "../utils/scrollHandlers"
 import { navigateToSearch, navigateToVideo } from "../utils/routerHandlers"
 import gamesListData from "../data/data.json"
+import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
 
 const route = useRoute()
 const gamesList = reactive(['全部游戏', ...gamesListData.games])
@@ -14,16 +15,6 @@ const gameData = ref(null)
 const searchResults = ref([])
 const loading = ref(false)
 const searchValue = ref(route.query.q || '')
-
-/** 设置页面标题和图标 */
-const setPageIcon = () => {
-    document.title = `搜索 | 影像档案架`// 设置页面标题
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = './favicon.ico'
-    document.head.appendChild(link)
-}
 
 /** 导入 JSON 文件 */
 const loadData = async () => {
@@ -103,9 +94,9 @@ const handleCardClick = (item) => {
 }
 
 watchEffect(() => {
-    setPageIcon()
+    updatePageTitleAndIcon('搜索 | 影像档案架', '/favicon.ico')
     onSearch()
-    setMetaDescription(`搜索 | 影像档案架`)
+    setMetaDescription('搜索 | 影像档案架')
 })   // 监听路由参数变化并设置图标
 watch([selectedGame, searchValue], () => {
     navigateToSearch(selectedGame.value, searchValue.value)

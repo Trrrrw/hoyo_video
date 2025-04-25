@@ -8,6 +8,7 @@ import { formatTitle } from "../utils/formatTitle"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { scrollToTop, scrollToPreviousPosition } from "../utils/scrollHandlers"
 import { navigateTo, navigateToSpecificGame, navigateToVideo } from "../utils/routerHandlers"
+import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
 
 const route = useRoute()
 const currentGame = computed(() => route.params.game)
@@ -16,19 +17,6 @@ const gameData = ref(null)
 const videoTypesData = ref(null)
 const currentPage = ref(parseInt(route.query.page) || 1)
 const pageSize = ref(parseInt(route.query.pageSize) || 20)
-const iconPath = computed(() => {
-    return new URL(`../assets/icons/${currentGame.value}.png`, import.meta.url).href
-})
-
-/** 设置页面标题和图标 */
-const setPageIcon = () => {
-    document.title = `${currentType.value} | ${currentGame.value}`// 设置页面标题
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = iconPath.value
-    document.head.appendChild(link)
-}
 
 /** 导入 JSON 文件 */
 const loadData = async () => {
@@ -36,7 +24,6 @@ const loadData = async () => {
         try {
             gameData.value = (await import(`../data/${currentGame.value}/data.json`)).default
             videoTypesData.value = (await import(`../data/${currentGame.value}/types.json`)).default
-            setPageIcon()
             setMetaDescription(`影像档案架 - 整合${currentGame}的官方高清${currentType}视频，支持视频分类、下载和 RSS 订阅`)
             currentPage.value = parseInt(route.query.page) || 1
             pageSize.value = parseInt(route.query.pageSize) || 20
@@ -72,8 +59,9 @@ const formatTitleComputed = computed(() => {
 
 watchEffect(() => {
     loadData()
+    updatePageTitleAndIcon(`${currentType.value} | ${currentGame.value}`, `../assets/icons/${currentGame.value}.png`)
     scrollToTop(scrollableContainerRef.value)
-})   // 监听路由参数变化并重新加载数据
+})
 watch([currentPage, pageSize], ([newPage, newSize]) => {
     navigateTo({
         query: {

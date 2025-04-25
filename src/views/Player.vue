@@ -5,6 +5,8 @@ import MoreVideo from "../components/MoreVideo.vue"
 import VideoActionButtons from "../components/VideoActionButtons.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { navigateToSpecificType } from "../utils/routerHandlers"
+import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
+import { formatTitle } from "../utils/formatTitle"
 
 const route = useRoute()
 const game = computed(() => route.params.game)
@@ -13,31 +15,12 @@ const data = ref(null)
 const types = ref(null)
 const config = ref(null)
 const showOverlay = ref(false)
-const iconPath = computed(() => {
-    return new URL(`../assets/icons/${game.value}.png`, import.meta.url).href
-})
 const returnType = ref(null)
 const getReturnInfo = () => {
     const savedType = sessionStorage.getItem('returnType')
     returnType.value = savedType ? savedType : data.value[videoId.value].type[0] || ''
 }
 
-/** 设置页面标题和图标 */
-const setPageIcon = () => {
-    // 设置页面标题
-    if (data.value && videoId.value && data.value[videoId.value]) {
-        const title = data.value[videoId.value].title
-            .replace(`《${game.value}》——`, '') // 游戏名
-            .replace(`《${game.value}》`, '') // 游戏名
-            .trim()
-        document.title = `${title} | ${game.value}`
-    }
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = iconPath.value
-    document.head.appendChild(link)
-}
 /** 动态导入 JSON 文件 */
 const loadData = async () => {
     if (game.value && videoId.value) {
@@ -48,7 +31,6 @@ const loadData = async () => {
             types.value = types_re.default
             const config_re = await import(`../data/${game.value}/config.json`)
             config.value = config_re.default
-            setPageIcon()
             setMetaDescription(`影像档案架 - ${data.value[videoId.value].title}`)
             getReturnInfo()
         } catch (error) {
@@ -56,8 +38,16 @@ const loadData = async () => {
         }
     }
 }
-// 监听路由参数变化并重新加载数据
-watchEffect(loadData)
+
+watchEffect(() => {
+    loadData()
+    if (data.value) {
+        updatePageTitleAndIcon(
+            `${formatTitle(data.value[videoId.value].title, game.value, returnType.value)} | ${game.value}`,
+            `../assets/icons/${game.value}.png`
+        )
+    }
+})
 
 const cleanupOldRecords = () => {
     const oneMonthAgo = Date.now() - (30 * 24 * 60 * 60 * 1000) // 一个月前的时间戳

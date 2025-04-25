@@ -4,25 +4,13 @@ import { useRoute } from "vue-router"
 import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { navigateToSpecificType } from "../utils/routerHandlers"
+import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
 
 const route = useRoute()
 const currentGame = computed(() => route.params.game)
 const gameData = ref(null)
 const videoTypesData = ref(null)
 const videoTypeList = ref([])
-const iconPath = computed(() => {
-    return new URL(`../assets/icons/${currentGame.value}.png`, import.meta.url).href
-})
-
-/** 设置页面标题和图标 */
-const setPageIcon = () => {
-    document.title = `${currentGame.value} | 影像档案架`// 设置页面标题
-    // 设置页面图标
-    const link = document.querySelector("link[rel~='icon']") || document.createElement('link')
-    link.rel = 'icon'
-    link.href = iconPath.value
-    document.head.appendChild(link)
-}
 
 /** 导入 JSON 文件 */
 const loadData = async () => {
@@ -36,7 +24,6 @@ const loadData = async () => {
                     type_name: video_type,
                     post: gameData.value[ids[0]].post
                 }))
-            setPageIcon()
             setMetaDescription(`影像档案架 - 整合${currentGame.value}的官方高清视频，支持视频分类、下载和 RSS 订阅`)
         } catch (error) {
             console.error("Failed to load data:", error)
@@ -44,7 +31,10 @@ const loadData = async () => {
     }
 }
 
-watchEffect(loadData)   // 监听路由参数变化并重新加载数据
+watchEffect(() => {
+    loadData()
+    updatePageTitleAndIcon(`${currentGame.value} | 影像档案架`, `../assets/icons/${currentGame.value}.png`)
+})   // 监听路由参数变化并重新加载数据
 </script>
 
 <template>

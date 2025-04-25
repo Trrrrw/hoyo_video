@@ -1,4 +1,4 @@
-export const setMetaDescription = (description) => {
+export const setMetaDescription = description => {
     const metaDescription = document.createElement('meta')
     metaDescription.name = 'description'
     metaDescription.content = description
