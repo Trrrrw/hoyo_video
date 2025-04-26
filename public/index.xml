@@ -6,7 +6,7 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Apr 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 26 Apr 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>《原神》5.6版本「悖理」前瞻特别节目</title>
@@ -4743,6 +4743,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》二周年特别动画：「不虚此行」  </title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155679</link>
+      <pubDate>Sat, 26 Apr 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155679</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155679/e6e14f2a5e29449cd31b4634a7069409_8448549478834752633.jpg" alt="《崩坏：星穹铁道》二周年特别动画：「不虚此行」  " /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/155679/e6e14f2a5e29449cd31b4634a7069409_8448549478834752633.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155679/9c40e5e2295a5e65b240d8218c550a14_4559744188460138639.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/155679/9c40e5e2295a5e65b240d8218c550a14_4559744188460138639.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》那刻夏角色PV：「何罪之有」</title>
