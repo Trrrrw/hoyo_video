@@ -111,38 +111,10 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
 </template>
 
 <style scoped>
-.page-layout {
-    height: 100%;
-    background: none;
-}
-
 .page-header {
     padding-inline: 0;
     line-height: 64px;
     background-color: transparent;
-}
-
-.page-content {
-    height: 100%;
-    min-height: 120;
-    line-height: 120px;
-    padding: 24px 24px 0 24px;
-}
-
-.scrollable-container {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.scrollable-container::-webkit-scrollbar {
-    display: none;
-}
-
-.scrollable-container {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
 
 .pagination {

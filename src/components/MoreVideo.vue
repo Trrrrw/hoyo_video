@@ -68,28 +68,12 @@ const formatTitle = computed(() => {
     margin: 0 -10px;
 }
 
-/* 滚动容器 */
 .scrollable-container {
     flex: 1;
     /* 占据剩余空间 */
-    overflow-y: auto;
-    /* 允许垂直滚动 */
     overflow-x: hidden;
     /* 禁止水平滚动 */
     margin-top: 10px;
     /* 与标题保持间距 */
-}
-
-/* 隐藏滚动条 */
-.scrollable-container::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari and Opera */
-}
-
-.scrollable-container {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
 </style>

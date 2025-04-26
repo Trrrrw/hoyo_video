@@ -20,11 +20,6 @@ import Sider from '../components/Sider.vue'
 </template>
 
 <style scoped>
-.page-layout {
-    height: 100%;
-    background: transparent;
-}
-
 .page-header {
     padding-top: 12px;
     padding-inline: 15px;
@@ -39,25 +34,7 @@ import Sider from '../components/Sider.vue'
 }
 
 .page-content {
-    height: 100%;
-    min-height: 120;
-    line-height: 120px;
     background-color: white;
-}
-
-.scrollable-container {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.scrollable-container::-webkit-scrollbar {
-    display: none;
-}
-
-.scrollable-container {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
+    padding: initial;
 }
 </style>

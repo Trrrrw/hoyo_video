@@ -173,14 +173,11 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.page-layout {
-    height: 100%;
-    background: transparent;
-}
-
 .page-content {
     line-height: 1 !important;
-    padding: 24px 24px 0 24px;
+    height: initial;
+    min-height: initial;
+    line-height: initial;
 }
 
 .video-container {

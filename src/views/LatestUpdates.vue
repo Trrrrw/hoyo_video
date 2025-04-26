@@ -82,32 +82,7 @@ watchEffect(() => {
 </template>
 
 <style scoped>
-.page-layout {
-    height: 100%;
-    background: none;
-}
-
 .page-content {
-    height: 100%;
-    min-height: 120;
-    padding: 24px 24px 0 24px;
-    line-height: 120px;
     text-align: start;
-}
-
-.scrollable-container {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.scrollable-container::-webkit-scrollbar {
-    display: none;
-}
-
-.scrollable-container {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
 </style>
