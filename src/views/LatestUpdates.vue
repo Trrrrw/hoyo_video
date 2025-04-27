@@ -3,8 +3,8 @@ import { ref, reactive, watchEffect } from 'vue'
 import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { navigateToSpecificGame, navigateToVideo } from "../utils/routerHandlers"
-import gamesListData from "../data/data.json"
 import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
+import gamesListData from "../data/data.json"
 
 
 const gamesList = reactive(gamesListData.games)

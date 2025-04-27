@@ -34,7 +34,7 @@ const loadData = async () => {
 watchEffect(() => {
     loadData()
     updatePageTitleAndIcon(`${currentGame.value} | 影像档案架`, `../assets/icons/${currentGame.value}.png`)
-})   // 监听路由参数变化并重新加载数据
+})
 </script>
 
 <template>

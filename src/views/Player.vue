@@ -9,29 +9,25 @@ import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
 import { formatTitle } from "../utils/formatTitle"
 
 const route = useRoute()
-const game = computed(() => route.params.game)
+const currentGame = computed(() => route.params.game)
 const videoId = computed(() => route.query.id)
-const data = ref(null)
-const types = ref(null)
-const config = ref(null)
+const gameData = ref(null)
+const videoTypesData = ref(null)
+const gameConfig = ref(null)
 const showOverlay = ref(false)
 const returnType = ref(null)
 const getReturnInfo = () => {
     const savedType = sessionStorage.getItem('returnType')
-    returnType.value = savedType ? savedType : data.value[videoId.value].type[0] || ''
+    returnType.value = savedType ? savedType : gameData.value[videoId.value].type[0] || ''
 }
 
-/** 动态导入 JSON 文件 */
 const loadData = async () => {
-    if (game.value && videoId.value) {
+    if (currentGame.value && videoId.value) {
         try {
-            const data_re = await import(`../data/${game.value}/data.json`)
-            data.value = data_re.default
-            const types_re = await import(`../data/${game.value}/types.json`)
-            types.value = types_re.default
-            const config_re = await import(`../data/${game.value}/config.json`)
-            config.value = config_re.default
-            setMetaDescription(`影像档案架 - ${data.value[videoId.value].title}`)
+            gameData.value = (await import(`../data/${currentGame.value}/data.json`)).default
+            videoTypesData.value = (await import(`../data/${currentGame.value}/types.json`)).default
+            gameConfig.value = (await import(`../data/${currentGame.value}/config.json`)).default
+            setMetaDescription(`影像档案架 - ${gameData.value[videoId.value].title}`)
             getReturnInfo()
         } catch (error) {
             console.error("Failed to load data:", error)
@@ -41,17 +37,17 @@ const loadData = async () => {
 
 watchEffect(() => {
     loadData()
-    if (data.value) {
+    if (gameData.value) {
         updatePageTitleAndIcon(
-            `${formatTitle(data.value[videoId.value].title, game.value, returnType.value)} | ${game.value}`,
-            `../assets/icons/${game.value}.png`
+            `${formatTitle(gameData.value[videoId.value].title, currentGame.value, returnType.value)} | ${currentGame.value}`,
+            `../assets/icons/${currentGame.value}.png`
         )
     }
 })
 
 const cleanupOldRecords = () => {
     const oneMonthAgo = Date.now() - (30 * 24 * 60 * 60 * 1000) // 一个月前的时间戳
-    const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+    const gameProgress = JSON.parse(localStorage.getItem(currentGame.value) || '{}')
 
     // 过滤掉一个月前的记录
     const filteredProgress = Object.entries(gameProgress).reduce((acc, [videoId, data]) => {
@@ -61,23 +57,23 @@ const cleanupOldRecords = () => {
         return acc
     }, {})
 
-    localStorage.setItem(game.value, JSON.stringify(filteredProgress))
+    localStorage.setItem(currentGame.value, JSON.stringify(filteredProgress))
 }
 const saveVideoProgress = (currentTime) => {
-    if (game.value && videoId.value) {
-        const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+    if (currentGame.value && videoId.value) {
+        const gameProgress = JSON.parse(localStorage.getItem(currentGame.value) || '{}')
         gameProgress[videoId.value] = {
             progress: currentTime,
             timestamp: Date.now()
         };
-        localStorage.setItem(game.value, JSON.stringify(gameProgress))
+        localStorage.setItem(currentGame.value, JSON.stringify(gameProgress))
 
         // 每次保存时检查并清理旧记录
         cleanupOldRecords()
     }
 }
 const getVideoProgress = () => {
-    const gameProgress = JSON.parse(localStorage.getItem(game.value) || '{}')
+    const gameProgress = JSON.parse(localStorage.getItem(currentGame.value) || '{}')
     const currentTime = gameProgress[videoId.value]?.progress || 0
     const video = document.querySelector('video')
     // 如果视频已加载且历史进度超过90%，直接从头开始播放
@@ -99,7 +95,7 @@ const restartVideo = () => {
 }
 
 /** 判断是否是手机 */
-const isMobileDevice = ref(false) // 改为 ref 而不是 computed
+const isMobileDevice = ref(false)
 
 // 创建媒体查询监听
 const mediaQuery = window.matchMedia('(max-width: 1200px)')
@@ -112,7 +108,7 @@ const updateDeviceStatus = () => {
 const handleTagClick = (tag) => {
     sessionStorage.removeItem('returnUrl')
     sessionStorage.removeItem('returnType')
-    navigateToSpecificType(game.value, tag)
+    navigateToSpecificType(currentGame.value, tag)
 }
 
 onMounted(() => {
@@ -130,44 +126,47 @@ onUnmounted(() => {
 
 
 <template>
-    <h1 v-if="data && data[videoId]" style="display: none;">{{ `${data[videoId].title} | 影像档案架` }}</h1>
+    <h1 v-if="gameData && gameData[videoId]" style="display: none;">{{ `${gameData[videoId].title} | 影像档案架` }}</h1>
     <a-layout class="page-layout">
         <a-layout-content class="page-content">
             <a-flex vertical justify="center" align="flex-start">
                 <div class="video-container">
-                    <video v-if="data && data[videoId]" :key="data[videoId].src" controls autoplay
-                        :poster="data[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
+                    <video v-if="gameData && gameData[videoId]" :key="gameData[videoId].src" controls autoplay
+                        :poster="gameData[videoId].post"
+                        @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
                         @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()"
                         style="width: 100%;height: auto;border: 1px solid rgba(5, 5, 5, 0.06);">
-                        <source :src="data[videoId].src" :key="data[videoId].src" type="video/mp4">
+                        <source :src="gameData[videoId].src" :key="gameData[videoId].src" type="video/mp4">
                     </video>
                     <div v-if="showOverlay" class="video-overlay">
                         <a-button type="primary" @click="restartVideo"
                             @contextmenu="showOverlay = false">从头开始</a-button>
                     </div>
                 </div>
-                <h2 v-if="data && data[videoId] && !isMobileDevice" style="padding-top: 10px;">{{ data[videoId].title }}
+                <h2 v-if="gameData && gameData[videoId] && !isMobileDevice" style="padding-top: 10px;">{{
+                    gameData[videoId].title }}
                 </h2>
-                <h3 v-if="data && data[videoId] && isMobileDevice" style="padding-top: 10px;">{{ data[videoId].title }}
+                <h3 v-if="gameData && gameData[videoId] && isMobileDevice" style="padding-top: 10px;">{{
+                    gameData[videoId].title }}
                 </h3>
                 <a-flex gap="small">
-                    <p v-if="data && data[videoId]" style="height:100%;">{{ data[videoId].time }}</p>
-                    <p v-if="data && data[videoId]">{{ data[videoId].intro }}</p>
-                    <a-tag v-if="data && data[videoId]" v-for="tag in data[videoId].type" :bordered="false" color="blue"
-                        style="height: fit-content;cursor: pointer;" @click="handleTagClick(tag)">{{ tag
+                    <p v-if="gameData && gameData[videoId]" style="height:100%;">{{ gameData[videoId].time }}</p>
+                    <p v-if="gameData && gameData[videoId]">{{ gameData[videoId].intro }}</p>
+                    <a-tag v-if="gameData && gameData[videoId]" v-for="tag in gameData[videoId].type" :bordered="false"
+                        color="blue" style="height: fit-content;cursor: pointer;" @click="handleTagClick(tag)">{{ tag
                         }}</a-tag>
                 </a-flex>
-                <VideoActionButtons v-if="data && data[videoId] && config" :data="data" :videoId="videoId" :game="game"
-                    :config="config" />
+                <VideoActionButtons v-if="gameData && gameData[videoId] && gameConfig" :data="gameData"
+                    :videoId="videoId" :game="currentGame" :config="gameConfig" />
                 <div style="width: 100%;">
-                    <MoreVideo v-if="isMobileDevice" :data="data" :videoId="videoId" :types="types"
+                    <MoreVideo v-if="isMobileDevice" :data="gameData" :videoId="videoId" :types="videoTypesData"
                         v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />
                 </div>
             </a-flex>
         </a-layout-content>
         <a-layout-sider v-if="!isMobileDevice" width="370" class="content-sider">
-            <MoreVideo v-if="data && videoId && types && returnType" :data="data" :videoId="videoId" :types="types"
-                v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />
+            <MoreVideo v-if="gameData && videoId && videoTypesData && returnType" :data="gameData" :videoId="videoId"
+                :types="videoTypesData" v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />
         </a-layout-sider>
     </a-layout>
 </template>

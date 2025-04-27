@@ -16,7 +16,6 @@ const searchResults = ref([])
 const loading = ref(false)
 const searchValue = ref(route.query.q || '')
 
-/** 导入 JSON 文件 */
 const loadData = async () => {
     try {
         if (selectedGame.value === '全部游戏') {
@@ -97,7 +96,7 @@ watchEffect(() => {
     updatePageTitleAndIcon('搜索 | 影像档案架', '/favicon.ico')
     onSearch()
     setMetaDescription('搜索 | 影像档案架')
-})   // 监听路由参数变化并设置图标
+})
 watch([selectedGame, searchValue], () => {
     navigateToSearch(selectedGame.value, searchValue.value)
 })
