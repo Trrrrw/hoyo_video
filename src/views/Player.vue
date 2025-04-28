@@ -132,8 +132,7 @@ onUnmounted(() => {
             <a-flex vertical justify="center" align="flex-start">
                 <div class="video-container">
                     <video v-if="gameData && gameData[videoId]" :key="gameData[videoId].src" controls autoplay
-                        :poster="gameData[videoId].post"
-                        @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
+                        :poster="gameData[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
                         @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()"
                         style="width: 100%;height: auto;border: 1px solid rgba(5, 5, 5, 0.06);">
                         <source :src="gameData[videoId].src" :key="gameData[videoId].src" type="video/mp4">
@@ -149,9 +148,9 @@ onUnmounted(() => {
                 <h3 v-if="gameData && gameData[videoId] && isMobileDevice" style="padding-top: 10px;">{{
                     gameData[videoId].title }}
                 </h3>
-                <a-flex gap="small">
-                    <p v-if="gameData && gameData[videoId]" style="height:100%;">{{ gameData[videoId].time }}</p>
-                    <p v-if="gameData && gameData[videoId]">{{ gameData[videoId].intro }}</p>
+                <a-flex wrap style="margin-bottom: 2px;">
+                    <a-tag v-if="gameData && gameData[videoId]" :bordered="false" style="height: fit-content;">{{
+                        gameData[videoId].time }}</a-tag>
                     <a-tag v-if="gameData && gameData[videoId]" v-for="tag in gameData[videoId].type" :bordered="false"
                         color="blue" style="height: fit-content;cursor: pointer;" @click="handleTagClick(tag)">{{ tag
                         }}</a-tag>

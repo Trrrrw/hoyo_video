@@ -84,6 +84,21 @@ watchEffect(setSelectedItem)
     </a-layout-sider>
 </template>
 
+<style>
+:root {
+    --svg-color: currentColor;
+}
+
+[data-darkreader-inline-fill] {
+    --darkreader-inline-fill: var(--svg-color) !important;
+}
+
+.ant-menu-item-icon svg,
+.anticon svg {
+    --darkreader-inline-fill: var(--svg-color) !important;
+}
+</style>
+
 <style scoped>
 .sider-menu {
     border-inline-end: none !important;
