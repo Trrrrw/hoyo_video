@@ -6,7 +6,7 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 28 Apr 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 29 Apr 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>《原神》5.6版本「悖理」前瞻特别节目</title>
@@ -4743,6 +4743,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》演唱会动画CM：「拍摄进行中」</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155707</link>
+      <pubDate>Tue, 29 Apr 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155707</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155707/9e7107915041dd464bc4ec261c660fa0_7366550889490689693.jpg" alt="《崩坏：星穹铁道》演唱会动画CM：「拍摄进行中」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/155707/9e7107915041dd464bc4ec261c660fa0_7366550889490689693.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155707/07b3e338a20a52f82aea81cf8cc6a9b8_6278898107598300745.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/155707/07b3e338a20a52f82aea81cf8cc6a9b8_6278898107598300745.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》二周年特别动画：「不虚此行」  </title>
