@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Apr 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 30 Apr 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》幕后的故事：从挪德卡莱说起</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155755</link>
+      <pubDate>Wed, 30 Apr 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155755</guid>
+      <description>&lt;img src="https://ys.mihoyo.com/main/_nuxt/img/holder.37207c1.jpg" alt="《原神》幕后的故事：从挪德卡莱说起" /&gt;&lt;video controls poster="https://ys.mihoyo.com/main/_nuxt/img/holder.37207c1.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155755/b023fb151b952d4261dcdfb600ce8253_7086049677615034348.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155755/b023fb151b952d4261dcdfb600ce8253_7086049677615034348.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》5.6版本「悖理」前瞻特别节目</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155665</link>
