@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 30 Apr 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Thu, 01 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》爱可菲角色PV——「还不够严格」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155764</link>
+      <pubDate>Thu, 01 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155764</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155764/cf44e2ff5c20f996663b4b54a090e030_5428538008580339265.jpg" alt="《原神》爱可菲角色PV——「还不够严格」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155764/cf44e2ff5c20f996663b4b54a090e030_5428538008580339265.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155764/7cb0adaa5f812523f8c11c2ff9644d5e_4553041328055216354.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155764/7cb0adaa5f812523f8c11c2ff9644d5e_4553041328055216354.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》幕后的故事：从挪德卡莱说起</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155755</link>
