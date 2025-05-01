@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 import { message } from 'ant-design-vue'
 import DownloadDialog from "./DownloadDialog.vue"
 import { navigateTo } from "../utils/routerHandlers"
@@ -22,6 +22,23 @@ const props = defineProps({
         type: Object,
         required: true
     }
+})
+
+const isDarkMode = ref(false)
+
+const updateDarkMode = () => {
+    isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+onMounted(() => {
+    updateDarkMode()
+    // 监听系统主题变化
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateDarkMode)
+})
+
+onUnmounted(() => {
+    // 清理监听器
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', updateDarkMode)
 })
 
 /** 点击返回按钮 */
@@ -61,7 +78,7 @@ const openOfficialWebsite = (url) => {
         <a-button class="gutter-box" @click="downloadButtonClick">下载</a-button>
         <a-popover placement="bottom" :overlay-inner-style="{ padding: 0 }">
             <template #content>
-                <a-qrcode :value="currentUrl" :bordered="false" />
+                <a-qrcode :value="currentUrl" :color="isDarkMode ? '#fff' : '#000'" :bordered="false" />
             </template>
             <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
         </a-popover>

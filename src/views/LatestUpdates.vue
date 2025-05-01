@@ -61,22 +61,23 @@ watchEffect(() => {
     <h1 style="display: none;">影像档案架</h1>
     <a-layout class="page-layout">
         <a-layout-content class="page-content scrollable-container">
-            <a-flex vertical gap="small">
-                <a-card v-for="game in gamesList">
-                    <a-card-meta :title="game" @click="navigateToSpecificGame(game)" style="cursor: pointer;">
-                        <template #avatar>
-                            <a-avatar :src="getIconPath(game)" style="border-radius: 0;" />
+            <a-spin :delay="500" :spinning="!gamesData">
+                <a-flex vertical gap="small">
+                    <a-card v-for="game in gamesList">
+                        <template #title>
+                            <a-avatar :src="getIconPath(game)" shape="square" />
+                            {{ game }}
                         </template>
-                    </a-card-meta>
-                    <a-divider />
-                    <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap"
-                        justify="flex-start" gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
-                        <Card v-for="(item, index) in (gamesData[game] || [])" :key="item.post" :cover="item.post"
-                            :title="item.title" :badge="index == 0 ? 'New!' : ''" badgeColor="red"
-                            :description="item.time" @click="handleCardClick(item)" />
-                    </a-flex>
-                </a-card>
-            </a-flex>
+                        <template #extra><a @click="navigateToSpecificGame(game)">更多视频</a></template>
+                        <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap"
+                            justify="flex-start" gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
+                            <Card v-for="(item, index) in (gamesData[game] || [])" :key="item.post" :cover="item.post"
+                                :title="item.title" :badge="index == 0 ? 'New!' : ''" badgeColor="red"
+                                :description="item.time" @click="handleCardClick(item)" />
+                        </a-flex>
+                    </a-card>
+                </a-flex>
+            </a-spin>
         </a-layout-content>
     </a-layout>
 </template>

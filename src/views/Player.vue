@@ -134,7 +134,7 @@ onUnmounted(() => {
                     <video v-if="gameData && gameData[videoId]" :key="gameData[videoId].src" controls autoplay
                         :poster="gameData[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
                         @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()"
-                        style="width: 100%;height: auto;border: 1px solid rgba(5, 5, 5, 0.06);">
+                        style="width: 100%;aspect-ratio: 16/9;border: 1px solid rgba(5, 5, 5, 0.06);">
                         <source :src="gameData[videoId].src" :key="gameData[videoId].src" type="video/mp4">
                     </video>
                     <div v-if="showOverlay" class="video-overlay">
@@ -181,6 +181,7 @@ onUnmounted(() => {
 .video-container {
     position: relative;
     width: 100%;
+    background-color: black;
 }
 
 .video-overlay {

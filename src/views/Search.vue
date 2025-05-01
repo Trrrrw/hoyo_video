@@ -117,7 +117,7 @@ watch([selectedGame, searchValue], () => {
             </a-flex>
         </a-layout-header>
         <a-layout-content class="page-content scrollable-container">
-            <a-empty v-if="searchResults.length == 0" />
+            <a-empty v-if="searchResults.length == 0 && !loading" />
             <a-spin :delay="500" tip="Loading..." :spinning="loading">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
                     <Card v-for="item in (searchResults || [])" :key="item.post" :cover="item.post" :title="item.title"
