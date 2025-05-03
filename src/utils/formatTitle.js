@@ -1,5 +1,10 @@
 export const formatTitle = (title, game, type) => {
-    if (title == '《绝区零》×《街霸6》制作人对谈') return title
+    const titleList = [
+        '《绝区零》×《街霸6》制作人对谈',
+        '《崩坏：星穹铁道》× Fate_UBW 联动预告'
+    ]
+    // if (title == '《绝区零》×《街霸6》制作人对谈') return title
+    if (titleList.includes(title)) return title
     title = title
         .replace(`《${game}》——`, '') // 游戏名
         .replace(`《${game}》`, '') // 游戏名
