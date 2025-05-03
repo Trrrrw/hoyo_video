@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 02 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 03 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》拾枝杂谈-「伊法：绒羽之温」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155776</link>
+      <pubDate>Sat, 03 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155776</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155776/a9f47077d7ea630390d235bb73a1f2e8_4803806753690224171.jpg" alt="《原神》拾枝杂谈-「伊法：绒羽之温」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155776/a9f47077d7ea630390d235bb73a1f2e8_4803806753690224171.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155776/fa264ba15104a107910b3d771e492786_8006427460240144534.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155776/fa264ba15104a107910b3d771e492786_8006427460240144534.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》拾枝杂谈-「爱可菲：花刀的圆舞」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155771</link>
