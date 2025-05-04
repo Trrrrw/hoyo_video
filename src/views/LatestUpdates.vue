@@ -25,10 +25,13 @@ const loadData = async () => {
                 // 获取最后5个数据项，添加id并按time排序
                 const latestItems = Object.entries(data)
                     .slice(-5)
-                    .map(([id, item]) => ({
-                        ...item, id, game,
-                        // title: formatTitle(item.title, item.game)
-                    }))
+                    .map(([id, item]) => {
+                        const cleanTitle = formatTitle(item.title, game)
+                        return {
+                            ...item, id, game,
+                            title: cleanTitle,
+                        }
+                    })
                     .sort((a, b) => new Date(b.time) - new Date(a.time))
 
                 // 按游戏名分组存储为数组
@@ -70,8 +73,8 @@ watchEffect(() => {
                         <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap"
                             justify="flex-start" gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
                             <Card v-for="(item, index) in (gamesData[game] || [])" :key="item.post" :cover="item.post"
-                                :title="formatTitle(item.title, item.game)" :badge="index == 0 ? 'New!' : ''"
-                                badgeColor="red" :description="item.time" @click="handleCardClick(item)" />
+                                :title="item.title" :badge="index == 0 ? 'New!' : ''" badgeColor="red"
+                                :description="item.time" @click="handleCardClick(item)" />
                         </a-flex>
                     </a-card>
                 </a-flex>

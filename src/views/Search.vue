@@ -5,41 +5,39 @@ import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
 import { scrollToPreviousPosition } from "../utils/scrollHandlers"
 import { navigateToSearch, navigateToVideo } from "../utils/routerHandlers"
-import gamesListData from "../data/data.json"
 import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
+import { formatTitle } from '../utils/formatTitle'
+import gamesListData from "../data/data.json"
 
 const route = useRoute()
 const gamesList = reactive(['全部游戏', ...gamesListData.games])
 const selectedGame = ref(route.query.game || gamesList[0])
-const gameData = ref(null)
-const searchResults = ref([])
+const gameData = ref({})
+const searchResults = ref({})
 const loading = ref(false)
 const searchValue = ref(route.query.q || '')
 
 const loadData = async () => {
     try {
         if (selectedGame.value === '全部游戏') {
-            // 导入所有游戏数据并合并
-            const allData = {}
             for (const game of gamesListData.games) {
                 try {
                     const data = (await import(`../data/${game}/data.json`)).default
                     Object.entries(data).forEach(([id, item]) => {
                         data[id] = { ...item, game }
                     })
-                    Object.assign(allData, data)
+                    console.log(game)
+                    gameData.value[game] = data
                 } catch (error) {
                     console.error(`Failed to load data for ${game}:`, error)
                 }
             }
-            gameData.value = allData
         } else {
-            // 导入单个游戏数据
             const data = (await import(`../data/${selectedGame.value}/data.json`)).default
             Object.entries(data).forEach(([id, item]) => {
                 data[id] = { ...item, game: selectedGame.value }
             })
-            gameData.value = data
+            gameData.value = { [selectedGame.value]: data }
         }
     } catch (error) {
         console.error("Failed to load data:", error)
@@ -48,34 +46,28 @@ const loadData = async () => {
 
 const onSearch = async _ => {
     if (!searchValue.value) {
-        searchResults.value = []
+        searchResults.value = {}
         return
     }
     loading.value = true
     await loadData()
     if (gameData.value) {
-        searchResults.value = Object.entries(gameData.value || {})
-            .filter(([id, item]) => {
-                const keywords = searchValue.value.toLowerCase().split(/\s+/).filter(Boolean)
-                if (keywords.length === 0) return false
+        searchResults.value = JSON.parse(JSON.stringify(gameData.value))
+        for (const game in searchResults.value) {
+            const filteredData = Object.entries(searchResults.value[game])
+                .filter(([id, item]) => {
+                    const keywords = searchValue.value.toLowerCase().split(/\s+/).filter(Boolean)
+                    if (keywords.length === 0) return false
 
-                const title = item.title.toLowerCase()
-                return keywords.every(keyword => title.includes(keyword))
-            })
-            .map(([id, item]) => {
-                // 处理标题，删除游戏名称相关的字符串
-                const game = item.game || '';
-                const cleanTitle = item.title
-                    .replace(`《${game}》——`, '') // 游戏名带双破折号
-                    .replace(`《${game}》`, '') // 游戏名
-                    .trim();
-
-                return {
-                    id,
-                    ...item,
-                    title: cleanTitle
-                };
-            })
+                    const title = item.title.toLowerCase()
+                    return keywords.every(keyword => title.includes(keyword))
+                })
+                .map(([id, item]) => {
+                    const cleanTitle = formatTitle(item.title, item.game)
+                    return [id, { ...item, title: cleanTitle }]
+                })
+            searchResults.value[game] = Object.fromEntries(filteredData)
+        }
     }
 
     loading.value = false
@@ -120,8 +112,11 @@ watch([selectedGame, searchValue], () => {
             <a-empty v-if="searchResults.length == 0 && !loading" />
             <a-spin :delay="500" tip="Loading..." :spinning="loading">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
-                    <Card v-for="item in (searchResults || [])" :key="item.post" :cover="item.post" :title="item.title"
-                        :badge="selectedGame == '全部游戏' ? item.game : ''" @click="handleCardClick(item)" />
+                    <Card
+                        v-for="item in (Object.values(searchResults).map(game => Object.values(game).reverse()).flat() || [])"
+                        :key="item.post" :cover="item.post" :title="item.title"
+                        :badge="selectedGame == '全部游戏' ? item.game : ''" :description="item.time"
+                        @click="handleCardClick(item)" />
                 </a-flex>
             </a-spin>
         </a-layout-content>

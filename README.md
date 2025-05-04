@@ -132,7 +132,7 @@ Just [open the link](https://hoyo-video.trrw.tech/) and enjoy it!
 ## Roadmap
 
 - [x] ~~记录播放进度~~
-- [ ] 搜索结果排序
+- [x] ~~搜索结果排序~~
 - [x] ~~全部视频页面~~
 
 See the [open issues](https://github.com/Trrrrw/hoyo_video/issues) for a full list of proposed features (and known issues).
@@ -177,7 +177,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Trrrrw - [@your_twitter](https://x.com/trrrrrrrw) - wzhhenry@qq.com
+Trrrrw - [@trrrrrrrw](https://x.com/trrrrrrrw) - wzhhenry@qq.com
 
 QQ群: [https://qm.qq.com/q/6l9M3S5YUU](https://qm.qq.com/q/6l9M3S5YUU)
 
