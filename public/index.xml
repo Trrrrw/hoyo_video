@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 03 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 05 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「伊法：空护巡值」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155786</link>
+      <pubDate>Mon, 05 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155786</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155786/f7b3a9c15f71cbb68a46b9b92333fc35_4771920834651964922.jpg" alt="《原神》角色预告-「伊法：空护巡值」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155786/f7b3a9c15f71cbb68a46b9b92333fc35_4771920834651964922.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155786/8f5a97aac454fb350ae11f7d57711228_1498979397490670944.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155786/8f5a97aac454fb350ae11f7d57711228_1498979397490670944.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》拾枝杂谈-「伊法：绒羽之温」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155776</link>
