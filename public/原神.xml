@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 05 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 06 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「爱可菲：美味交响」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155800</link>
+      <pubDate>Tue, 06 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155800</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155800/992a1b1713dc4882e6f24035b53870f1_7123256022688482562.jpg" alt="《原神》角色预告-「爱可菲：美味交响」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155800/992a1b1713dc4882e6f24035b53870f1_7123256022688482562.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155800/6771c1bac930d74ce026686eafb9ee36_8373973555214102609.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155800/6771c1bac930d74ce026686eafb9ee36_8373973555214102609.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色预告-「伊法：空护巡值」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155786</link>
