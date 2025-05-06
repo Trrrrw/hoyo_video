@@ -1,7 +1,3 @@
-<a id="readme-top"></a>
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -36,37 +32,8 @@
 </div>
 
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#local-development">Local Development</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-    <li><a href="#copyright">Copyright</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## 关于项目
 
 [![Product Screen Shot][product-screenshot]](https://hoyo-video.trrw.tech/)
 
@@ -79,28 +46,21 @@
 * RSS 订阅: 可以通过 RSS 订阅及时获取更新
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
+### 技术栈
 
 * [![Vue][Vue.js]][Vue-url]
 * [![Vite][Vite.js]][Vite-url]
 * [![Yarn][Yarn.js]][Yarn-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
-## Getting Started
+## 开始使用
 
-### Prerequisites
+### 环境要求
 
 * [yarn](https://www.yarnpkg.cn/getting-started/install)
 
-### Local Development
+### 本地开发
 
 1. Clone the repo
    ```sh
@@ -115,21 +75,9 @@
    yarn dev
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Just [open the link](https://hoyo-video.trrw.tech/) and enjoy it!
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- ROADMAP -->
-## Roadmap
+## 开发计划
 
 - [x] ~~记录播放进度~~
 - [x] ~~搜索结果排序~~
@@ -137,45 +85,9 @@ Just [open the link](https://hoyo-video.trrw.tech/) and enjoy it!
 
 See the [open issues](https://github.com/Trrrrw/hoyo_video/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Top contributors:
-
-<a href="https://github.com/Trrrrw/hoyo_video/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Trrrrw/hoyo_video" alt="contrib.rocks image" />
-</a>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
-## Contact
+## 联系方式
 
 Trrrrw - [@trrrrrrrw](https://x.com/trrrrrrrw) - wzhhenry@qq.com
 
@@ -183,8 +95,11 @@ QQ群: [https://qm.qq.com/q/6l9M3S5YUU](https://qm.qq.com/q/6l9M3S5YUU)
 
 Project Link: [https://github.com/Trrrrw/hoyo_video](https://github.com/Trrrrw/hoyo_video)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 
 <!-- ACKNOWLEDGMENTS -->
@@ -196,9 +111,6 @@ Project Link: [https://github.com/Trrrrw/hoyo_video](https://github.com/Trrrrw/h
 * [Img Shields](https://shields.io)
 * [Vercel](https://vercel.com)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- COPYRIGHT -->
 ## Copyright
@@ -206,8 +118,6 @@ Project Link: [https://github.com/Trrrrw/hoyo_video](https://github.com/Trrrrw/h
 * 本项目代码基于 MIT 许可证开源
 * 项目中的视频内容和图片资源版权归米哈游所有
 * 本项目仅作为这些内容的展示工具，不对这些资源进行任何权利声明
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

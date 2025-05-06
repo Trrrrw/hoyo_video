@@ -52,6 +52,7 @@ const goBack = () => {
 /** 点击下载按钮 */
 const modalVisible = ref(false)
 const downloadButtonClick = async () => {
+    document.querySelector('video')?.pause()
     modalVisible.value = true
 }
 
@@ -68,6 +69,7 @@ const shareButtonClick = () => {
 
 /** 打开官网链接 */
 const openOfficialWebsite = (url) => {
+    document.querySelector('video')?.pause()
     window.open(url, '_blank')
 }
 </script>

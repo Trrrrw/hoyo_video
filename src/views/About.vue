@@ -50,7 +50,6 @@ watchEffect(() => {
             <div class="markdown-preview" v-html="markdownPreview"></div>
         </a-flex>
     </a-spin>
-    <!-- <img src="../assets/images/screenshot.webp" alt="logo" class="logo"> -->
 </template>
 
 <style scoped>
@@ -63,6 +62,7 @@ watchEffect(() => {
 .markdown-preview {
     line-height: 2 !important;
     text-align: left !important;
+    width: 100%;
     max-width: 100%;
     overflow-x: auto;
 }
