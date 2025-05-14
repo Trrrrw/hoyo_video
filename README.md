@@ -105,6 +105,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* [Trae](https://www.trae.ai)
 * [Marked](https://marked.js.org)
 * [Ant Design Vue](https://www.antdv.com/components/overview-cn)
 * [iconfont.cn](http://iconfont.cn)

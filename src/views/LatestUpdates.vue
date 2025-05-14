@@ -16,7 +16,7 @@ const gamesData = ref({})
 
 /** 导入 JSON 文件 */
 const loadData = async () => {
-    setMetaDescription(`影像档案架 - 整合原神、崩铁、绝区零的官方高清视频，支持视频分类、下载和 RSS 订阅`)
+    setMetaDescription(`影像档案架 - 整合原神、崩坏：星穹铁道、绝区零的官方高清视频，支持视频分类、下载和 RSS 订阅`)
     try {
         const allData = {}
         for (const game of gamesList) {

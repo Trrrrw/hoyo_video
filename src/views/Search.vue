@@ -26,7 +26,6 @@ const loadData = async () => {
                     Object.entries(data).forEach(([id, item]) => {
                         data[id] = { ...item, game }
                     })
-                    console.log(game)
                     gameData.value[game] = data
                 } catch (error) {
                     console.error(`Failed to load data for ${game}:`, error)
@@ -64,7 +63,7 @@ const onSearch = async _ => {
                 })
                 .map(([id, item]) => {
                     const cleanTitle = formatTitle(item.title, item.game)
-                    return [id, { ...item, title: cleanTitle }]
+                    return [id, { ...item, title: cleanTitle, id: id }]
                 })
             searchResults.value[game] = Object.fromEntries(filteredData)
         }
