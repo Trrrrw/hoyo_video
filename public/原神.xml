@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 06 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 14 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》剧情PV-「旋舞谢幕礼」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155927</link>
+      <pubDate>Wed, 14 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155927</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155927/1a6f05aed920cd64877890c9482a5959_605965525037389331.png" alt="《原神》剧情PV-「旋舞谢幕礼」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155927/1a6f05aed920cd64877890c9482a5959_605965525037389331.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155927/43358dd8690f02d8c11860417b22ca65_19614551138732023.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155927/43358dd8690f02d8c11860417b22ca65_19614551138732023.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色预告-「爱可菲：美味交响」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155800</link>

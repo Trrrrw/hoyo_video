@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 09 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 13 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》雨果EP | My Curse, My Fate「Destin et malédiction」</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=155914</link>
+      <pubDate>Tue, 13 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=155914</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/155914/da01fb8910f93e0fa1c6583c669fae86_6941811521660680255.png" alt="《绝区零》雨果EP | My Curse, My Fate「Destin et malédiction」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/155914/da01fb8910f93e0fa1c6583c669fae86_6941811521660680255.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/155914/de3e71a883362718dc254955a4092094_1224068175704054497.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/155914/de3e71a883362718dc254955a4092094_1224068175704054497.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》雨果角色展示 | 末日领衔主犯</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=155863</link>
