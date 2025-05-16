@@ -85,7 +85,7 @@ const openOfficialWebsite = (url) => {
             <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
         </a-popover>
         <a-button class="gutter-box"
-            @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}`)">官网</a-button>
+            @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}/${game == '崩坏3' ? 'detail' : ''}`)">官网</a-button>
     </a-flex>
     <DownloadDialog v-model:modalVisible="modalVisible" :data="data" :videoId="videoId" />
 </template>
