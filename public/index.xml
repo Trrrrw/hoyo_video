@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 15 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 16 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》过场动画-「伟业」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=155944</link>
+      <pubDate>Fri, 16 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=155944</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/155944/1569584be1fc57ae7cee583b91329535_2736570462159607165.png" alt="《原神》过场动画-「伟业」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/155944/1569584be1fc57ae7cee583b91329535_2736570462159607165.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/155944/792fcb9f55f71b238f4df087ffc42e14_4164901712675312408.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/155944/792fcb9f55f71b238f4df087ffc42e14_4164901712675312408.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「最终料理对决」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155934</link>
