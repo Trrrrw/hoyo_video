@@ -7,6 +7,7 @@ import { setMetaDescription } from "../utils/setMetaDescription"
 import { navigateToSpecificType } from "../utils/routerHandlers"
 import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
 import { formatTitle } from "../utils/formatTitle"
+import { setupVideoControls } from "../utils/videoControls"
 
 const route = useRoute()
 const currentGame = computed(() => route.params.game)
@@ -111,12 +112,16 @@ const handleTagClick = (tag) => {
     navigateToSpecificType(currentGame.value, tag)
 }
 
+let cleanupVideoControls = null
 onMounted(() => {
     updateDeviceStatus()
     mediaQuery.addEventListener('change', updateDeviceStatus)
+
     setTimeout(() => {
-        document.querySelector('video')?.focus()
+        cleanupVideoControls = setupVideoControls(document.querySelector('video'))
+
     }, 500)
+
     setTimeout(() => {
         showOverlay.value = false
     }, 5000)
@@ -124,6 +129,9 @@ onMounted(() => {
 
 onUnmounted(() => {
     mediaQuery.removeEventListener('change', updateDeviceStatus)
+    if (cleanupVideoControls) {
+        cleanupVideoControls()
+    }
 })
 </script>
 
@@ -136,8 +144,8 @@ onUnmounted(() => {
                 <div class="video-container">
                     <video v-if="gameData && gameData[videoId]" :key="gameData[videoId].src" controls autoplay
                         :poster="gameData[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
-                        @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()"
-                        style="width: 100%;aspect-ratio: 16/9;border: 1px solid rgba(5, 5, 5, 0.06);" tabindex="0">
+                        @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()" @keydown.prevent
+                        style="width: 100%;aspect-ratio: 16/9;border: 1px solid rgba(5, 5, 5, 0.06);outline: none;">
                         <source :src="gameData[videoId].src" :key="gameData[videoId].src" type="video/mp4">
                     </video>
                     <div v-if="showOverlay" class="video-overlay">

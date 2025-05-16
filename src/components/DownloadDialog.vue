@@ -33,6 +33,16 @@ const download = (url) => {
     document.body.removeChild(a)
 }
 
+const copyText = (text, msg) => {
+    const tempTextarea = document.createElement('textarea')
+    tempTextarea.value = text
+    document.body.appendChild(tempTextarea)
+    tempTextarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(tempTextarea)
+    message.info(msg)
+}
+
 const copyVideoTitle = () => {
     const fileName = props.data[props.videoId].title
     const tempTextarea = document.createElement('textarea')
@@ -67,10 +77,12 @@ const downloadCover = () => {
             <CloudDownloadOutlined /> 下载
         </template>
         <a-flex class="download-button-container" wrap="wrap" justify="center" align="center" gap="small">
-            <a-button class="download-button" @click="downloadVideo">
+            <a-button class="download-button" @click="downloadVideo"
+                @contextmenu.prevent="copyText(props.data[props.videoId].src, '已复制视频链接')">
                 <VideoCameraOutlined /> 视频
             </a-button>
-            <a-button class="download-button" @click="downloadCover">
+            <a-button class="download-button" @click="downloadCover"
+                @contextmenu.prevent="copyText(props.data[props.videoId].post, '已复制封面链接')">
                 <PictureOutlined /> 封面
             </a-button>
         </a-flex>
@@ -85,11 +97,5 @@ const downloadCover = () => {
     width: 48%;
     height: 80%;
     font-size: 20px;
-}
-
-.downloader-button {
-    width: 100%;
-    height: 40%;
-    font-size: 16px;
 }
 </style>
