@@ -75,7 +75,7 @@ const saveVideoProgress = (currentTime) => {
 }
 const getVideoProgress = () => {
     const gameProgress = JSON.parse(localStorage.getItem(currentGame.value) || '{}')
-    const currentTime = gameProgress[videoId.value]?.progress || 0
+    var currentTime = gameProgress[videoId.value]?.progress || 0
     const video = document.querySelector('video')
     // 如果视频已加载且历史进度超过90%，直接从头开始播放
     if (video && video.duration && currentTime > video.duration * 0.9) {

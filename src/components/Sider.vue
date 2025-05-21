@@ -35,10 +35,16 @@ const checkScreenSize = () => {
 }
 onMounted(() => {
     checkScreenSize()
-    window.addEventListener('resize', checkScreenSize)
+    window.addEventListener('resize', () => {
+        checkScreenSize()
+        setSelectedItem()
+    })
 })
 onUnmounted(() => {
-    window.removeEventListener('resize', checkScreenSize)
+    window.addEventListener('resize', () => {
+        checkScreenSize()
+        setSelectedItem()
+    })
 })
 const loadSidebarItems = async () => {
     sideBarItems.push(
