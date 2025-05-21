@@ -6,7 +6,7 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 16 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 20 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>《原神》过场动画-「伟业」</title>
@@ -4815,6 +4815,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》风堇角色PV：「有求必应」</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155945</link>
+      <pubDate>Tue, 20 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=155945</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155945/093225cbedf5171ca9daceda8349828b_2360987620165716601.jpg" alt="《崩坏：星穹铁道》风堇角色PV：「有求必应」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/155945/093225cbedf5171ca9daceda8349828b_2360987620165716601.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/155945/a29e7773a116c2269f7edc61a98a5858_4562327111077661654.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/155945/a29e7773a116c2269f7edc61a98a5858_4562327111077661654.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》走近星穹——「风堇：新的风宝已经出现」</title>
