@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 16 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 27 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色逸闻——「临时委托」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=156240</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=156240</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/156240/87335a342aee8be87fe086a207074612_3491415205845129969.png" alt="《原神》角色逸闻——「临时委托」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/156240/87335a342aee8be87fe086a207074612_3491415205845129969.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/156240/7cfd6539bea07cd1c084584f20fbee0f_905866112690547219.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/156240/7cfd6539bea07cd1c084584f20fbee0f_905866112690547219.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「伟业」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=155944</link>
