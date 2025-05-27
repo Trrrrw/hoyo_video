@@ -26,22 +26,22 @@ const handleVisibleChange = (newValue) => {
 
 const coverDownloading = ref(false)
 
-const downloadWithFetch = (url, name) => {
-    fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
-            const a = document.createElement("a");
-            const objectUrl = window.URL.createObjectURL(blob);
-            a.download = name;
-            a.href = objectUrl;
-            a.click();
-            window.URL.revokeObjectURL(objectUrl);
-            a.remove();
-        })
-        .catch(err => {
-            message.error('下载失败，请稍后重试')
-        })
-}
+// const downloadWithFetch = (url, name) => {
+//     fetch(url)
+//         .then(res => res.blob())
+//         .then(blob => {
+//             const a = document.createElement("a");
+//             const objectUrl = window.URL.createObjectURL(blob);
+//             a.download = name;
+//             a.href = objectUrl;
+//             a.click();
+//             window.URL.revokeObjectURL(objectUrl);
+//             a.remove();
+//         })
+//         .catch(err => {
+//             message.error('下载失败，请稍后重试')
+//         })
+// }
 
 const download = (url) => {
     const fileName = props.data[props.videoId].title
@@ -71,7 +71,8 @@ const downloadCover = () => {
         const coverUrl = props.data[props.videoId].post
         const fileName = props.data[props.videoId].title
         coverDownloading.value = true
-        downloadWithFetch(coverUrl, fileName)
+        // downloadWithFetch(coverUrl, fileName)
+        download(coverUrl)
         coverDownloading.value = false
     }
 }
