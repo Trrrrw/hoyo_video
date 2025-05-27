@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue"
-import { message } from 'ant-design-vue'
 import DownloadDialog from "./DownloadDialog.vue"
 import { navigateTo } from "../utils/routerHandlers"
+import { copyText } from "../utils/copyText"
 
 const currentUrl = window.location.href
 const props = defineProps({
@@ -56,17 +56,6 @@ const downloadButtonClick = async () => {
     modalVisible.value = true
 }
 
-/** 点击分享按钮 */
-const shareButtonClick = () => {
-    const tempTextarea = document.createElement('textarea')
-    tempTextarea.value = currentUrl
-    document.body.appendChild(tempTextarea)
-    tempTextarea.select()
-    document.execCommand('copy')
-    document.body.removeChild(tempTextarea)
-    message.info('已复制链接')
-}
-
 /** 打开官网链接 */
 const openOfficialWebsite = (url) => {
     document.querySelector('video')?.pause()
@@ -82,7 +71,7 @@ const openOfficialWebsite = (url) => {
             <template #content>
                 <a-qrcode :value="currentUrl" :color="isDarkMode ? '#fff' : '#000'" :bordered="false" />
             </template>
-            <a-button class="gutter-box" @click="shareButtonClick">分享</a-button>
+            <a-button class="gutter-box" @click="copyText(currentUrl, '已复制链接')">分享</a-button>
         </a-popover>
         <a-button class="gutter-box"
             @click="openOfficialWebsite(`${config['news_detail_url']}${videoId}/${game == '崩坏3' ? 'detail' : ''}`)">官网</a-button>

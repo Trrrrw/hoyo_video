@@ -1,6 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { CloudDownloadOutlined, VideoCameraOutlined, PictureOutlined } from '@ant-design/icons-vue'
+import { copyText } from '../utils/copyText'
+
 const props = defineProps({
     modalVisible: {
         type: Boolean,
@@ -21,6 +24,25 @@ const handleVisibleChange = (newValue) => {
     emit('update:modalVisible', newValue)
 }
 
+const coverDownloading = ref(false)
+
+const downloadWithFetch = (url, name) => {
+    fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+            const a = document.createElement("a");
+            const objectUrl = window.URL.createObjectURL(blob);
+            a.download = name;
+            a.href = objectUrl;
+            a.click();
+            window.URL.revokeObjectURL(objectUrl);
+            a.remove();
+        })
+        .catch(err => {
+            message.error('下载失败，请稍后重试')
+        })
+}
+
 const download = (url) => {
     const fileName = props.data[props.videoId].title
     const extension = url.split('.').pop()
@@ -33,30 +55,10 @@ const download = (url) => {
     document.body.removeChild(a)
 }
 
-const copyText = (text, msg) => {
-    const tempTextarea = document.createElement('textarea')
-    tempTextarea.value = text
-    document.body.appendChild(tempTextarea)
-    tempTextarea.select()
-    document.execCommand('copy')
-    document.body.removeChild(tempTextarea)
-    message.info(msg)
-}
-
-const copyVideoTitle = () => {
-    const fileName = props.data[props.videoId].title
-    const tempTextarea = document.createElement('textarea')
-    tempTextarea.value = fileName
-    document.body.appendChild(tempTextarea)
-    tempTextarea.select()
-    document.execCommand('copy')
-    document.body.removeChild(tempTextarea)
-    message.info('已复制视频标题')
-}
-
 const downloadVideo = () => {
     if (props.data && props.videoId && props.data[props.videoId]) {
-        copyVideoTitle()
+        const videoTitle = props.data[props.videoId].title
+        copyText(videoTitle, '已复制视频标题')
         const videoUrl = props.data[props.videoId].src
         download(videoUrl)
     }
@@ -64,12 +66,17 @@ const downloadVideo = () => {
 
 const downloadCover = () => {
     if (props.data && props.videoId && props.data[props.videoId]) {
-        copyVideoTitle()
+        const videoTitle = props.data[props.videoId].title
+        copyText(videoTitle, '已复制视频标题')
         const coverUrl = props.data[props.videoId].post
-        download(coverUrl)
+        const fileName = props.data[props.videoId].title
+        coverDownloading.value = true
+        downloadWithFetch(coverUrl, fileName)
+        coverDownloading.value = false
     }
 }
 </script>
+
 <template>
     <a-modal :open="modalVisible" centered :footer="null" @update:open="handleVisibleChange"
         @cancel="handleVisibleChange(false)">
@@ -81,16 +88,17 @@ const downloadCover = () => {
                 @contextmenu.prevent="copyText(props.data[props.videoId].src, '已复制视频链接')">
                 <VideoCameraOutlined /> 视频
             </a-button>
-            <a-button class="download-button" @click="downloadCover"
+            <a-button class="download-button" @click="downloadCover" :loading="coverDownloading"
                 @contextmenu.prevent="copyText(props.data[props.videoId].post, '已复制封面链接')">
                 <PictureOutlined /> 封面
             </a-button>
         </a-flex>
+        <p style="color: #999999; font-size: 12px; font-weight: 300;margin: 0 auto; text-align-last: right;">右键复制链接</p>
     </a-modal>
 </template>
 <style scoped>
 .download-button-container {
-    height: 200px;
+    height: 150px;
 }
 
 .download-button {

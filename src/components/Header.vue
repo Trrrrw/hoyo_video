@@ -3,12 +3,13 @@ import { computed, h } from 'vue'
 import { useRoute } from "vue-router"
 import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { IconFont } from '../utils/iconFont'
-import { handleRSSButtonClick } from '../utils/handleRSSButtonClick'
+import { copyText } from '../utils/copyText'
 import { navigateToHome, navigateToSearch, openGitHubRepo } from '../utils/routerHandlers'
 
 const route = useRoute()
 const searchButtonTitle = computed(() => `搜索${route.params.game ? ' - ' + route.params.game : ''}`)
 const rssButtonTitle = computed(() => `RSS订阅${route.params.game ? ' - ' + route.params.game : ''}`)
+const rssUrl = computed(() => `${window.location.origin}/${route.params.game || 'index'}.xml`)
 const GitHubButtonTitle = "GitHub"
 </script>
 
@@ -29,7 +30,7 @@ const GitHubButtonTitle = "GitHub"
             </a-tooltip>
             <a-tooltip placement="bottom" :title="rssButtonTitle">
                 <a-button type="text" :icon="h(IconFont, { type: 'icon-dingyue' })" key="2" :aria-label="rssButtonTitle"
-                    @click="handleRSSButtonClick(route.params.game || 'index')" />
+                    @click="copyText(rssUrl, '已复制链接')" />
             </a-tooltip>
             <a-tooltip placement="bottom" :title="GitHubButtonTitle">
                 <a-button type="text" :icon="h(GithubOutlined)" key="1" :aria-label="GitHubButtonTitle"

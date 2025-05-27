@@ -1,5 +1,5 @@
 <script setup>
-import { ref, shallowRef, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { setMetaDescription } from '../utils/setMetaDescription'
 import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
 import { formatInTimeZone } from 'date-fns-tz'
@@ -48,25 +48,21 @@ const loadDate = async () => {
     // 上次更新时间
     // const githubCommitData = await fetchData('https://api.github.com/repos/Trrrrw/hoyo_video/commits')
     udpateTime.value = new Date((await import(`../data/data.json`)).default.update_time).getTime()
-    console.log(formatInTimeZone(new Date(udpateTime.value), 'Asia/Shanghai', 'yyyy年MM月dd日', { locale: zhCN }))
 
     // 访问量
     const viewsData = await fetchData('https://han-analytics.trrw.tech/api', 'POST', { type: "visit", siteID: "hoyo_video", time: "7d", session: "" })
     views.value = viewsData.data.views
     visitors.value = viewsData.data.visitor
     visits.value = viewsData.data.visit
-    console.log(views.value, visitors.value, visits.value)
 
     // 折线图数据
     const chartDataRe = await fetchData('https://han-analytics.trrw.tech/api', 'POST', { type: "echarts", siteID: "hoyo_video", time: "7d", session: "" })
     chartLabels.value = chartDataRe.data.map(item => item.name + '日')
     chartDatasets.value = chartDataRe.data.map(item => item.value)
-    console.log(chartLabels.value, chartDatasets.value)
     setChart()
 
     // 更新日志
     updateLog.value = (await import(`../data/update_log.json`)).default
-    console.log(updateLog.value)
 }
 
 const setChart = async () => {
@@ -84,7 +80,6 @@ const setChart = async () => {
             ],
         }
     }
-    console.log(chartData.value)
 
     const ctx = document.getElementById('dataChart')
     if (ctx && chartData.value) {
@@ -124,8 +119,6 @@ watchEffect(() => {
 </script>
 
 <template>
-    <!-- <p>更新时间：{{ formatInTimeZone(new Date(udpateTime), 'Asia/Shanghai', 'yyyy年MM月dd日', { locale: zhCN }) }}</p>
-    <p>Views: {{ views }} Visitors: {{ visitors }} Visits: {{ visits }}</p> -->
     <a-flex vertical gap="middle" style="margin: 50px 80px;text-align: left;">
         <a-row :wrap="true" :gutter="[24, 16]">
             <a-col :flex="1">
