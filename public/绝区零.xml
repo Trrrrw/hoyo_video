@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 23 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 30 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》仪玄角色展示 | 决战武道之巅</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=156642</link>
+      <pubDate>Fri, 30 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=156642</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/156642/74b4b350caa8a447b1e233fd9c778883_5910545656736833836.png" alt="《绝区零》仪玄角色展示 | 决战武道之巅" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/156642/74b4b350caa8a447b1e233fd9c778883_5910545656736833836.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/156642/6d2b6618bb5a9b188347cdc04b808977_3390837538683798734.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/156642/6d2b6618bb5a9b188347cdc04b808977_3390837538683798734.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》一周年纪念回放 | 2024空洞漫游</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=156046</link>
