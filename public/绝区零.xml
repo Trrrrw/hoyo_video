@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 30 May 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 31 May 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》仪玄动画短片 | 为了我的仪玄</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=156662</link>
+      <pubDate>Sat, 31 May 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=156662</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/156662/7cea0e3a57f91c715cd3e52364ee8250_5079377196215137800.jpeg" alt="《绝区零》仪玄动画短片 | 为了我的仪玄" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/156662/7cea0e3a57f91c715cd3e52364ee8250_5079377196215137800.jpeg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/156662/f16614b50548509a2788760de9f6cec5_4693048258736926808.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/156662/f16614b50548509a2788760de9f6cec5_4693048258736926808.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》仪玄角色展示 | 决战武道之巅</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=156642</link>
