@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 05 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sun, 08 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》过场动画 | 济世之士</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=156811</link>
+      <pubDate>Sun, 08 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=156811</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/156811/e208d559ee95b75ac0098a69eb1bd10e_7906613407203123520.png" alt="《绝区零》过场动画 | 济世之士" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/156811/e208d559ee95b75ac0098a69eb1bd10e_7906613407203123520.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/156811/27ba7220c76b8663469bee1be6807ac3_5602472844943082383.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/156811/27ba7220c76b8663469bee1be6807ac3_5602472844943082383.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》仪玄角色PV | 今日卦象：宜下山</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=156723</link>
