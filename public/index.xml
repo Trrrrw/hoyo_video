@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 10 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Thu, 12 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》动画短片——「尘间星旅」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=156925</link>
+      <pubDate>Thu, 12 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=156925</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/156925/7433f9e2ccb76bfdbc2481fd5be25fbd_7687175358772834813.png" alt="《原神》动画短片——「尘间星旅」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/156925/7433f9e2ccb76bfdbc2481fd5be25fbd_7687175358772834813.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/156925/5547211b0a6973bb5109227cec66c883_5292880717564454609.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/156925/5547211b0a6973bb5109227cec66c883_5292880717564454609.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title> 隐于黑暗中的那个身影，现身了…</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=156900</link>
