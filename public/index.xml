@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 13 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》拾枝杂谈-「丝柯克：凛界之寂」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=156936</link>
+      <pubDate>Fri, 13 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=156936</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/156936/c15033368f838558749a03f98831a516_6538268785739219519.jpg" alt="《原神》拾枝杂谈-「丝柯克：凛界之寂」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/156936/c15033368f838558749a03f98831a516_6538268785739219519.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/156936/f93e1349447b27529878b0d878342de3_4848254153831098926.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/156936/f93e1349447b27529878b0d878342de3_4848254153831098926.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》动画短片——「尘间星旅」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=156925</link>
