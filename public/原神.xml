@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 13 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 14 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》丝柯克角色PV——「一个结束，一个开始」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=156956</link>
+      <pubDate>Sat, 14 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=156956</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/156956/a96b7602e1b9b43a020535ef80781aab_4182485943396132699.png" alt="《原神》丝柯克角色PV——「一个结束，一个开始」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/156956/a96b7602e1b9b43a020535ef80781aab_4182485943396132699.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/156956/a070e8bf9df980a7e49cc5c9a45bbc50_2918675635440547544.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/156956/a070e8bf9df980a7e49cc5c9a45bbc50_2918675635440547544.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》拾枝杂谈-「丝柯克：凛界之寂」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=156936</link>
