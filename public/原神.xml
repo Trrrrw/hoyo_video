@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 15 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 16 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「塔利雅：圣礼的逸巡」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157027</link>
+      <pubDate>Mon, 16 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157027</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157027/6ffd43602e96a69a974d13523a8be497_8659518681208847882.jpg" alt="《原神》角色预告-「塔利雅：圣礼的逸巡」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157027/6ffd43602e96a69a974d13523a8be497_8659518681208847882.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157027/c895053a04e846dad8b7c5113f0eb89e_2848339584917422408.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157027/c895053a04e846dad8b7c5113f0eb89e_2848339584917422408.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》拾枝杂谈-「塔利雅：风中闲事」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=156961</link>
