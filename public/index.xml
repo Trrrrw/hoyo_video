@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 16 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 17 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「丝柯克：寰墟之叹」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157055</link>
+      <pubDate>Tue, 17 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157055</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157055/d3c04f84a1922fdc98a2a6593ca312b1_6821115103488232130.jpg" alt="《原神》角色预告-「丝柯克：寰墟之叹」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157055/d3c04f84a1922fdc98a2a6593ca312b1_6821115103488232130.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157055/3e4ceeb8fdf5a74d8ab3ec4fbabefd9f_634136431545930209.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157055/3e4ceeb8fdf5a74d8ab3ec4fbabefd9f_634136431545930209.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色预告-「塔利雅：圣礼的逸巡」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157027</link>
