@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 10 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 20 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》橘福福角色展示 | 绝世豪虎</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157210</link>
+      <pubDate>Fri, 20 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157210</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157210/684ef1832108509f76ddfe93aa8a1df1_7400703862082986972.png" alt="《绝区零》橘福福角色展示 | 绝世豪虎" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157210/684ef1832108509f76ddfe93aa8a1df1_7400703862082986972.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157210/79cf5027dc3bf6bbf49ced7af3997653_8488259154712447814.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157210/79cf5027dc3bf6bbf49ced7af3997653_8488259154712447814.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》过场动画 | 玄鸟归巢之时</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=156897</link>
