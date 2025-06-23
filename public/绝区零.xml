@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 21 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 23 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》橘福福EP | 食通万物 修心修身</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157288</link>
+      <pubDate>Mon, 23 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157288</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157288/3fabadbac5b4b9e9398dae13213f1184_4338565825501790988.png" alt="《绝区零》橘福福EP | 食通万物 修心修身" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157288/3fabadbac5b4b9e9398dae13213f1184_4338565825501790988.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157288/64c0add29e944482a049d20edfcf4648_1326512364225608857.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157288/64c0add29e944482a049d20edfcf4648_1326512364225608857.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>【Fairy的生物观察记录】云岿山的一天</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157221</link>
