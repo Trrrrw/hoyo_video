@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 17 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 25 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》剧情PV-「溯渊成河，星轨永延」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157321</link>
+      <pubDate>Wed, 25 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157321</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157321/109f6efe00c85d68915b3b585fc247eb_4011760076169186183.png" alt="《原神》剧情PV-「溯渊成河，星轨永延」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157321/109f6efe00c85d68915b3b585fc247eb_4011760076169186183.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157321/14bfd7b6209fddbf60002dbbbcf949a4_1416793896386637335.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157321/14bfd7b6209fddbf60002dbbbcf949a4_1416793896386637335.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色预告-「丝柯克：寰墟之叹」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157055</link>
