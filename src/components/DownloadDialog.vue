@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { message } from 'ant-design-vue'
 import { CloudDownloadOutlined, VideoCameraOutlined, PictureOutlined } from '@ant-design/icons-vue'
 import { copyText } from '../utils/copyText'
 

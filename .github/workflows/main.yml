@@ -1,0 +1,35 @@
+name: Sync to server
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v3
+              with:
+                submodules: true
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: 20
+
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Build Vite project
+              run: yarn build
+
+            - name: Deploy to server
+              uses: burnett01/rsync-deployments@7.0.2
+              with:
+                switches: -avzr --delete
+                path: ./dist/
+                remote_path: /opt/1panel/apps/openresty/openresty/www/sites/hoyo-video.trrw.tech/index/
+                remote_host: ${{ secrets.SSH_IP }}
+                remote_port: ${{ secrets.SSH_PORT }}
+                remote_user: ${{ secrets.SSH_USER }}
+                remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
