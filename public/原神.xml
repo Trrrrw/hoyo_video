@@ -6,8 +6,32 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 27 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》过场动画-「一切只关乎你我」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157415</link>
+      <pubDate>Fri, 27 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157415</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157415/a8da086a3f66f0f3b1540326214f020e_1351704458419595752.png" alt="《原神》过场动画-「一切只关乎你我」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157415/a8da086a3f66f0f3b1540326214f020e_1351704458419595752.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157415/8d6b924c610f30586f1b89f4f2329466_2536881455281476428.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157415/8d6b924c610f30586f1b89f4f2329466_2536881455281476428.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《原神》过场动画-「灾变叠影」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157414</link>
+      <pubDate>Fri, 27 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157414</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157414/e12b34c9323ec7c64eeba044a7c1eac6_6003572463474256623.png" alt="《原神》过场动画-「灾变叠影」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157414/e12b34c9323ec7c64eeba044a7c1eac6_6003572463474256623.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157414/ec4eecad3cbd954531408e569299dc7a_1540933047793406497.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157414/ec4eecad3cbd954531408e569299dc7a_1540933047793406497.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《原神》过场动画-「噬暗终寂」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157403</link>
+      <pubDate>Thu, 26 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157403</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157403/739fff3eef7154cde4fa34250cce0c30_2677846366760250740.png" alt="《原神》过场动画-「噬暗终寂」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157403/739fff3eef7154cde4fa34250cce0c30_2677846366760250740.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157403/3b99fc99b9bc3fe4ffc817e8ab0b0ec7_1041193667745241134.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157403/3b99fc99b9bc3fe4ffc817e8ab0b0ec7_1041193667745241134.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》剧情PV-「溯渊成河，星轨永延」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157321</link>
