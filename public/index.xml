@@ -6,7 +6,7 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 29 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 30 Jun 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>《原神》过场动画-「一切只关乎你我」</title>
@@ -4943,6 +4943,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》动画短片「听！狂欢在那神佑的山巅」预告</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=157420</link>
+      <pubDate>Mon, 30 Jun 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=157420</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/157420/757c7e68c502ebeb9ce801fe84f07b0e_3662971704567504660.png" alt="《崩坏：星穹铁道》动画短片「听！狂欢在那神佑的山巅」预告" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/157420/757c7e68c502ebeb9ce801fe84f07b0e_3662971704567504660.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/157420/21ecba82d5e39ecf772237e0decf12a9_5759923611842783739.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/157420/21ecba82d5e39ecf772237e0decf12a9_5759923611842783739.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》白厄角色PV：「日冕」</title>
