@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 02 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 04 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》2.1版本PV | 迟吟的浪涌</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157493</link>
+      <pubDate>Fri, 04 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157493</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157493/d8baee56aadea969664307ebe7954a02_1039457196409591168.png" alt="《绝区零》2.1版本PV | 迟吟的浪涌" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157493/d8baee56aadea969664307ebe7954a02_1039457196409591168.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157493/d8b7e156e6759165ad764d3a320ba7d5_6627599196359132397.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157493/d8b7e156e6759165ad764d3a320ba7d5_6627599196359132397.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>芬达 | 绝区零联动PV：多巴胺，即刻行动！</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157439</link>
