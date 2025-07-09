@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 27 Jun 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 09 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神·提瓦特篇》幕间PV-「神的局限性」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157552</link>
+      <pubDate>Wed, 09 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157552</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157552/2f5c2d4c7f8e5ce4a67119c63a2dc938_4619735653119515558.jpg" alt="《原神·提瓦特篇》幕间PV-「神的局限性」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157552/2f5c2d4c7f8e5ce4a67119c63a2dc938_4619735653119515558.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157552/2feb4add5c3c3f7aab9af024b7e526f9_4368331780643093643.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157552/2feb4add5c3c3f7aab9af024b7e526f9_4368331780643093643.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「一切只关乎你我」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157415</link>
