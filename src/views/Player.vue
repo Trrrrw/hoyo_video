@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue"
 import { useRoute } from "vue-router"
+import { EyeOutlined } from "@ant-design/icons-vue"
 import MoreVideo from "../components/MoreVideo.vue"
 import VideoActionButtons from "../components/VideoActionButtons.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
@@ -17,9 +18,41 @@ const videoTypesData = ref(null)
 const gameConfig = ref(null)
 const showOverlay = ref(false)
 const returnType = ref(null)
+const playCount = ref(0)
+const playDuration = ref(0) // 累计播放时长(秒)
+let playDurationInterval = null // 计时器
+let lastPlayTime = 0 // 上次播放时间戳
 const getReturnInfo = () => {
     const savedType = sessionStorage.getItem('returnType')
     returnType.value = savedType ? savedType : gameData.value[videoId.value].type[0] || ''
+}
+
+const setupPlayDurationTimer = (videoElement) => {
+    setInterval(() => {
+        if (!videoElement.paused) {
+            playDuration.value += 1
+        }
+    }, 1000)
+}
+
+const getPlayCount = async () => {
+    const url = `https://api.trrw.tech/play_count?game=${currentGame.value}&id=${videoId.value}`
+    const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'authx': 'zjmsvHt6XEapavfSjJU8bPcVQ5Gsbd'
+    }
+    try {
+        const res = await fetch(url, { headers: headers })
+        const responseData = await res.json()
+        if (responseData.status == 'success') {
+            playCount.value = responseData.data.play_count
+        } else {
+            console.error('Failed to fetch data:', error)
+        }
+    } catch (error) {
+        console.error('Failed to fetch data:', error)
+    }
 }
 
 const loadData = async () => {
@@ -30,6 +63,7 @@ const loadData = async () => {
             gameConfig.value = (await import(`../data/${currentGame.value}/config.json`)).default
             setMetaDescription(`影像档案架 - ${gameData.value[videoId.value].title}`)
             getReturnInfo()
+            getPlayCount()
         } catch (error) {
             console.error("Failed to load data:", error)
         }
@@ -60,11 +94,40 @@ const cleanupOldRecords = () => {
 
     localStorage.setItem(currentGame.value, JSON.stringify(filteredProgress))
 }
-const saveVideoProgress = (currentTime) => {
+const saveVideoProgress = async (currentTime) => {
     if (currentGame.value && videoId.value) {
+        const video = document.querySelector('video')
+
+        // 检查播放时长是否超过总时长的80%
+        if (video && video.duration && playDuration.value > video.duration * 0.8) {
+            const url = `https://api.trrw.tech/play_count`
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'authx': 'zjmsvHt6XEapavfSjJU8bPcVQ5Gsbd'
+            }
+            try {
+                const res = await fetch(url, {
+                    method: 'POST', headers: headers,
+                    body: JSON.stringify({
+                        video_id: videoId.value,
+                        game_belongs_to: currentGame.value,
+                        play_count: 1
+                    })
+                })
+                const responseData = await res.json()
+                console.log("播放量+1")
+                playCount.value = responseData.play_count
+            } catch (error) {
+                console.error('Failed to fetch data:', error)
+            }
+            playDuration.value = 0 // 重置时长
+        }
+
         const gameProgress = JSON.parse(localStorage.getItem(currentGame.value) || '{}')
         gameProgress[videoId.value] = {
             progress: currentTime,
+            duration: playDuration.value,
             timestamp: Date.now()
         };
         localStorage.setItem(currentGame.value, JSON.stringify(gameProgress))
@@ -119,7 +182,7 @@ onMounted(() => {
 
     setTimeout(() => {
         cleanupVideoControls = setupVideoControls(document.querySelector('video'))
-
+        setupPlayDurationTimer(document.querySelector('video'))
     }, 500)
 
     setTimeout(() => {
@@ -143,7 +206,8 @@ onUnmounted(() => {
             <a-flex vertical justify="center" align="flex-start">
                 <div class="video-container">
                     <video v-if="gameData && gameData[videoId]" :key="gameData[videoId].src" controls autoplay
-                        :poster="gameData[videoId].post" @timeupdate="(e) => saveVideoProgress(e.target.currentTime)"
+                        :poster="gameData[videoId].post"
+                        @timeupdate="async (e) => await saveVideoProgress(e.target.currentTime)"
                         @loadedmetadata="(e) => e.target.currentTime = getVideoProgress()" @keydown.prevent
                         style="width: 100%;aspect-ratio: 16/9;border: 1px solid rgba(5, 5, 5, 0.06);outline: none;">
                         <source :src="gameData[videoId].src" :key="gameData[videoId].src" type="video/mp4">
@@ -162,6 +226,12 @@ onUnmounted(() => {
                 <a-flex wrap style="margin-bottom: 2px;">
                     <a-tag v-if="gameData && gameData[videoId]" :bordered="false" style="height: fit-content;">{{
                         gameData[videoId].time }}</a-tag>
+                    <a-tag v-if="gameData && gameData[videoId]" :bordered="false" style="height: fit-content;">
+                        <template #icon>
+                            <EyeOutlined />
+                        </template>
+                        {{ playCount }}
+                    </a-tag>
                     <a-tag v-if="gameData && gameData[videoId]" v-for="tag in gameData[videoId].type" :bordered="false"
                         color="blue" style="height: fit-content;cursor: pointer;" @click="handleTagClick(tag)">{{ tag
                         }}</a-tag>

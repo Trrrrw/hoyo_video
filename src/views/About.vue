@@ -12,14 +12,19 @@ const views = ref(0)
 const visitors = ref(0)
 const visits = ref(0)
 const chartLabels = ref([])
-const chartDatasets = ref([])
+const visitorDatasets = ref([])
+const visitDatasets = ref([])
 const chartData = ref({})
 const updateLog = ref({})
 
 const fetchData = async (url, method = 'GET', data = null) => {
+    const headers = {
+        'authorization': 'Bearer xQsc18bnNkUpWk3JGdYv6Aex4hjftuD5VW7b9O4jNx5Q1x928T9JqyhkUsqn8+HvblkGvjmWS3FgfCqvqIw5cYsoyo4rdpoxVcE5ie3pYTVO5dPEb2pX8ZIZS2hyMO7o/DoXEBC8J20KbxbWUUUX2MarBsY3+38GNc8sbDsMWgG+SPQEgF6pJ4njKu7SEeypAsmj/sA8vRYkHf/h1KIzr0VJ4yXYLCr0h7DOVjX6/Wp7FeD/ZmqEExs55Q+hQ8D8bq/3bNe9aONGqQa8RwpzIuZXdqgc9ejQs2T0VT3z+zf+bQcKZGE/0fNMdIiFVaG/EReiUvqr5NooxrmplLJnDCZUZMCNuUw15BS/kxXtQPyqpRuESFZFK3C4SA9i',
+        'cookie': '_clck=fgs6kc%7C2%7Cfva%7C0%7C1938; cf_clearance=ixOAvmzI16FnGHas3KZg7x16oXsmMNlIn7MaMyaSRF8-1750647801-1.2.1.1-net_AWx9MPuBiAH5oVFz.LeOJUyPTKkDrC46c4zY8VzOLGvQqQU9Gl8oXjPs1eSQn6pYuDNtC4dWH.hA71fX_2AGuia2mnqQfQ_QQuQJ__KqnmDJqF9eeAatAe8kOnkkiPiPU.Oo8xTpvB7fkb_nVzF24QIAAmg6O3u97xQRNCQU_5CAm.v._EzMpWqroVu0Xtg_ZpPYZpkm.1qGk_9uOLVktEVaHKOzV4PxnYmlfJ1t6nmoOWzufhatyqenncYClgXhPLaK5hbkLiyr31u_gR8j4A_DIqtUAka5n7JBKtsTKVgVYAbsKFpsVkVKVuC53IpfUQoQCSDfmJ.oKnsQ7Hj9uIGxuSGUSC72EuiAmhs'
+    }
     if (method === 'GET') {
         try {
-            const res = await fetch(url)
+            const res = await fetch(url, { headers: headers })
             const responseData = await res.json()
             return responseData
         } catch (error) {
@@ -31,7 +36,8 @@ const fetchData = async (url, method = 'GET', data = null) => {
             const res = await fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    ...headers
                 },
                 body: data ? JSON.stringify(data) : null
             })
@@ -49,32 +55,42 @@ const loadDate = async () => {
     // const githubCommitData = await fetchData('https://api.github.com/repos/Trrrrw/hoyo_video/commits')
     udpateTime.value = new Date((await import(`../data/data.json`)).default.update_time).getTime()
 
-    // 访问量
-    const viewsData = await fetchData('https://han-analytics.trrw.tech/api', 'POST', { type: "visit", siteID: "hoyo_video", time: "7d", session: "" })
-    views.value = viewsData.data.views
-    visitors.value = viewsData.data.visitor
-    visits.value = viewsData.data.visit
-
-    // 折线图数据
-    const chartDataRe = await fetchData('https://han-analytics.trrw.tech/api', 'POST', { type: "echarts", siteID: "hoyo_video", time: "7d", session: "" })
-    chartLabels.value = chartDataRe.data.map(item => item.name + '日')
-    chartDatasets.value = chartDataRe.data.map(item => item.value)
-    setChart()
-
     // 更新日志
     updateLog.value = (await import(`../data/update_log.json`)).default
+
+    // 访问量
+    const viewsData = await fetchData('https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=1751558400000&endAt=1752163199999&unit=day&timezone=Asia%2FShanghai&compare=false')
+    views.value = viewsData.pageviews.value
+    visitors.value = viewsData.visitors.value
+    visits.value = viewsData.visits.value
+
+    // 折线图数据
+    const chartDataRe = await fetchData('https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=1751558400000&endAt=1752163199999&unit=day&timezone=Asia%2FShanghai')
+    chartLabels.value = chartDataRe.sessions.map(item => item.x.replace(/^\d{4}-(\d{2}-\d{2}).*$/, '$1'))
+    visitorDatasets.value = chartDataRe.sessions.map(item => item.y)
+    visitDatasets.value = chartDataRe.pageviews.map(item => item.y)
+    setChart()
 }
 
 const setChart = async () => {
-    if (chartLabels.value && chartDatasets.value) {
+    if (chartLabels.value && visitorDatasets.value) {
         chartData.value = {
             labels: chartLabels.value,
             datasets: [
                 {
-                    label: '',
-                    data: chartDatasets.value,
+                    label: '访客',
+                    data: visitorDatasets.value,
                     fill: false,
-                    borderColor: getColorFromString('Views'),
+                    backgroundColor: 'rgba(90, 158, 240, 0.8)',
+                    borderColor: 'rgb(90, 158, 240)',
+                    tension: 0.3
+                },
+                {
+                    label: '浏览量',
+                    data: visitDatasets.value,
+                    fill: false,
+                    backgroundColor: 'rgba(90, 158, 240, 0.5)',
+                    borderColor: 'rgb(90, 158, 240)',
                     tension: 0.3
                 },
             ],
@@ -84,7 +100,7 @@ const setChart = async () => {
     const ctx = document.getElementById('dataChart')
     if (ctx && chartData.value) {
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: chartData.value,
             options: {
                 responsive: true,
@@ -104,6 +120,7 @@ const setChart = async () => {
                         grid: {
                             display: false
                         },
+                        stacked: true
                     },
                 },
             },
@@ -130,19 +147,19 @@ watchEffect(() => {
             </a-col>
             <a-col :flex="1">
                 <a-card>
-                    <a-statistic title="Views" :value="views">
+                    <a-statistic title="浏览量" :value="views">
                     </a-statistic>
                 </a-card>
             </a-col>
             <a-col :flex="1">
                 <a-card>
-                    <a-statistic title="Visitors" :value="visitors">
+                    <a-statistic title="访客" :value="visitors">
                     </a-statistic>
                 </a-card>
             </a-col>
             <a-col :flex="1">
                 <a-card>
-                    <a-statistic title="Visits" :value="visits">
+                    <a-statistic title="访问次数" :value="visits">
                     </a-statistic>
                 </a-card>
             </a-col>
