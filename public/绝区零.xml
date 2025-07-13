@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 12 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sun, 13 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>专业挑战室 | 《绝区零》战斗设计幕后 第一期</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157598</link>
+      <pubDate>Sun, 13 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157598</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157598/8da9b262bf155b4acd6cae158192444c_7417305249205298195.jpeg" alt="专业挑战室 | 《绝区零》战斗设计幕后 第一期" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157598/8da9b262bf155b4acd6cae158192444c_7417305249205298195.jpeg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157598/7ae5bc83f93b50e50cf9230df9b36a74_2284313820235561755.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157598/7ae5bc83f93b50e50cf9230df9b36a74_2284313820235561755.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》浮波柚叶角色展示 | 鬼使狸差</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157590</link>
