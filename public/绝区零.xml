@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 13 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 15 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》浮波柚叶EP | 乐园梦游计</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157684</link>
+      <pubDate>Tue, 15 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157684</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157684/f930c565ed16b5a133fc530367522903_6480637929470480939.jpeg" alt="《绝区零》浮波柚叶EP | 乐园梦游计" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157684/f930c565ed16b5a133fc530367522903_6480637929470480939.jpeg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157684/8a6fc53fa9ff9b9e3063a4a37f98a5ee_2014048580412176251.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157684/8a6fc53fa9ff9b9e3063a4a37f98a5ee_2014048580412176251.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>专业挑战室 | 《绝区零》战斗设计幕后 第一期</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157598</link>
