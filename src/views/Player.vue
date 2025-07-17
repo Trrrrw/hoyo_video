@@ -9,8 +9,11 @@ import { navigateToSpecificType } from "../utils/routerHandlers"
 import { updatePageTitleAndIcon } from "../utils/updatePageTitleAndIcon"
 import { formatTitle } from "../utils/formatTitle"
 import { setupVideoControls } from "../utils/videoControls"
-import Comment from "../components/Comment.vue"
+import { Waline } from '@waline/client/component'
+import '@waline/client/style';
 
+const serverURL = 'https://video-waline.trrw.tech'
+const path = computed(() => useRoute().fullPath)
 const route = useRoute()
 const currentGame = computed(() => route.params.game)
 const videoId = computed(() => route.query.id)
@@ -239,7 +242,9 @@ onUnmounted(() => {
                 </a-flex>
                 <VideoActionButtons v-if="gameData && gameData[videoId] && gameConfig" :data="gameData"
                     :videoId="videoId" :game="currentGame" :config="gameConfig" />
-                <Comment />
+                <!-- <Comment /> -->
+                 <a-divider/>
+                <Waline :serverURL="serverURL" :path="path" style="width: 100%;" />
                 <div style="width: 100%;">
                     <MoreVideo v-if="isMobileDevice" :data="gameData" :videoId="videoId" :types="videoTypesData"
                         v-model:isMobileDevice="isMobileDevice" :returnType="returnType" />

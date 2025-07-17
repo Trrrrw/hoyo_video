@@ -1,11 +1,5 @@
 const serverURL = 'https://video-waline.trrw.tech'
 
-const options = async (url, method) => {
-    await fetch(url, {
-        method: 'OPTIONS',
-    })
-}
-
 export const getCommentList = async (path, page, pageSize, sortBy) => {
     // Get请求
     const params = new URLSearchParams({
@@ -15,7 +9,6 @@ export const getCommentList = async (path, page, pageSize, sortBy) => {
         sortBy
     })
     const url = `${serverURL}/api/comment?${params.toString()}`
-    await options(url, 'GET')
     const res = await fetch(url, { method: 'GET' })
     const resData = await res.json()
     return resData.data.data
@@ -49,7 +42,6 @@ export const submitComment = async (comment, link, mail, nick, pid, rid, ua, url
         ...optionalData
     }
     const postURL = `${serverURL}/api/comment?lang=zh-CN`
-    await options(postURL, 'POST')
     const res = await fetch(postURL, {
         method: 'POST',
         headers: {
