@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 18 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 19 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》提瓦特风尚·衣装PV - 夏意斑斓</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157769</link>
+      <pubDate>Sat, 19 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157769</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157769/63fdb529839867d0472b84494be37953_8250760837121677887.png" alt="《原神》提瓦特风尚·衣装PV - 夏意斑斓" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157769/63fdb529839867d0472b84494be37953_8250760837121677887.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157769/3288ca3eb374e866ef82af6c2a029c68_4448896203814157954.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157769/3288ca3eb374e866ef82af6c2a029c68_4448896203814157954.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》5.8版本「绘夏！烈日？度假村！」前瞻特别节目</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157764</link>
