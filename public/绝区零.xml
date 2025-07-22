@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 15 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 22 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》过场动画 | 夏日永不完结</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=157795</link>
+      <pubDate>Tue, 22 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=157795</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/157795/41987622050e64e0dc13ec1b110050ff_8697153261605483605.png" alt="《绝区零》过场动画 | 夏日永不完结" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/157795/41987622050e64e0dc13ec1b110050ff_8697153261605483605.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/157795/f97faa95ed9d7e1367c57c3120e08e28_5265866250734426127.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/157795/f97faa95ed9d7e1367c57c3120e08e28_5265866250734426127.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》浮波柚叶EP | 乐园梦游计</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157684</link>

@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 19 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 22 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》空月之歌PV——「月夜的叙事诗」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157797</link>
+      <pubDate>Tue, 22 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157797</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157797/87565a072c2720422c87fdd69283f723_2483007604036203845.jpg" alt="《原神》空月之歌PV——「月夜的叙事诗」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157797/87565a072c2720422c87fdd69283f723_2483007604036203845.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157797/7d8b6c3e2c8413b5bdb5d5c7edc7e956_1981905107650241355.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157797/7d8b6c3e2c8413b5bdb5d5c7edc7e956_1981905107650241355.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》提瓦特风尚·衣装PV - 夏意斑斓</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157769</link>
