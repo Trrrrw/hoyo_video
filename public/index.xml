@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 22 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Thu, 24 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》伊涅芙角色PV——「机芯之礼」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=157905</link>
+      <pubDate>Thu, 24 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=157905</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/157905/7a44b9b88f71cf3bede53edd1af89ab6_3466228978692486672.png" alt="《原神》伊涅芙角色PV——「机芯之礼」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/157905/7a44b9b88f71cf3bede53edd1af89ab6_3466228978692486672.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/157905/1f8f39831f6c130f3b30a2fbd2b2f180_9152792064059396945.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/157905/1f8f39831f6c130f3b30a2fbd2b2f180_9152792064059396945.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》空月之歌PV——「月夜的叙事诗」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157797</link>
