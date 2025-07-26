@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, h, watchEffect } from 'vue'
 import { useRoute } from "vue-router"
-import { InfoCircleOutlined, FieldTimeOutlined } from '@ant-design/icons-vue'
+import { InfoCircleOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { IconFont } from '../utils/iconFont'
 import { getItem } from '../utils/menuItemGet'
 import { navigateToSpecificGame } from '../utils/routerHandlers'
@@ -48,7 +48,7 @@ onUnmounted(() => {
 })
 const loadSidebarItems = async () => {
     sideBarItems.push(
-        getItem('最近更新', '', h(FieldTimeOutlined), null, null)
+        getItem('搜索', '', h(SearchOutlined), null, null)
     )
     for (const [index, game] of gamesList.entries()) {
         sideBarItems.push(
@@ -59,7 +59,7 @@ const loadSidebarItems = async () => {
 
 const setSelectedItem = () => {
     selectedGameOrAboutAndRecently.value =
-        route.name === 'About' ? ['about'] : route.name === 'Search' ? ['search'] :
+        route.name === 'About' ? ['about'] : route.name === 'Search' ? [''] :
             route.params.game ? [route.params.game] : ['']
 }
 

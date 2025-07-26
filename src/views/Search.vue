@@ -97,8 +97,7 @@ watch([selectedGame, searchValue], () => {
     <a-layout class="page-layout">
         <a-layout-header class="page-header">
             <a-flex vertical>
-                <a-input-search class="header-content" v-model:value="searchValue" size="large" @search="onSearch"
-                    @change="onSearch">
+                <a-input-search class="header-content" v-model:value="searchValue" size="large" @search="onSearch">
                     <template #addonBefore>
                         <a-select v-model:value="selectedGame" @change="onSearch" style="width: 140px">
                             <a-select-option v-for="game in gamesList" :value="game">{{ game }}</a-select-option>
@@ -108,7 +107,7 @@ watch([selectedGame, searchValue], () => {
             </a-flex>
         </a-layout-header>
         <a-layout-content class="page-content scrollable-container">
-            <a-empty v-if="searchResults.length == 0 && !loading" />
+            <a-empty v-if="Object.values(searchResults).every(list => Object.keys(list).length === 0) && !loading" />
             <a-spin :delay="500" tip="Loading..." :spinning="loading">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
                     <Card

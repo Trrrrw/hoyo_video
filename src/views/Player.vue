@@ -243,7 +243,7 @@ onUnmounted(() => {
                 <VideoActionButtons v-if="gameData && gameData[videoId] && gameConfig" :data="gameData"
                     :videoId="videoId" :game="currentGame" :config="gameConfig" />
                 <!-- <Comment /> -->
-                 <a-divider/>
+                <a-divider />
                 <Waline :serverURL="serverURL" :path="path" style="width: 100%;" />
                 <div style="width: 100%;">
                     <MoreVideo v-if="isMobileDevice" :data="gameData" :videoId="videoId" :types="videoTypesData"

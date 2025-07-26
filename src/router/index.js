@@ -11,6 +11,7 @@ import BasicLayout from '../views/BasicLayout.vue'
 import NotFound from '../views/NotFound.vue'
 
 import gamesListData from "../data/data.json"
+import Start from '../views/Start.vue'
 const gamesList = reactive(gamesListData.games)
 
 const routes = [
@@ -21,8 +22,8 @@ const routes = [
         children: [
             {
                 path: '/',
-                name: 'LatestUpdates',
-                component: LatestUpdates,
+                name: 'Start',
+                component: Start,
             },
             {
                 path: '/:game',

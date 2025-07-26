@@ -5,9 +5,10 @@ import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { IconFont } from '../utils/iconFont'
 import { copyText } from '../utils/copyText'
 import { navigateToHome, navigateToSearch, openGitHubRepo } from '../utils/routerHandlers'
+import DarkIcon from '../assets/icons/深色模式.svg'
 
 const route = useRoute()
-const searchButtonTitle = computed(() => `搜索${route.params.game ? ' - ' + route.params.game : ''}`)
+const darkButtonTitle = computed(() => `深色模式`)
 const rssButtonTitle = computed(() => `RSS订阅${route.params.game ? ' - ' + route.params.game : ''}`)
 const rssUrl = computed(() => `${window.location.origin}/${route.params.game || 'index'}.xml`)
 const GitHubButtonTitle = "GitHub"
@@ -23,11 +24,10 @@ const GitHubButtonTitle = "GitHub"
             </span>
         </template>
         <template #extra>
-            <a-tooltip placement="bottom" :title="searchButtonTitle">
-                <a-button :type="route.name == 'Search' ? 'primary' : 'text'" :ghost="route.name == 'Search'"
-                    :icon="h(SearchOutlined)" key="3" :aria-label="searchButtonTitle"
+            <!-- <a-tooltip placement="bottom" :title="darkButtonTitle">
+                <a-button type="text" :icon="DarkIcon" key="3" :aria-label="darkButtonTitle"
                     @click="navigateToSearch(route.params.game || '全部游戏')" />
-            </a-tooltip>
+            </a-tooltip> -->
             <a-tooltip placement="bottom" :title="rssButtonTitle">
                 <a-button type="text" :icon="h(IconFont, { type: 'icon-dingyue' })" key="2" :aria-label="rssButtonTitle"
                     @click="copyText(rssUrl, '已复制链接')" />
