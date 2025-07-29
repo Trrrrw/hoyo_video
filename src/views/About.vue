@@ -1,11 +1,12 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { h, ref, watchEffect } from 'vue'
+import { QqOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { setMetaDescription } from '../utils/setMetaDescription'
 import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
 import { formatInTimeZone } from 'date-fns-tz'
 import { zhCN } from 'date-fns/locale'
 import Chart from 'chart.js/auto'
-import { getColorFromString } from '../utils/getColorFromString'
+import { IconFont } from '../utils/iconFont'
 
 const udpateTime = ref(new Date().getTime())
 const views = ref(0)
@@ -187,8 +188,12 @@ watchEffect(() => {
                 <a-card class="no-statistic-content" style="height: 245px;">
                     <a-statistic title="联系方式" value="" />
                     <a-flex wrap="wrap" gap="small" style="margin-top: 20px;">
-                        <a-button href="mailto:wzhhenry@qq.com" style="text-align: left;">邮箱</a-button>
-                        <a-button href="https://qm.qq.com/q/6l9M3S5YUU" style="text-align: left;">QQ 群</a-button>
+                        <a-button href="mailto:wzhhenry@qq.com" :icon="h(MailOutlined)"
+                            style="text-align: left;">邮箱</a-button>
+                        <a-button href="https://qm.qq.com/q/6l9M3S5YUU" :icon="h(QqOutlined)" target="_blank"
+                            style="text-align: left;">QQ 群</a-button>
+                        <a-button href="https://afdian.com/a/trrrrw" :icon="h(IconFont, { type: 'icon-aifadian' })"
+                            target="_blank" style="text-align: left;">爱发电</a-button>
                     </a-flex>
                 </a-card>
             </a-col>
