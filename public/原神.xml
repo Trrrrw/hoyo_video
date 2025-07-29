@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 24 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 29 Jul 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「伊涅芙：居家旅行必备」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158021</link>
+      <pubDate>Tue, 29 Jul 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158021</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158021/d01cfac07be8dfa7dbfb94ddc00c7d82_8555627689590216611.jpg" alt="《原神》角色预告-「伊涅芙：居家旅行必备」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158021/d01cfac07be8dfa7dbfb94ddc00c7d82_8555627689590216611.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158021/9c601d924bea0c764218c9aceae74b45_5208470036891365566.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158021/9c601d924bea0c764218c9aceae74b45_5208470036891365566.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》伊涅芙角色PV——「机芯之礼」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=157905</link>
