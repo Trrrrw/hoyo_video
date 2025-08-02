@@ -192,6 +192,8 @@ watchEffect(() => {
                             style="text-align: left;">邮箱</a-button>
                         <a-button href="https://qm.qq.com/q/6l9M3S5YUU" :icon="h(QqOutlined)" target="_blank"
                             style="text-align: left;">QQ 群</a-button>
+                        <a-button href="https://t.me/+wPOm4o0FOJw5MzU1" :icon="h(IconFont, { type: 'icon-telegram' })" target="_blank"
+                            style="text-align: left;">纸飞机</a-button>
                         <a-button href="https://afdian.com/a/trrrrw" :icon="h(IconFont, { type: 'icon-aifadian' })"
                             target="_blank" style="text-align: left;">爱发电</a-button>
                     </a-flex>
