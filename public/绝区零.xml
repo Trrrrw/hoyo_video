@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 22 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 02 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》爱丽丝角色展示 | 剑与华尔兹</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=158276</link>
+      <pubDate>Sat, 02 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=158276</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/158276/ac89485f5d5297253a3133bd102713ca_66277308293250611.png" alt="《绝区零》爱丽丝角色展示 | 剑与华尔兹" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/158276/ac89485f5d5297253a3133bd102713ca_66277308293250611.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/158276/3ff724cb1f9a905df8bd99c58658ccb6_5587002598857590522.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/158276/3ff724cb1f9a905df8bd99c58658ccb6_5587002598857590522.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>周边展示丨《绝区零》GSC粘土人手办 浅羽悠真</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157788</link>
