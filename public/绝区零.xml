@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 02 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 05 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》爱丽丝角色PV | 淑女的信条</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=158491</link>
+      <pubDate>Tue, 05 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=158491</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/158491/a86ba72faf086f2d3d48e4fa41adbcdc_1317978012251719671.png" alt="《绝区零》爱丽丝角色PV | 淑女的信条" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/158491/a86ba72faf086f2d3d48e4fa41adbcdc_1317978012251719671.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/158491/e4c53900dcf72d2eb21007374600251e_1563195038306651666.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/158491/e4c53900dcf72d2eb21007374600251e_1563195038306651666.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》爱丽丝角色展示 | 剑与华尔兹</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=158276</link>
