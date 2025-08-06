@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 06 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title> 《原神》剧情PV-「最幸运的孩子」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158505</link>
+      <pubDate>Wed, 06 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158505</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/bcdd4937292710d62b35bd7b324bf616_5105777072260780859.png" alt=" 《原神》剧情PV-「最幸运的孩子」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/bcdd4937292710d62b35bd7b324bf616_5105777072260780859.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/df1005d73f12f71a52989070b493a2b9_7987695525181278351.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/df1005d73f12f71a52989070b493a2b9_7987695525181278351.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>旧梦的轮廓在蔓延，难道这次的冒险...</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158022</link>

@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 05 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 06 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title> 《原神》剧情PV-「最幸运的孩子」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158505</link>
+      <pubDate>Wed, 06 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158505</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/bcdd4937292710d62b35bd7b324bf616_5105777072260780859.png" alt=" 《原神》剧情PV-「最幸运的孩子」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/bcdd4937292710d62b35bd7b324bf616_5105777072260780859.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/df1005d73f12f71a52989070b493a2b9_7987695525181278351.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158505/df1005d73f12f71a52989070b493a2b9_7987695525181278351.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>旧梦的轮廓在蔓延，难道这次的冒险...</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158022</link>
@@ -5023,6 +5031,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》走近星穹——「海瑟音：骑士肚里能撑船」</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=158504</link>
+      <pubDate>Wed, 06 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=158504</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/158504/ed730b9c41a969858ca23f9dc027d617_6905298228963624761.jpg" alt="《崩坏：星穹铁道》走近星穹——「海瑟音：骑士肚里能撑船」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/158504/ed730b9c41a969858ca23f9dc027d617_6905298228963624761.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/158504/a28a9a5d18ee1ae2c914ceec3ab0807b_7918318895342114291.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/158504/a28a9a5d18ee1ae2c914ceec3ab0807b_7918318895342114291.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》救世PV：「开拓者」</title>
