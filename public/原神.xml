@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 06 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Thu, 07 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色逸闻——「伊涅芙大改造」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158522</link>
+      <pubDate>Thu, 07 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158522</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158522/06a5f7e40accdf8900a14445dc6da8a1_1948027265796008211.png" alt="《原神》角色逸闻——「伊涅芙大改造」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158522/06a5f7e40accdf8900a14445dc6da8a1_1948027265796008211.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158522/438db0bdf9b07870d1f4b3a90b9b211c_8898673301130520705.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158522/438db0bdf9b07870d1f4b3a90b9b211c_8898673301130520705.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「炽烈的惊喜」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158517</link>
