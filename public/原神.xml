@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 07 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 08 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》过场动画-「归宿」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158542</link>
+      <pubDate>Fri, 08 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158542</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158542/cce87e763c7ddb6af4c3b087c2f40c41_7875599179295237944.png" alt="《原神》过场动画-「归宿」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158542/cce87e763c7ddb6af4c3b087c2f40c41_7875599179295237944.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158542/00e2b13f3a52658706ccdd06d732f42c_5761898514113700578.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158542/00e2b13f3a52658706ccdd06d732f42c_5761898514113700578.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色逸闻——「伊涅芙大改造」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158522</link>
