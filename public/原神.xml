@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 08 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 16 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>珍珠之歌5逐曲解说上线</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158703</link>
+      <pubDate>Sat, 16 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158703</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158703/89f64f406fad77e5f66ebdd37a7bf2e1_2606611985499362391.jpg" alt="珍珠之歌5逐曲解说上线" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158703/89f64f406fad77e5f66ebdd37a7bf2e1_2606611985499362391.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158703/19208ca15b92951454181ba63b7e35e6_2745729500739392737.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158703/19208ca15b92951454181ba63b7e35e6_2745729500739392737.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「归宿」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158542</link>
