@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 16 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 20 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》织向夜的笼灯｜gamescom 2025</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=158884</link>
+      <pubDate>Wed, 20 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=158884</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/158884/95038f401abfa7fd189c19d9caa3154b_2718038743721199895.png" alt="《原神》织向夜的笼灯｜gamescom 2025" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/158884/95038f401abfa7fd189c19d9caa3154b_2718038743721199895.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/158884/2338aac77f45c4d1fd0852f5eb42e1b2_8780168365833612713.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/158884/2338aac77f45c4d1fd0852f5eb42e1b2_8780168365833612713.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>珍珠之歌5逐曲解说上线</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=158703</link>
