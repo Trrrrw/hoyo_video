@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 23 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sat, 30 Aug 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》席德动画短片 | 爱，死亡与构造体</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=159100</link>
+      <pubDate>Sat, 30 Aug 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=159100</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/159100/dc19d6b58087ce6e8ec3f3fe49d8451c_1781668332229047368.png" alt="《绝区零》席德动画短片 | 爱，死亡与构造体" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/159100/dc19d6b58087ce6e8ec3f3fe49d8451c_1781668332229047368.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/159100/51be05b5468c3af2fa4563735b3d4ab8_1290177135480209091.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/159100/51be05b5468c3af2fa4563735b3d4ab8_1290177135480209091.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>周边展示丨《绝区零》邦布蔬果国度 迷你盲盒</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=158965</link>
