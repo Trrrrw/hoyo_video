@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 30 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》席德角色展示 | 白色恶魔</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=159123</link>
+      <pubDate>Mon, 01 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=159123</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/159123/6076357039fc3336e8a343122313054f_8541993487403208659.png" alt="《绝区零》席德角色展示 | 白色恶魔" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/159123/6076357039fc3336e8a343122313054f_8541993487403208659.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/159123/1746b8d074284083835acd248ec8dbdd_6972542829522478065.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/159123/1746b8d074284083835acd248ec8dbdd_6972542829522478065.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》席德动画短片 | 爱，死亡与构造体</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=159100</link>
