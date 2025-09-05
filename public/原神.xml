@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 30 Aug 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Thu, 04 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》菈乌玛角色PV——「圣银的辉冕」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=159183</link>
+      <pubDate>Thu, 04 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=159183</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/159183/4c1d980eb07592791e5c6caaa9a8ffb2_4064409863847831785.png" alt="《原神》菈乌玛角色PV——「圣银的辉冕」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/159183/4c1d980eb07592791e5c6caaa9a8ffb2_4064409863847831785.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/159183/05c17891b22fcc3f103143ad17aa121f_4575793163705943455.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/159183/05c17891b22fcc3f103143ad17aa121f_4575793163705943455.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》挪德卡莱战斗曲现场</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=159110</link>
