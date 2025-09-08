@@ -73,8 +73,9 @@ watchEffect(() => {
                         <a-flex v-if="gamesData && gamesData[game]" class="scrollable-container" wrap="wrap"
                             justify="flex-start" gap="middle" style="padding: 0 10px 10px 10px;text-align: center;">
                             <Card v-for="(item, index) in (gamesData[game] || [])" :key="item.post" :cover="item.post"
-                                :title="item.title" :badge="index == 0 ? 'New!' : ''" badgeColor="red"
-                                :description="item.time" @click="handleCardClick(item)" />
+                                :game="game" :video_id="Number(item.id)" :title="item.title"
+                                :badge="index == 0 ? 'New!' : ''" badgeColor="red" :description="item.time"
+                                @click="handleCardClick(item)" />
                         </a-flex>
                     </a-card>
                 </a-flex>

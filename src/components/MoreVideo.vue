@@ -53,7 +53,8 @@ const formatTitle = computed(() => {
                     <Card
                         v-for="itemId in props.types[returnType]?.filter(id => Number(id) !== Number(props.videoId)) || []"
                         :key="itemId" v-if="props.data && props.data[props.videoId]" :cover="props.data[itemId]?.post"
-                        :title="formatTitle(itemId)" @click="navigateToVideo(route.params.game, itemId)" />
+                        :game="route.params.game" :video_id="Number(props.videoId)" :title="formatTitle(itemId)"
+                        @click="navigateToVideo(route.params.game, itemId)" />
                 </a-flex>
             </a-card>
         </div>

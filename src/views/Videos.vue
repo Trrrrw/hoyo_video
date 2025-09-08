@@ -90,13 +90,14 @@ watch([currentPage, pageSize], ([newPage, newSize]) => {
                         <Card
                             v-for="[itemId, item] in (Object.entries(gameData).reverse() || {}).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
                             v-if="currentType == '全部视频' && gameData && videoTypesData" :key="itemId" :cover="item.post"
-                            :title="formatTitleComputed(itemId)" :description="item.time"
-                            @click="handleCardClick(itemId)" />
+                            :game="currentGame" :video_id="Number(itemId)" :title="formatTitleComputed(itemId)"
+                            :description="item.time" @click="handleCardClick(itemId)" />
                         <Card
                             v-for="itemId in (videoTypesData[currentType] || []).slice((currentPage - 1) * pageSize, currentPage * pageSize)"
                             v-if="currentType != '全部视频' && gameData && videoTypesData" :key="itemId"
-                            :cover="gameData[itemId].post" :title="formatTitleComputed(itemId)"
-                            :description="gameData[itemId].time" @click="handleCardClick(itemId)" />
+                            :cover="gameData[itemId].post" :game="currentGame" :video_id="Number(itemId)"
+                            :title="formatTitleComputed(itemId)" :description="gameData[itemId].time"
+                            @click="handleCardClick(itemId)" />
                     </a-flex>
                 </a-spin>
             </a-layout-content>

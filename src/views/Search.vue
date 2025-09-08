@@ -112,7 +112,7 @@ watch([selectedGame, searchValue], () => {
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
                     <Card
                         v-for="item in (Object.values(searchResults).map(game => Object.values(game).reverse()).flat() || [])"
-                        :key="item.post" :cover="item.post" :title="item.title"
+                        :key="item.post" :cover="item.post" :title="item.title" :game="item.game" :video_id="Number(item.id)"
                         :badge="selectedGame == '全部游戏' ? item.game : ''" :description="item.time"
                         @click="handleCardClick(item)" />
                 </a-flex>

@@ -22,7 +22,8 @@ const loadData = async () => {
                 .filter(([_, ids]) => ids.length > 0)  // 过滤掉空数组
                 .map(([video_type, ids]) => ({
                     type_name: video_type,
-                    post: gameData.value[ids[0]].post
+                    post: gameData.value[ids[0]].post,
+                    id: ids[0],
                 }))
             setMetaDescription(`影像档案架 - 整合${currentGame.value}的官方高清视频，支持视频分类、下载和 RSS 订阅`)
         } catch (error) {
@@ -43,10 +44,12 @@ watchEffect(() => {
         <a-layout-content class="page-content scrollable-container">
             <a-spin :delay="500" tip="Loading..." :spinning="!(gameData && videoTypesData)">
                 <a-flex wrap="wrap" justify="flex-start" gap="middle">
-                    <Card v-if="gameData" key="全部视频" :cover="Object.values(gameData)[0].post" title="全部视频"
+                    <Card v-if="gameData" key="全部视频" :cover="Object.values(gameData)[0].post" :game="currentGame"
+                        :video_id="Number(Object.keys(gameData)[0])" title="全部视频"
                         @click="navigateToSpecificType(currentGame, '全部视频')" />
                     <Card v-for="item in (videoTypeList || [])" :key="item.type_name" :cover="item.post"
-                        :title="item.type_name" @click="navigateToSpecificType(currentGame, item.type_name)" />
+                        :game="currentGame" :video_id="item.id" :title="item.type_name"
+                        @click="navigateToSpecificType(currentGame, item.type_name)" />
                 </a-flex>
             </a-spin>
         </a-layout-content>
