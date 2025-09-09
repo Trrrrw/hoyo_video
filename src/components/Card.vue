@@ -44,17 +44,13 @@ const badgeColor = computed(() => props.badgeColor ? props.badgeColor : getColor
             <template v-if="badge">
                 <a-badge-ribbon v-if="badge" :color="badgeColor" placement="start" :text="badge">
                     <div style="overflow: hidden; border-radius: 8px 8px 0 0; display: flex; justify-content: center;">
-                        <img class="card-cover"
-                            :src="`https://api.trrw.tech/cover?game=${game}&id=${video_id}&cover_url=${cover}`"
-                            :alt="title" height="180px" loading="lazy" />
+                        <img class="card-cover" :src="cover" :alt="title" height="180px" loading="lazy" />
                     </div>
                 </a-badge-ribbon>
             </template>
             <template v-else>
                 <div style="overflow: hidden; border-radius: 8px 8px 0 0; display: flex; justify-content: center;">
-                    <img class="card-cover"
-                        :src="`https://api.trrw.tech/cover?game=${game}&id=${video_id}&cover_url=${cover}`"
-                        :alt="title" height="180px" loading="lazy" />
+                    <img class="card-cover" :src="cover" :alt="title" height="180px" loading="lazy" />
                 </div>
             </template>
         </template>
