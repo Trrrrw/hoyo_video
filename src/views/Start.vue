@@ -1,51 +1,20 @@
 <script setup>
-import { ref, reactive, watchEffect, watch, nextTick } from 'vue'
+import { ref, reactive, watchEffect } from 'vue'
 import { useRoute } from "vue-router"
-import Card from "../components/Card.vue"
 import { setMetaDescription } from "../utils/setMetaDescription"
-import { scrollToPreviousPosition } from "../utils/scrollHandlers"
-import { navigateToSearch, navigateToVideo } from "../utils/routerHandlers"
+import { navigateToSearch } from "../utils/routerHandlers"
 import { updatePageTitleAndIcon } from '../utils/updatePageTitleAndIcon'
-import { formatTitle } from '../utils/formatTitle'
 import gamesListData from "../data/data.json"
-import CorinImage from '../assets/images/可琳.png'
-import AnbyImage from '../assets/images/安比.png'
+import CorinImage from '../assets/images/可琳.webp'
+import AnbyImage from '../assets/images/安比.webp'
 
 const route = useRoute()
 const gamesList = reactive(['全部游戏', ...gamesListData.games])
 const selectedGame = ref(route.query.game || gamesList[0])
 const gameData = ref({})
 const searchResults = ref({})
-const loading = ref(false)
 const searchValue = ref(route.query.q || '')
 const showFirstImage = ref(Math.floor(Date.now() / 1000) % 2 === 0)
-
-
-const loadData = async () => {
-    try {
-        if (selectedGame.value === '全部游戏') {
-            for (const game of gamesListData.games) {
-                try {
-                    const data = (await import(`../data/${game}/data.json`)).default
-                    Object.entries(data).forEach(([id, item]) => {
-                        data[id] = { ...item, game }
-                    })
-                    gameData.value[game] = data
-                } catch (error) {
-                    console.error(`Failed to load data for ${game}:`, error)
-                }
-            }
-        } else {
-            const data = (await import(`../data/${selectedGame.value}/data.json`)).default
-            Object.entries(data).forEach(([id, item]) => {
-                data[id] = { ...item, game: selectedGame.value }
-            })
-            gameData.value = { [selectedGame.value]: data }
-        }
-    } catch (error) {
-        console.error("Failed to load data:", error)
-    }
-}
 
 const onSearch = async _ => {
     console.log("onSearch")

@@ -52,7 +52,7 @@ const loadSidebarItems = async () => {
     )
     for (const [index, game] of gamesList.entries()) {
         sideBarItems.push(
-            getItem(game, game, () => h('img', { src: `/icons/${game}.png`, style: { width: '14px' } }), null, null)
+            getItem(game, game, () => h('img', { src: `/icons/${game}.webp`, style: { width: '14px' } }), null, null)
         )
     }
 }

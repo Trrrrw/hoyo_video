@@ -1,11 +1,10 @@
 <script setup>
 import { computed, h } from 'vue'
 import { useRoute } from "vue-router"
-import { SearchOutlined, GithubOutlined } from '@ant-design/icons-vue'
+import { GithubOutlined } from '@ant-design/icons-vue'
 import { IconFont } from '../utils/iconFont'
 import { copyText } from '../utils/copyText'
-import { navigateToHome, navigateToSearch, openGitHubRepo } from '../utils/routerHandlers'
-import DarkIcon from '../assets/icons/深色模式.svg'
+import { navigateToHome, openGitHubRepo } from '../utils/routerHandlers'
 
 const route = useRoute()
 const darkButtonTitle = computed(() => `深色模式`)
@@ -17,7 +16,7 @@ const GitHubButtonTitle = "GitHub"
 <template>
     <a-page-header style="padding-top: 0; padding-bottom: 0;">
         <template #title>
-            <img src="../assets/logos/logo.png" @click="navigateToHome"
+            <img src="../assets/logos/logo.webp" @click="navigateToHome"
                 style="height: 40px !important;padding: 0 5px 3px 0; cursor: pointer;" />
             <span @click="navigateToHome" style="height: 80%; cursor: pointer;">
                 影像档案架

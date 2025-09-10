@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Trrrrw/hoyo_video">
-    <img src="src/assets/logos/logo.png" alt="Logo" width="219" height="80">
+    <img src="src/assets/logos/logo.webp" alt="Logo" width="219" height="80">
   </a>
 
   <h3 align="center">影像档案架</h3>
