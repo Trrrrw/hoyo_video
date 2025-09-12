@@ -6,7 +6,7 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 09 Sep 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 12 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>《原神》角色预告-「菈乌玛：慈爱与训导」</title>
@@ -5143,6 +5143,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》3.6版本PV：「‍于长夜重返大地」</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=159403</link>
+      <pubDate>Fri, 12 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=159403</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/159403/44856587d870516a3c2eb37730493f58_7793571697364841959.jpg" alt="《崩坏：星穹铁道》3.6版本PV：「‍于长夜重返大地」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/159403/44856587d870516a3c2eb37730493f58_7793571697364841959.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/159403/057a2c2c8b5c8f087d079dae76700e65_8005779389943914138.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/159403/057a2c2c8b5c8f087d079dae76700e65_8005779389943914138.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》刻律德菈角色PV：「以身入局」</title>
