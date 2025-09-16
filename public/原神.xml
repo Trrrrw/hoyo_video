@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 09 Sep 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 16 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》过场动画-「织就真实的月光」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=159530</link>
+      <pubDate>Tue, 16 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=159530</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/159530/9a475837c3121d31a78a4e64b1d0b950_1641256554466159796.png" alt="《原神》过场动画-「织就真实的月光」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/159530/9a475837c3121d31a78a4e64b1d0b950_1641256554466159796.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/159530/2d3c3b578e4dda15c972b11c474b93c8_2956400982262436224.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/159530/2d3c3b578e4dda15c972b11c474b93c8_2956400982262436224.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》角色预告-「菈乌玛：慈爱与训导」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=159339</link>
