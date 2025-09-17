@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 16 Sep 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Wed, 17 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》过场动画-「雾中明灯」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=159540</link>
+      <pubDate>Wed, 17 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=159540</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/159540/c0e4d4b9d48127524beaed9223f61291_5711112452556895865.png" alt="《原神》过场动画-「雾中明灯」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/159540/c0e4d4b9d48127524beaed9223f61291_5711112452556895865.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/159540/bc69fd9e0cfebbb0458b7596c635d67b_2215850146067129463.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/159540/bc69fd9e0cfebbb0458b7596c635d67b_2215850146067129463.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》过场动画-「织就真实的月光」</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=159530</link>
@@ -5151,6 +5159,14 @@
       <guid>https://hoyo-video.trrw.tech/原神/video?id=116206</guid>
       <description>&lt;img src="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg" alt="序章PV：捕风的异乡人  " /&gt;&lt;video controls poster="https://uploadstatic.mihoyo.com/contentweb/20190608/2019060812321786065.jpg"&gt;&lt;source src="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
       <media:content url="https://webstatic.mihoyo.com/hk4e/upload/website/cn/videos/pv1080.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>《崩坏：星穹铁道》走近星穹——「长夜月：一开始用红色形态不就好了？」</title>
+      <link>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=159538</link>
+      <pubDate>Wed, 17 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/崩坏：星穹铁道/video?id=159538</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hkrpg/159538/658dfa458813c1a36d3ec4d26e90b4d9_4899090209659255673.png" alt="《崩坏：星穹铁道》走近星穹——「长夜月：一开始用红色形态不就好了？」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hkrpg/159538/658dfa458813c1a36d3ec4d26e90b4d9_4899090209659255673.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hkrpg/159538/918c292eddd0238a2b2b51fd41d820f3_8032116468972452847.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hkrpg/159538/918c292eddd0238a2b2b51fd41d820f3_8032116468972452847.mp4" type="video/mp4"/>
     </item>
     <item>
       <title>《崩坏：星穹铁道》3.6版本PV：「‍于长夜重返大地」</title>
