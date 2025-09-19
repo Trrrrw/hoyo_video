@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 22 Jul 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》奥菲丝&amp;鬼火EP | FURYON 狂怒觉醒</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=159556</link>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=159556</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/159556/959027132c2f8946590baab7c6dcbc9f_6425051817303118047.png" alt="《绝区零》奥菲丝&amp;鬼火EP | FURYON 狂怒觉醒" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/159556/959027132c2f8946590baab7c6dcbc9f_6425051817303118047.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/159556/e3a12e13758819dbcfb062bec2ee6c35_8938914301201989858.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/159556/e3a12e13758819dbcfb062bec2ee6c35_8938914301201989858.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》过场动画 | 夏日永不完结</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=157795</link>
