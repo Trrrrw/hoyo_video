@@ -20,8 +20,8 @@ jobs:
             - name: Enable Corepack
               run: corepack enable
 
-            - name: Use Yarn 4.9.1
-              run: corepack prepare yarn@4.9.1 --activate
+            - name: Use Yarn 1.22.22
+              run: corepack prepare yarn@1.22.22 --activate
 
             - name: Install dependencies
               run: yarn install --frozen-lockfile
