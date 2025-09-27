@@ -59,14 +59,26 @@ const loadDate = async () => {
     // 更新日志
     updateLog.value = (await import(`../data/update_log.json`)).default
 
+
+    // 获取当前日期的23:59:59的时间戳
+    const endOfDay = new Date()
+    endOfDay.setHours(23, 59, 59, 999)
+    // 获取7天前的日期的00:00:00的时间戳
+    const startOf7DaysAgo = new Date(endOfDay)
+    startOf7DaysAgo.setDate(startOf7DaysAgo.getDate() - 6)
+    startOf7DaysAgo.setHours(0, 0, 0, 0)
+    // 转换为时间戳（毫秒）
+    const endAt = endOfDay.getTime()
+    const startAt = startOf7DaysAgo.getTime()
+
     // 访问量
-    const viewsData = await fetchData('https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=1751558400000&endAt=1752163199999&unit=day&timezone=Asia%2FShanghai&compare=false')
+    const viewsData = await fetchData(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&compare=false`)
     views.value = viewsData.pageviews.value
     visitors.value = viewsData.visitors.value
     visits.value = viewsData.visits.value
 
     // 折线图数据
-    const chartDataRe = await fetchData('https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=1751558400000&endAt=1752163199999&unit=day&timezone=Asia%2FShanghai')
+    const chartDataRe = await fetchData(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai`)
     chartLabels.value = chartDataRe.sessions.map(item => item.x.replace(/^\d{4}-(\d{2}-\d{2}).*$/, '$1'))
     visitorDatasets.value = chartDataRe.sessions.map(item => item.y)
     visitDatasets.value = chartDataRe.pageviews.map(item => item.y)
@@ -170,7 +182,7 @@ watchEffect(() => {
         </a-card>
         <a-row :wrap="true" :gutter="[24, 16]">
             <a-col :flex="1">
-                <a-card class="no-statistic-content" style="height: 500px;">
+                <a-card class="no-statistic-content" style="height: fit-content;">
                     <a-statistic title="更新日志" value="" />
                     <a-timeline v-if="updateLog" style="margin-top: 20px;">
                         <a-timeline-item v-for="(log, time) in updateLog">{{ time }} {{ log }}</a-timeline-item>
@@ -192,6 +204,8 @@ watchEffect(() => {
                             style="text-align: left;">邮箱</a-button>
                         <a-button href="https://qm.qq.com/q/6l9M3S5YUU" :icon="h(QqOutlined)" target="_blank"
                             style="text-align: left;">QQ 群</a-button>
+                        <a-button href="https://xhslink.com/m/1pZ5r6t3ic5" target="_blank"
+                            style="text-align: left;">小红书</a-button>
                         <a-button href="https://t.me/+HPqoqfsLukI3YTVl" :icon="h(IconFont, { type: 'icon-telegram' })"
                             target="_blank" style="text-align: left;">纸飞机</a-button>
                         <a-button href="https://afdian.com/a/trrrrw" :icon="h(IconFont, { type: 'icon-aifadian' })"
