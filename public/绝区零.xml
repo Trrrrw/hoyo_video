@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Mon, 29 Sep 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》先导预告 | 一瞬之光</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=159963</link>
+      <pubDate>Mon, 29 Sep 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=159963</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/159963/67378dda4a4054007b2abb6481d6d1b8_1782577108111584901.png" alt="《绝区零》先导预告 | 一瞬之光" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/159963/67378dda4a4054007b2abb6481d6d1b8_1782577108111584901.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/159963/91e2e78f66c8c716131ee3038595246a_1547391937986944948.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/159963/91e2e78f66c8c716131ee3038595246a_1547391937986944948.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》奥菲丝&amp;鬼火EP | FURYON 狂怒觉醒</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=159556</link>
