@@ -6,8 +6,16 @@
     <description>整合绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Oct 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Sun, 12 Oct 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/绝区零index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《绝区零》幕间PV | 狛野真斗的日常</title>
+      <link>https://hoyo-video.trrw.tech/绝区零/video?id=160172</link>
+      <pubDate>Sun, 12 Oct 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/绝区零/video?id=160172</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/nap/160172/8a04129b746a842073e469abbd674995_9085264202822671294.png" alt="《绝区零》幕间PV | 狛野真斗的日常" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/nap/160172/8a04129b746a842073e469abbd674995_9085264202822671294.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/nap/160172/f60b0b00165ae2676fa244bdbb5116a3_7742726700222846329.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/nap/160172/f60b0b00165ae2676fa244bdbb5116a3_7742726700222846329.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《绝区零》卢西娅角色展示 | 鉴定绳网热门以骸</title>
       <link>https://hoyo-video.trrw.tech/绝区零/video?id=160129</link>
