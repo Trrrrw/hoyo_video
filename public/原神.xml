@@ -6,8 +6,16 @@
     <description>整合原神的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Oct 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Fri, 17 Oct 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/原神index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》奈芙尔角色PV——「终有一疏」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=160305</link>
+      <pubDate>Fri, 17 Oct 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=160305</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/160305/87b1371767363b95f196ddaef2e13982_1037168777434069436.png" alt="《原神》奈芙尔角色PV——「终有一疏」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/160305/87b1371767363b95f196ddaef2e13982_1037168777434069436.png"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/160305/7cc31f40a512a3faf1d1540786d4739d_2696954428332364354.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/160305/7cc31f40a512a3faf1d1540786d4739d_2696954428332364354.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>《原神》「『空月之歌·复演』回望湮灭的月光」前瞻特别节目</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=160158</link>
