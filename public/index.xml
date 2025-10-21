@@ -6,8 +6,16 @@
     <description>整合原神、崩铁、绝区零的官网视频</description>
     <generator>Trrrrw -- trrw.tech</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 18 Oct 2025 00:00:00 </lastBuildDate>
+    <lastBuildDate>Tue, 21 Oct 2025 00:00:00 </lastBuildDate>
     <atom:link href="https://hoyo-video.trrw.tech/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>《原神》角色预告-「奈芙尔：游蛇衔影」</title>
+      <link>https://hoyo-video.trrw.tech/原神/video?id=160466</link>
+      <pubDate>Tue, 21 Oct 2025 00:00:00 </pubDate>
+      <guid>https://hoyo-video.trrw.tech/原神/video?id=160466</guid>
+      <description>&lt;img src="https://fastcdn.mihoyo.com/content-v2/hk4e/160466/14fd4658183f99635d99254dd9cbeafb_3568414545811754694.jpg" alt="《原神》角色预告-「奈芙尔：游蛇衔影」" /&gt;&lt;video controls poster="https://fastcdn.mihoyo.com/content-v2/hk4e/160466/14fd4658183f99635d99254dd9cbeafb_3568414545811754694.jpg"&gt;&lt;source src="https://fastcdn.mihoyo.com/content-v2/hk4e/160466/eddf07489a4241e67bc306c3d98b6474_5679782015985582832.mp4" type="video/mp4"&gt;&lt;/video&gt;</description>
+      <media:content url="https://fastcdn.mihoyo.com/content-v2/hk4e/160466/eddf07489a4241e67bc306c3d98b6474_5679782015985582832.mp4" type="video/mp4"/>
+    </item>
     <item>
       <title>魔导的预兆</title>
       <link>https://hoyo-video.trrw.tech/原神/video?id=160383</link>
