@@ -40,7 +40,6 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    vue: ['vue', 'vue-router'],
                     vidstack: ['vidstack'],
                 },
             },
