@@ -106,7 +106,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Acknowledgments
 
 * [Trae](https://www.trae.ai)
-* [Marked](https://marked.js.org)
 * [Ant Design Vue](https://www.antdv.com/components/overview-cn)
 * [iconfont.cn](http://iconfont.cn)
 * [Img Shields](https://shields.io)
@@ -135,7 +134,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-url]: https://github.com/Trrrrw/hoyo_video/issues
 [license-shield]: https://img.shields.io/github/license/Trrrrw/hoyo_video
 [license-url]: https://github.com/Trrrrw/hoyo_video/blob/master/LICENSE.txt
-[product-screenshot]: src/assets/images/screenshot.webp
+[product-screenshot]: public/screenshots/desktop-wide-1.png
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
 [Vite.js]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff

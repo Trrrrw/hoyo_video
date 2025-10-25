@@ -1,109 +1,135 @@
-<script setup>
-import { ref } from 'vue'
-import { CloudDownloadOutlined, VideoCameraOutlined, PictureOutlined } from '@ant-design/icons-vue'
-import { copyText } from '../utils/copyText'
+<script setup lang="ts">
+import { computed, h } from 'vue'
+import { QuestionCircleOutlined, CopyOutlined } from '@ant-design/icons-vue'
 
+import type { VideoInfo } from '@/utils/useData'
 const props = defineProps({
-    modalVisible: {
-        type: Boolean,
-        required: true
-    },
-    data: {
-        type: Object,
-        required: true,
-    },
-    videoId: {
-        type: [String, Number],
-        required: true,
-    },
+    modalVisible: { type: Boolean, required: true },
+    videoInfo: { type: Object as () => VideoInfo, required: true }
 })
-
 const emit = defineEmits(['update:modalVisible'])
-const handleVisibleChange = (newValue) => {
+const handleVisibleChange = (newValue: boolean) => {
     emit('update:modalVisible', newValue)
 }
 
-const coverDownloading = ref(false)
+// Q&A
+const QAShow = ref<boolean>(false)
 
-// const downloadWithFetch = (url, name) => {
-//     fetch(url)
-//         .then(res => res.blob())
-//         .then(blob => {
-//             const a = document.createElement("a");
-//             const objectUrl = window.URL.createObjectURL(blob);
-//             a.download = name;
-//             a.href = objectUrl;
-//             a.click();
-//             window.URL.revokeObjectURL(objectUrl);
-//             a.remove();
-//         })
-//         .catch(err => {
-//             message.error('下载失败，请稍后重试')
-//         })
-// }
+// 选择下载项
+import { ref } from 'vue'
+const downloadSelected = ref<string>('视频')
+const radioItems = ref<string[]>(['视频', '封面'])
 
-const download = (url) => {
-    const fileName = props.data[props.videoId].title
-    const extension = url.split('.').pop()
-    const a = document.createElement('a')
-    a.href = url
-    a.target = '_blank'
-    a.download = `${fileName}.${extension}`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-}
-
-const downloadVideo = () => {
-    if (props.data && props.videoId && props.data[props.videoId]) {
-        const videoTitle = props.data[props.videoId].title
-        copyText(videoTitle, '已复制视频标题')
-        const videoUrl = props.data[props.videoId].src
-        download(videoUrl)
+// 下载
+import pkg from 'file-saver'
+const { saveAs } = pkg
+const download = () => {
+    var url = ''
+    var fileName = ''
+    var extension = ''
+    switch (downloadSelected.value) {
+        case '视频':
+            url = props.videoInfo.src
+            fileName = props.videoInfo.title
+            extension = url.split('.').pop() ?? ''
+            const a = document.createElement('a')
+            a.href = url
+            a.target = '_blank'
+            a.download = `${fileName}.${extension}`
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            break;
+        case '封面':
+            url = props.videoInfo.cover
+            fileName = props.videoInfo.title
+            extension = url.split('.').pop() ?? ''
+            saveAs(url, `${fileName}.${extension}`)
+            break;
+        default:
+            break;
     }
 }
+const isSafari = computed(() => {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+})
 
-const downloadCover = () => {
-    if (props.data && props.videoId && props.data[props.videoId]) {
-        const videoTitle = props.data[props.videoId].title
-        copyText(videoTitle, '已复制视频标题')
-        const coverUrl = props.data[props.videoId].post
-        const fileName = props.data[props.videoId].title
-        coverDownloading.value = true
-        // downloadWithFetch(coverUrl, fileName)
-        download(coverUrl)
-        coverDownloading.value = false
+// 复制链接
+import { copyText } from '@/utils/copyText'
+const copyLink = (item: string) => {
+    switch (item) {
+        case '视频':
+            copyText(props.videoInfo.src, '已复制链接')
+            break;
+        case '封面':
+            copyText(props.videoInfo.cover, '已复制链接')
+            break;
+        default:
+            break;
     }
 }
 </script>
 
 <template>
-    <a-modal :open="modalVisible" centered :footer="null" @update:open="handleVisibleChange"
-        @cancel="handleVisibleChange(false)">
+    <a-modal :open="modalVisible" centered ok-text="确认" cancel-text="取消" @update:open="handleVisibleChange"
+        @cancel="handleVisibleChange(false)" @ok="download">
         <template #title>
-            <CloudDownloadOutlined /> 下载
+            下载
+            <a-tooltip :mouseEnterDelay="0.5">
+                <template #title>
+                    如果点击下载视频后弹出新标签页播放视频，可以在新标签页视频进度条右侧菜单中找到下载按钮
+                    <a-typography-link target="_blank"
+                        href="https://www.xiaohongshu.com/discovery/item/6821d921000000000f031582?source=webshare&xhsshare=pc_web&xsec_token=ABbIlA1lF2dxxO7fCR2zaPjd3iTwZf8xgs4wprc_mzbc0=&xsec_source=pc_share">
+                        更多
+                    </a-typography-link>
+                </template>
+                <question-circle-outlined />
+            </a-tooltip>
         </template>
-        <a-flex class="download-button-container" wrap="wrap" justify="center" align="center" gap="small">
-            <a-button class="download-button" @click="downloadVideo"
-                @contextmenu.prevent="copyText(props.data[props.videoId].src, '已复制视频链接')">
-                <VideoCameraOutlined /> 视频
-            </a-button>
-            <a-button class="download-button" @click="downloadCover" :loading="coverDownloading"
-                @contextmenu.prevent="copyText(props.data[props.videoId].post, '已复制封面链接')">
-                <PictureOutlined /> 封面
-            </a-button>
-        </a-flex>
-        <p style="color: #999999; font-size: 12px; font-weight: 300;margin: 0 auto; text-align-last: right;">右键复制链接</p>
+        <a-radio-group v-model:value="downloadSelected" style="width: 100%; padding-top: 5px;">
+            <a-radio v-for="item in radioItems" class="download-radio" :value="item">
+                <a-flex align="center" justify="space-between" style="width: 100%;">
+                    <span>{{ item }}</span>
+                    <a-button class="copy-icon" :icon="h(CopyOutlined)" :key="item" @click="copyLink(item)" />
+                </a-flex>
+            </a-radio>
+        </a-radio-group>
+        <a-typography-link v-if="isSafari" :href="videoInfo.src">由于iOS系统限制，iOS用户可以尝试长按此处下载</a-typography-link>
     </a-modal>
 </template>
-<style scoped>
-.download-button-container {
-    height: 150px;
+
+<style lang="css" scoped>
+.download-radio {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 8px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
 }
 
-.download-button {
-    width: 48%;
-    height: 80%;
-    font-size: 20px;
+.download-radio:hover {
+    border-color: #9ac4fe;
+    background-color: #eff6ff;
+}
+
+.download-radio.ant-radio-wrapper-checked {
+    border-color: #1677ff;
+    background-color: #eff6ff;
+}
+
+.download-radio .ant-radio {
+    margin-right: 12px;
+}
+
+:deep(.download-radio>span:nth-child(2)) {
+    width: 100%;
+}
+
+.copy-icon {
+    margin-left: auto;
+    padding: 4px 8px;
 }
 </style>
