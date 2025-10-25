@@ -23,7 +23,7 @@ const buttonInfo = {
     rss: {
         icon: h(IconFileRssFilled),
         title: computed(() => `RSS订阅${route.params.game ? ' - ' + route.params.game : ''}`),
-        url: computed(() => `${window.location.origin}/${route.params.game || 'index'}.xml`)
+        url: computed(() => `${window.location.origin}/api/${route.params.game || 'index'}.xml`)
     },
     github: {
         icon: h(IconBrandGithubFilled),

@@ -1,8 +1,8 @@
 {
     "redirects": [
         {
-            "source": "/index.xml",
-            "destination": "/api/index.xml",
+            "source": "/:name.xml",
+            "destination": "/api/:name.xml",
             "statusCode": 301
         }
     ]
