@@ -6,9 +6,9 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 import { vite as vidstack } from 'vidstack/plugins'
 
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+// import AutoImport from 'unplugin-auto-import/vite'
+// import Components from 'unplugin-vue-components/vite'
+// import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -22,18 +22,28 @@ export default defineConfig({
         }),
         vueDevTools(),
         vidstack(),
-        AutoImport({
-            dts: "src/auto-import.d.ts",
-            //ant-design-vue
-            resolvers: [AntDesignVueResolver()]
-        }),
-        Components({
-            resolvers: [AntDesignVueResolver({ importStyle: 'css-in-js', resolveIcons: true })]
-        })
+        // AutoImport({
+        //     dts: "src/auto-import.d.ts",
+        //     //ant-design-vue
+        //     resolvers: [AntDesignVueResolver()]
+        // }),
+        // Components({
+        //     resolvers: [AntDesignVueResolver({ importStyle: 'css-in-js', resolveIcons: true })]
+        // })
     ],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
+        },
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vue: ['vue', 'vue-router'],
+                    vidstack: ['vidstack'],
+                },
+            },
         },
     },
 })
