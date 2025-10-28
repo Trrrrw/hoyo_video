@@ -18,17 +18,17 @@ const videoID = computed(() => {
     return Number(route.query.id) || 0
 })
 const gameName = computed(() => route.params.game as string)
+import { fetchVideoPlayCountList } from '@/utils/useData'
 import { fetchVideoData } from '@/utils/useData'
 import type { VideoInfo } from '@/utils/useData'
 const videoInfo = ref<VideoInfo>()
 const loadVideoData = async () => {
     if (videoID.value && gameName.value) {
         videoInfo.value = await fetchVideoData(videoID.value, gameName.value)
+        // 播放量
+        await fetchVideoPlayCountList([videoInfo.value])
     }
 }
-onMounted(() => {
-    loadVideoData()
-})
 watch(
     [() => route.query.id, () => route.params.game],
     async () => {
@@ -36,6 +36,18 @@ watch(
     },
     { immediate: true }
 )
+
+// 设置页面头信息
+import { useHead } from '@vueuse/head'
+useHead(() => ({
+    title: videoInfo.value ? `${videoInfo.value.title} - 影像档案架` : '影像档案架',
+    meta: [
+        {
+            name: 'description',
+            content: '整合原神、崩铁、绝区零的官网视频'
+        }
+    ]
+}))
 
 // 视频组件
 import 'vidstack/player/styles/default/theme.css'
@@ -104,15 +116,6 @@ const CHINESE: DefaultLayoutTranslations = {
     Volume: '音量',
 }
 
-// 播放量
-import { fetchVideoPlayCount } from '@/utils/useData'
-const count = ref<number>(0)
-onMounted(async () => {
-    if (gameName.value && videoID.value) {
-        count.value = await fetchVideoPlayCount(gameName.value, videoID.value)
-    }
-
-})
 const onVideoEnded = async () => {
     try {
         await fetch(`/api/game/video/count?game=${gameName.value}&video_id=${videoID.value}`, {
@@ -201,7 +204,7 @@ onMounted(() => {
         <a-layout-content :style="{ backgroundColor: isDark ? '#141414' : '#ffffff' }"
             style="padding: 24px; height: fit-content; padding-bottom: 24px;">
             <a-flex vertical gap="small">
-                <media-player class="player" :title="videoInfo?.title" :src="videoInfo?.src" crossOrigin playsInline
+                <media-player class="player" :title="videoInfo?.title" :src="videoInfo?.src" playsInline
                     @ended="onVideoEnded">
                     <media-provider>
                         <media-poster class="vds-poster" :src="videoInfo?.cover" :alt="videoInfo?.title" />
@@ -219,7 +222,7 @@ onMounted(() => {
                         {{ videoInfo?.time }}
                     </a-tag>
                     <a-tag :bordered="false" :icon="h(YoutubeOutlined)">
-                        {{ count }}
+                        {{ videoInfo?.play_count ?? 0 }}
                     </a-tag>
                     <a-tag v-for="tag in videoInfo?.type" :bordered="false" color="blue" style="cursor: pointer;"
                         @click="onTagClick(tag)">
@@ -245,7 +248,7 @@ onMounted(() => {
                     </a-popover>
                     <a-button :icon="h(ExportOutlined)" @click="onOfficialButtonClick">官网</a-button>
                 </a-flex>
-                <Waline :serverURL="serverURL" :path="path" style="width: 100%;" />
+                <Waline :serverURL="serverURL" :path="path" :dark="isDark" style="width: 100%;" />
             </a-flex>
         </a-layout-content>
         <more-videos v-if="showSider && videoInfo" :game="gameName" :id="videoID" :types="videoInfo.type" />

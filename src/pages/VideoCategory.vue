@@ -21,9 +21,12 @@ useHead({
 import { fetchTypeList } from '@/utils/useData'
 import type { TypeInfo } from '@/utils/useData'
 const typeList = ref<TypeInfo[]>([])
+const loading = ref<boolean>(false)
 const getTypeList = async () => {
     if (route.params.game) {
+        loading.value = true
         typeList.value = await fetchTypeList(route.params.game as string)
+        loading.value = false
     }
 }
 watchEffect(getTypeList)
@@ -73,12 +76,15 @@ const makeCardProps = (row: number, col: number) => {
 </script>
 
 <template>
-    <a-space :size="16" direction="vertical" style="width: 100%; padding: 24px;">
-        <a-row v-for="row_index in rowCount" :gutter="[16, 16]">
-            <a-col v-for="col_index in colCount" :key="`${row_index}_${col_index}`"
-                :style="{ width: 100 / colCount + '%' }">
-                <video-card v-if="typeList[index(row_index, col_index)]" v-bind="makeCardProps(row_index, col_index)" />
-            </a-col>
-        </a-row>
-    </a-space>
+    <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%; height: 100vh;">
+        <a-space :size="16" direction="vertical" style="width: 100%; padding: 24px;">
+            <a-row v-for="row_index in rowCount" :gutter="[16, 16]">
+                <a-col v-for="col_index in colCount" :key="`${row_index}_${col_index}`"
+                    :style="{ width: 100 / colCount + '%' }">
+                    <video-card v-if="typeList[index(row_index, col_index)]"
+                        v-bind="makeCardProps(row_index, col_index)" />
+                </a-col>
+            </a-row>
+        </a-space>
+    </a-spin>
 </template>

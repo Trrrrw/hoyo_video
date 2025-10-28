@@ -1,6 +1,5 @@
 interface ContextParams {
     game: string
-    video_id: number
 }
 
 interface RequestContext {
@@ -11,28 +10,43 @@ interface RequestContext {
 export async function onRequestGet(context: RequestContext): Promise<Response> {
     const url = new URL(context.request.url)
     const game = url.searchParams.get("game")
-    const video_id = url.searchParams.get("video_id")
-    if (!game || !video_id) {
+    const video_ids = url.searchParams.get("video_ids")
+    if (!game || !video_ids) {
         return new Response(
-            JSON.stringify({ error: "Missing 'game' or 'video_id' parameter" }),
+            JSON.stringify({ error: "Missing 'game' or 'video_ids' parameter" }),
             { status: 400, headers: { "Content-Type": "application/json" } }
         )
     }
 
-    const key = `${game}_${video_id}`
+    const ids = video_ids.split(",").map(id => id.trim()).filter(Boolean)
+    const result: Record<string, number> = {}
+
     try {
-        let count = await video_play_count.get(key)
-        if (!count) {
-            count = 0
-            await video_play_count.put(key, String(count))
+        const counts = await Promise.all(
+            ids.map(async (id) => {
+                const key = `${game}_${id}`
+                let count = await video_play_count.get(key)
+                if (!count) {
+                    count = "0"
+                    await video_play_count.put(key, "0")
+                }
+                return [id, Number(count)] as const
+            })
+        )
+
+        // 把结果组合成对象
+        for (const [id, count] of counts) {
+            result[id] = count
         }
-        return new Response(JSON.stringify({ count: Number(count) }), {
+
+        return new Response(JSON.stringify(result), {
             headers: { "Content-Type": "application/json" },
         })
     } catch (error) {
-        return new Response(JSON.stringify({ count: 0 }), {
-            headers: { "Content-Type": "application/json" },
-        })
+        return new Response(
+            JSON.stringify({ error: "Failed to fetch play counts" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
+        )
     }
 }
 

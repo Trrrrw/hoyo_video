@@ -46,7 +46,7 @@ onMounted(async () => {
             .sort((a, b) => a.weight - b.weight)
             .map(item => ({
                 label: item.name,
-                icon: h('img', { src: loadGameIcon(item.name), style: { width: '14px' }, draggable: false }),
+                icon: h('img', { src: loadGameIcon(item.name), alt: item.name, style: { width: '14px' }, draggable: false }),
                 children: null,
                 key: item.name,
                 type: null

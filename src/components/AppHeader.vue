@@ -83,9 +83,10 @@ const onPWAClick = async () => {
 <template>
     <a-layout-header id="app-header"
         :style="{ paddingInline: screenWidth > 430 ? '50px' : '24px', backgroundColor: isDark ? '#141414' : '#ffffff' }">
-        <a href="/">
+        <a href="/" aria-label="影像档案架">
             <a-flex class="left-items" align="center" gap="small">
-                <img src="@/assets/images/logo.webp" style="height: 100%;" draggable="false" />
+                <img src="@/assets/images/logo.webp" alt="影像档案架" style="height: 100%;" draggable="false"
+                    fetchpriority="high" />
                 <span v-if="screenWidth > 430">影像档案架</span>
             </a-flex>
         </a>

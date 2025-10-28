@@ -85,6 +85,7 @@ export interface VideoInfo {
     cover: string
     intro: string
     game: string
+    play_count?: number
 }
 
 let cachedVideoList: Record<string, Record<string, Record<string, VideoInfo[]>>> = {}
@@ -305,25 +306,83 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
 }
 
 
-// 播放量
+// 播放量 批量
+export const fetchVideoPlayCountList = async (video_info_list: VideoInfo[]) => {
+    // 按 game 分组
+    const gameMap = new Map<string, number[]>()
+    for (const video of video_info_list) {
+        if (!video.game) continue
+        if (!gameMap.has(video.game)) {
+            gameMap.set(video.game, [])
+        }
+        gameMap.get(video.game)!.push(video.id)
+    }
+    // 并发调用每个游戏的接口
+    const promises = Array.from(gameMap.entries()).map(async ([game, ids]) => {
+        return getOneGameVideoPlayCountList(game, ids)
+    })
+    // 等待所有请求完成
+    const results = await Promise.all(promises)
+
+    results.forEach((data, idx) => {
+        const entry = Array.from(gameMap.entries())[idx]
+        if (!entry) return
+
+        const [game, ids] = entry
+        ids.forEach(id => {
+            const video = video_info_list.find(v => v.id === id && v.game === game)
+            if (video && data[id] !== undefined) {
+                video.play_count = data[id]
+            }
+        })
+    })
+}
+
 let cachedVideoPlayCount: Record<string, number> = {}
 let pendingVideoPlayCountPromise: Record<string, Promise<number> | null> = {}
-export const fetchVideoPlayCount = async (game: string, video_id: number): Promise<number> => {
-    const key = `${game}_${video_id}`
-    if (cachedVideoPlayCount[key]) return cachedVideoPlayCount[key]
-    if (pendingVideoPlayCountPromise[key]) return pendingVideoPlayCountPromise[key]
-    pendingVideoPlayCountPromise[key] = (async () => {
+const getOneGameVideoPlayCountList = async (game: string, ids: number[]): Promise<Record<string, number>> => {
+    const results = new Map<string, number>()
+    const id_to_search: number[] = []
+    // ✅ 遍历所有 ID，先尝试用缓存或 pending
+    for (const id of ids) {
+        const key = `${game}_${id}`
+        results.set(id.toString(), 0)
+        if (cachedVideoPlayCount[key] !== undefined) {
+            results.set(id.toString(), cachedVideoPlayCount[key])
+        } else if (pendingVideoPlayCountPromise[key]) {
+            const value = await pendingVideoPlayCountPromise[key]!
+            results.set(id.toString(), value)
+        } else {
+            id_to_search.push(id)
+        }
+    }
+    // ✅ 没有需要请求的就直接返回
+    if (id_to_search.length === 0) {
+        return Object.fromEntries(results)
+    }
+
+    const params = new URLSearchParams()
+    params.append('game', game)
+    params.append('video_ids', id_to_search.join(','))
+    // ✅ 对整个 game+ids 组合设置 pending 状态（去重）
+    const batchKey = `${game}_${id_to_search.join(',')}`
+    pendingVideoPlayCountPromise[batchKey] = (async () => {
         try {
-            const params = new URLSearchParams()
-            params.append('game', game)
-            params.append('video_id', video_id.toString())
             const res = await fetch('/api/game/video/count?' + params.toString())
-            const data = await res.json()
-            cachedVideoPlayCount[key] = Number(data.count)
-            return Number(data.count)
+            const data: Record<string, number> = await res.json()
+            // 更新缓存
+            for (const [idStr, count] of Object.entries(data)) {
+                const key = `${game}_${idStr}`
+                cachedVideoPlayCount[key] = count
+                results.set(idStr, count)
+            }
+            return 0 // dummy，只是让 promise resolve
         } finally {
-            pendingVideoPlayCountPromise[key] = null
+            pendingVideoPlayCountPromise[batchKey] = null
         }
     })()
-    return pendingVideoPlayCountPromise[key]
+    // ✅ 等待请求完成
+    await pendingVideoPlayCountPromise[batchKey]
+    // ✅ 返回结果
+    return Object.fromEntries(results)
 }

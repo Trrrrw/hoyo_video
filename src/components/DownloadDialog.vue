@@ -12,9 +12,6 @@ const handleVisibleChange = (newValue: boolean) => {
     emit('update:modalVisible', newValue)
 }
 
-// Q&A
-const QAShow = ref<boolean>(false)
-
 // 选择下载项
 import { ref } from 'vue'
 const downloadSelected = ref<string>('视频')
@@ -39,6 +36,7 @@ const download = () => {
             document.body.appendChild(a)
             a.click()
             document.body.removeChild(a)
+            copyText(fileName, '已复制标题')
             break;
         case '封面':
             url = props.videoInfo.cover
@@ -51,7 +49,7 @@ const download = () => {
     }
 }
 const isSafari = computed(() => {
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 })
 
 // 复制链接

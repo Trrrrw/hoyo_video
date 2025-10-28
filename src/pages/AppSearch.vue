@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppEmpty from '@/components/AppEmpty.vue'
 import { ref, nextTick, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
@@ -52,7 +53,8 @@ const { isDark } = useDarkTheme()
         <a-layout-content class="scrollable-container"
             :style="{ backgroundColor: isDark ? '#141414' : '#ffffff', padding: '24px' }">
             <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%; height: 100vh;">
-                <virtual-grid v-if="searchResults.length" :items="searchResults" :show_badge="true" />
+                <virtual-grid v-if="searchResults.length > 0" :items="searchResults" :show_badge="true" />
+                <app-empty v-else-if="!loading" />
             </a-spin>
         </a-layout-content>
     </a-layout>

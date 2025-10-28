@@ -40,14 +40,14 @@ const onClick = () => {
 }
 
 // 播放量
-import { onMounted } from 'vue'
-import { fetchVideoPlayCount } from '@/utils/useData'
-const count = ref<number>(0)
-onMounted(async () => {
-    if (props.videoInfo.game && props.videoInfo.id) {
-        count.value = await fetchVideoPlayCount(props.videoInfo.game, props.videoInfo.id)
-    }
-})
+// import { onMounted } from 'vue'
+// import { fetchVideoPlayCount } from '@/utils/useData'
+// const count = ref<number>(0)
+// onMounted(async () => {
+//     if (props.videoInfo.game && props.videoInfo.id) {
+//         count.value = await fetchVideoPlayCount(props.videoInfo.game, props.videoInfo.id)
+//     }
+// })
 </script>
 
 <template>
@@ -64,7 +64,7 @@ onMounted(async () => {
                     {{ videoInfo.time.split(' ')[0] }}
                 </a-tag>
                 <a-tag :bordered="false" :icon="h(YoutubeOutlined)">
-                    {{ count }}
+                    {{ videoInfo.play_count }}
                 </a-tag>
             </a-flex>
         </a-flex>
@@ -98,7 +98,7 @@ onMounted(async () => {
     width: 100%;
     cursor: pointer;
     font-size: 16px;
-    margin-bottom: 0;
+    margin: 0;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

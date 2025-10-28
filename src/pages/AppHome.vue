@@ -41,7 +41,7 @@ const onSearch = () => {
 <template>
     <div style="position: relative; width: 100%; height: 100%;">
         <a-flex vertical align="center" justify="center" class="search-center">
-            <img :src="randomImage" alt="Home loge" height="200px" draggable="false" />
+            <img :src="randomImage" alt="" height="200px" draggable="false" fetchpriority="high" />
             <a-input-search id="search-input" v-model:value="searchValue" size="large" @search="onSearch"
                 style="max-width: 1200px;">
                 <template #addonBefore>

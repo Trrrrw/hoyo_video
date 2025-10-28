@@ -126,7 +126,7 @@ const { isDark } = useDarkTheme()
         </a-layout-header>
         <a-layout-content ref="scrollableContainerRef" class="scrollable-container"
             :style="{ backgroundColor: isDark ? '#141414' : '#ffffff', padding: '24px' }">
-            <a-spin tip="Loading..." :spinning="loading" :delay="200">
+            <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%;">
                 <virtual-grid v-if="videoList.length" :items="videoList" />
             </a-spin>
         </a-layout-content>
