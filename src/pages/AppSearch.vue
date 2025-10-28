@@ -17,6 +17,7 @@ onMounted(async () => {
 // 搜索
 import { searchVideos } from '@/utils/useData'
 import type { VideoInfo } from '@/utils/useData'
+import { scrollToPreviousPosition } from '@/utils/scrollHandler'
 const loading = ref(false)
 const searchValue = ref(route.query.q as string || '')
 const searchResults = ref<VideoInfo[]>([])
@@ -27,13 +28,12 @@ const onSearch = async () => {
     searchResults.value = await searchVideos(selectedGame.value, searchValue.value)
     loading.value = false
     await nextTick()
-    scrollToPreviousPosition()
+    setTimeout(() => scrollToPreviousPosition(), 50)
 }
 onMounted(onSearch)
 
 // 深色模式
 import { useDarkTheme } from '@/utils/useDarkTheme'
-import { scrollToPreviousPosition } from '@/utils/scrollHandler'
 import VirtualGrid from '@/components/VirtualGrid.vue'
 const { isDark } = useDarkTheme()
 </script>

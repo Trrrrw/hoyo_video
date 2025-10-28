@@ -38,16 +38,6 @@ const onClick = () => {
         behavior: 'auto'
     })
 }
-
-// 播放量
-// import { onMounted } from 'vue'
-// import { fetchVideoPlayCount } from '@/utils/useData'
-// const count = ref<number>(0)
-// onMounted(async () => {
-//     if (props.videoInfo.game && props.videoInfo.id) {
-//         count.value = await fetchVideoPlayCount(props.videoInfo.game, props.videoInfo.id)
-//     }
-// })
 </script>
 
 <template>
@@ -64,7 +54,7 @@ const onClick = () => {
                     {{ videoInfo.time.split(' ')[0] }}
                 </a-tag>
                 <a-tag :bordered="false" :icon="h(YoutubeOutlined)">
-                    {{ videoInfo.play_count }}
+                    {{ videoInfo.play_count ?? 0 }}
                 </a-tag>
             </a-flex>
         </a-flex>

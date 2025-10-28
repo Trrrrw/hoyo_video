@@ -77,7 +77,7 @@ const getTotalVideoList = async () => {
         } finally {
             loading.value = false
             await nextTick()
-            scrollToPreviousPosition()
+            setTimeout(() => scrollToPreviousPosition(), 50)
         }
     }
 }
