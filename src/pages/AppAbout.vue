@@ -142,7 +142,7 @@ const contactInformation = [
 </script>
 
 <template>
-    <a-space :size="16" direction="vertical" style="width: 100%;"
+    <a-space class="scrollable-container" :size="16" direction="vertical" style="width: 100%;"
         :style="{ padding: screenWidth <= 768 ? '24px' : '50px 80px' }">
         <a-row :wrap="true" :gutter="[16, 16]">
             <a-col :flex="1">

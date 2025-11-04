@@ -76,15 +76,17 @@ const makeCardProps = (row: number, col: number) => {
 </script>
 
 <template>
-    <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%; height: 100vh;">
-        <a-space :size="16" direction="vertical" style="width: 100%; padding: 24px;">
-            <a-row v-for="row_index in rowCount" :gutter="[16, 16]">
-                <a-col v-for="col_index in colCount" :key="`${row_index}_${col_index}`"
-                    :style="{ width: 100 / colCount + '%' }">
-                    <video-card v-if="typeList[index(row_index, col_index)]"
-                        v-bind="makeCardProps(row_index, col_index)" />
-                </a-col>
-            </a-row>
-        </a-space>
-    </a-spin>
+    <div class="scrollable-container" style="height: 100%;">
+        <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%; height: 100vh;">
+            <a-space :size="16" direction="vertical" style="width: 100%; padding: 24px;">
+                <a-row v-for="row_index in rowCount" :gutter="[16, 16]">
+                    <a-col v-for="col_index in colCount" :key="`${row_index}_${col_index}`"
+                        :style="{ width: 100 / colCount + '%' }">
+                        <video-card v-if="typeList[index(row_index, col_index)]"
+                            v-bind="makeCardProps(row_index, col_index)" />
+                    </a-col>
+                </a-row>
+            </a-space>
+        </a-spin>
+    </div>
 </template>

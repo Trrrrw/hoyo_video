@@ -200,7 +200,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <a-layout :style="{ backgroundColor: isDark ? '#141414' : '#ffffff' }">
+    <a-layout class="scrollable-container" :style="{ backgroundColor: isDark ? '#141414' : '#ffffff' }">
         <a-layout-content :style="{ backgroundColor: isDark ? '#141414' : '#ffffff' }"
             style="padding: 24px; height: fit-content; padding-bottom: 24px;">
             <a-flex vertical gap="small">
