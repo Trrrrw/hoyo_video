@@ -28,7 +28,7 @@ export async function onRequestGet(context: RequestContext): Promise<Response> {
                 let count = await video_play_count.get(key)
                 if (!count) {
                     count = "0"
-                    await video_play_count.put(key, "0")
+                    // await video_play_count.put(key, "0")
                 }
                 return [id, Number(count)] as const
             })

@@ -177,7 +177,7 @@ const contactInformation = [
             <a-col :flex="1" style="height: 100%;">
                 <a-card class="no-statistic-content" style="height: 100%" :bodyStyle="{ height: '100%' }">
                     <a-statistic title="更新日志" value="" />
-                    <div class="scrollable-container" style="height: 100%; padding-top: 20px;">
+                    <div class="update-log" style="height: 100%; padding-top: 20px;">
                         <a-timeline v-if="updateLog">
                             <a-timeline-item v-for="(log, time) in updateLog">{{ time }} {{ log }}</a-timeline-item>
                         </a-timeline>
@@ -222,5 +222,10 @@ const contactInformation = [
 
 svg {
     height: 75%;
+}
+
+.update-log {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 </style>

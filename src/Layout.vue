@@ -13,7 +13,6 @@ const scrollElement = ref<HTMLElement | null>(null)
 const updateScrollTarget = async () => {
   await nextTick()
   const el = document.querySelector('.scrollable-container')
-  console.log('找到滚动容器:', el)
   scrollElement.value = el instanceof HTMLElement ? el : null
 }
 
