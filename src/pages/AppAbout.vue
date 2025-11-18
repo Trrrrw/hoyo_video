@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, ref, watchEffect } from "vue"
+import { h, onMounted, ref, reactive, watchEffect } from "vue"
 import { IconMail } from '@tabler/icons-vue'
 import { QqIcon, XiaohongshuIcon, TelegramIcon, AfdianIcon } from "vue3-simple-icons"
 
@@ -21,9 +21,20 @@ onMounted(async () => {
 
 // Umami 统计数据
 // 访问量
-const views = ref(0)
-const visitors = ref(0)
-const visits = ref(0)
+const view_data = reactive({
+    views: {
+        label: '浏览量',
+        value: ref(0)
+    },
+    visitors: {
+        label: '访客',
+        value: ref(0)
+    },
+    visits: {
+        label: '访问次数',
+        value: ref(0)
+    }
+})
 // 折线图数据
 const chartLabels = ref<string[]>([])
 const visitorDatasets = ref<number[]>([])
@@ -32,9 +43,9 @@ const visitDatasets = ref<number[]>([])
 import { fetchUmamiData } from "@/utils/useData"
 onMounted(async () => {
     const [viewsData, chartData] = await fetchUmamiData()
-    views.value = viewsData.views
-    visitors.value = viewsData.visitors
-    visits.value = viewsData.visits
+    view_data.views.value = viewsData.views
+    view_data.visitors.value = viewsData.visitors
+    view_data.visits.value = viewsData.visits
     chartLabels.value = chartData.chartLabels
     visitorDatasets.value = chartData.visitorDatasets
     visitDatasets.value = chartData.visitDatasets
@@ -142,76 +153,67 @@ const contactInformation = [
 </script>
 
 <template>
-    <a-space class="scrollable-container" :size="16" direction="vertical" style="width: 100%;"
-        :style="{ padding: screenWidth <= 768 ? '24px' : '50px 80px' }">
-        <a-row :wrap="true" :gutter="[16, 16]">
-            <a-col :flex="1">
-                <a-card>
-                    <a-statistic title="更新日期" :value="update_time" />
-                </a-card>
-            </a-col>
-            <a-col :flex="1">
-                <a-card>
-                    <a-statistic title="浏览量" :value="views" />
-                </a-card>
-            </a-col>
-            <a-col :flex="1">
-                <a-card>
-                    <a-statistic title="访客" :value="visitors" />
-                </a-card>
-            </a-col>
-            <a-col :flex="1">
-                <a-card>
-                    <a-statistic title="访问次数" :value="visits" />
-                </a-card>
-            </a-col>
-        </a-row>
-        <a-row>
-            <a-col :flex="1">
-                <a-card>
-                    <canvas id="dataChart" width="100%" height="300" />
-                </a-card>
-            </a-col>
-        </a-row>
-        <a-row :gutter="[16, 16]" style="height:540px;">
-            <a-col :flex="1" style="height: 100%;">
-                <a-card class="no-statistic-content" style="height: 100%" :bodyStyle="{ height: '100%' }">
-                    <a-statistic title="更新日志" value="" />
-                    <div class="update-log" style="height: 100%; padding-top: 20px;">
-                        <a-timeline v-if="updateLog">
-                            <a-timeline-item v-for="(log, time) in updateLog">{{ time }} {{ log }}</a-timeline-item>
-                        </a-timeline>
-                    </div>
-                </a-card>
-            </a-col>
-            <a-col :flex="1" style="height: 100%;">
-                <a-space :size="16" direction="vertical" style="width: 100%; height: 100%;">
-                    <a-card class="no-statistic-content" style="width: 100%; height: 100%;">
-                        <a-statistic title="版权声明" value="" />
-                        <a-flex vertical gap="small" style="padding-top: 20px;">
-                            <a-alert v-for="message in copyrightNotice" :message="message" type="error" />
-                        </a-flex>
+    <div class="scrollable-container w-full h-full">
+        <a-space class="w-full h-full" :size="16" direction="vertical"
+            :style="{ padding: screenWidth <= 768 ? '24px' : '50px 80px' }">
+            <a-row :wrap="true" :gutter="[16, 16]">
+                <a-col :flex="1">
+                    <a-card>
+                        <a-statistic title="更新日期" :value="update_time" />
                     </a-card>
-                    <a-card class="no-statistic-content" style="width: 100%; height: 100%;">
-                        <a-statistic title="联系方式" value="" />
-                        <a-flex wrap="wrap" gap="small" style="padding-top: 20px;">
-                            <a-button v-for="contact in contactInformation" :href="contact.href"
-                                :icon="h(contact.icon)">{{ contact.name }}</a-button>
-                        </a-flex>
+                </a-col>
+                <a-col :flex="1" v-for="(item, _) in view_data">
+                    <a-card>
+                        <a-statistic :title="item.label" :value="item.value" />
                     </a-card>
-                </a-space>
-            </a-col>
-        </a-row>
-    </a-space>
+                </a-col>
+            </a-row>
+            <a-row>
+                <a-col :flex="1">
+                    <a-card>
+                        <canvas id="dataChart" width="100%" height="300" />
+                    </a-card>
+                </a-col>
+            </a-row>
+            <!-- <a-flex wrap gap="16" style="padding-bottom: 24px;"> -->
+            <a-row :wrap="true" :gutter="[16, 16]" :style="{ paddingBottom: screenWidth <= 768 ? '24px' : '50px' }">
+                <a-col :flex="1" class="h-full" style="height:540px;">
+                    <a-card class="no-statistic-content h-full" :bodyStyle="{ height: '100%' }">
+                        <a-statistic title="更新日志" value="" />
+                        <div class="update-log" style="height: 95%; padding-top: 20px;">
+                            <a-timeline v-if="updateLog">
+                                <a-timeline-item v-for="(log, time) in updateLog">{{ time }} {{ log }}</a-timeline-item>
+                            </a-timeline>
+                        </div>
+                    </a-card>
+                </a-col>
+                <a-col :flex="1" class="h-full" style="height:540px;">
+                    <a-flex :size="16" vertical gap="16" class="w-full h-full">
+                        <a-card class="no-statistic-content w-full h-full">
+                            <a-statistic title="版权声明" value="" />
+                            <a-flex vertical gap="small" style="padding-top: 20px;">
+                                <a-alert v-for="message in copyrightNotice" :message="message" type="error" />
+                            </a-flex>
+                        </a-card>
+                        <a-card class="no-statistic-content w-full h-full">
+                            <a-statistic title="联系方式" value="" />
+                            <a-flex wrap="wrap" gap="small" style="padding-top: 20px;">
+                                <a-button v-for="contact in contactInformation" :href="contact.href"
+                                    :icon="h(contact.icon)">{{
+                                        contact.name }}</a-button>
+                            </a-flex>
+                        </a-card>
+                    </a-flex>
+                </a-col>
+            </a-row>
+            <!-- </a-flex> -->
+        </a-space>
+    </div>
 </template>
 
 <style lang="css" scoped>
 .no-statistic-content:deep(.ant-statistic-content) {
     display: none;
-}
-
-:deep(.ant-space-item) {
-    height: 50%;
 }
 
 :deep(.ant-btn) {
@@ -226,6 +228,12 @@ svg {
 
 .update-log {
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     -webkit-overflow-scrolling: touch;
+}
+
+.update-log::-webkit-scrollbar {
+    display: none;
 }
 </style>

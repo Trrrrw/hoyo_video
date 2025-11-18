@@ -39,3 +39,11 @@ a:hover {
     background: rgba(0, 0, 0, 0.15);
     transition: color 0.2s ease;
 }
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
