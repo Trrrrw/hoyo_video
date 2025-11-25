@@ -37,6 +37,8 @@ export const fetchGameList = async (): Promise<GameInfo[]> => {
             const data: GameInfo[] = await res.json()
             cachedGameList = data
             return data
+        } catch {
+            return []
         } finally {
             // 无论成功或失败，都清理 pending（如果失败，下次调用会重试）
             pendingGameListPromise = null

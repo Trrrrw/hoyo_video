@@ -5,12 +5,13 @@ const router = useRouter()
 </script>
 
 <template>
-    <a-result title="404" sub-title="页面找不到了捏">
+    <a-result title="500" sub-title="服务器寄了捏">
         <template #icon>
             <app-empty description="" :imageStyle="{ height: '200px' }" />
         </template>
         <template #extra>
-            <a-button type="primary" @click="router.push('/')">返回首页</a-button>
+            <a-button type="primary" href="https://github.com/Trrrrw/hoyo_video/issues/new" target="_blank">GitHub
+                Issues</a-button>
         </template>
     </a-result>
 </template>

@@ -46,7 +46,7 @@ export const routes: RouteRecordRaw[] = [
                 component: () => import('@/pages/VideoPlayer.vue')
             },
             {
-                path: '/about',
+                path: 'about',
                 name: 'AppAbout',
                 component: () => import('@/pages/AppAbout.vue')
             },
@@ -63,6 +63,11 @@ export const routes: RouteRecordRaw[] = [
                 path: '404',
                 name: 'AppNotFound',
                 component: () => import('@/pages/AppNotFound.vue')
+            },
+            {
+                path: '500',
+                name: 'AppServerError',
+                component: () => import('@/pages/AppServerError.vue')
             }
         ]
     },

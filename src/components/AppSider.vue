@@ -37,34 +37,36 @@ watchEffect(setSelectedItem)
 // 侧边栏选项
 import { fetchGameList } from "@/utils/useData"
 import type { MenuItem } from '@/utils/menuItem'
+import { message } from 'ant-design-vue'
 const sideBarTopItems = ref<MenuItem[]>([])
 onMounted(async () => {
-    try {
-        // 动态生成 items
-        const games = await fetchGameList()
-        const dynamicItems: MenuItem[] = games
-            .sort((a, b) => a.weight - b.weight)
-            .map(item => ({
-                label: item.name,
-                icon: h('img', { src: loadGameIcon(item.name), alt: item.name, style: { width: '14px' }, draggable: false }),
-                children: null,
-                key: item.name,
-                type: null
-            }))
-        // 添加固定的搜索项在最前
-        sideBarTopItems.value = [
-            {
-                label: '搜索',
-                icon: h(SearchOutlined),
-                children: null,
-                key: '',
-                type: null
-            },
-            ...dynamicItems
-        ]
-    } catch (err) {
-        console.error('获取侧边栏数据失败', err)
+    // 动态生成 items
+    const games = await fetchGameList()
+    if (!games || !Array.isArray(games) || games.length === 0) {
+        message.error("游戏列表获取失败")
+        router.push('500')
+        return
     }
+    const dynamicItems: MenuItem[] = games
+        .sort((a, b) => a.weight - b.weight)
+        .map(item => ({
+            label: item.name,
+            icon: h('img', { src: loadGameIcon(item.name), alt: item.name, style: { width: '14px' }, draggable: false }),
+            children: null,
+            key: item.name,
+            type: null
+        }))
+    // 添加固定的搜索项在最前
+    sideBarTopItems.value = [
+        {
+            label: '搜索',
+            icon: h(SearchOutlined),
+            children: null,
+            key: '',
+            type: null
+        },
+        ...dynamicItems
+    ]
 })
 const sideBarBottomItems = [{ label: '关于', icon: h(InfoCircleOutlined), children: null, key: 'about', type: null }]
 

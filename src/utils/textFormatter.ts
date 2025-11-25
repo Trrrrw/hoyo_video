@@ -18,7 +18,10 @@ export const formatTitle = (title: string, game: string): string => {
         '《崩坏：星穹铁道》× Fate[UBW] 联动PV：「相见『很』晚」',
         '《崩坏3》×《崩坏：星穹铁道》7.9版本「星间诡戏」宣传PV',
         '《崩坏3》×《崩坏：星穹铁道》联动概念PV——「对手戏」',
-        '内容爆炸！《崩坏3》×《崩坏：星穹铁道》联动幕后揭秘'
+        '内容爆炸！《崩坏3》×《崩坏：星穹铁道》联动幕后揭秘',
+        '《原神》——「昨日旧泪」',
+        '《原神》——春节拯救计划',
+        '《原神》x TapTap 2021ChinaJoy联合参展视频回顾'
     ]
     if (skipTitles.includes(title)) return title
     title = title.replace(`《${game}》`, '').trim()
