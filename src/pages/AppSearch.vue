@@ -17,20 +17,25 @@ onMounted(async () => {
 // 搜索
 import { searchVideos } from '@/utils/useData'
 import type { VideoInfo } from '@/utils/useData'
-import { scrollToPreviousPosition } from '@/utils/scrollHandler'
+import { scrollToTop, scrollToPreviousPosition } from '@/utils/scrollHandler'
 const loading = ref(false)
 const searchValue = ref(route.query.q as string || '')
 const searchResults = ref<VideoInfo[]>([])
+const scrollableContainerRef = ref(null)
 const onSearch = async () => {
     if (!searchValue.value) return
     loading.value = true
     router.push({ path: '/search', query: { game: selectedGame.value, q: searchValue.value } })
     searchResults.value = await searchVideos(selectedGame.value, searchValue.value)
+    if (!sessionStorage.getItem('containerScrollTop'))
+        scrollToTop(scrollableContainerRef.value)
     loading.value = false
-    await nextTick()
-    setTimeout(() => scrollToPreviousPosition(), 50)
 }
-onMounted(onSearch)
+onMounted(async () => {
+    await onSearch()
+    await nextTick()
+    scrollToPreviousPosition()
+})
 
 // 深色模式
 import { useDarkTheme } from '@/utils/useDarkTheme'
@@ -50,7 +55,7 @@ const { isDark } = useDarkTheme()
                 </template>
             </a-input-search>
         </a-layout-header>
-        <a-layout-content class="scrollable-container"
+        <a-layout-content ref="scrollableContainerRef" class="scrollable-container"
             :style="{ backgroundColor: isDark ? '#141414' : '#ffffff', padding: '24px' }">
             <a-spin tip="Loading..." :spinning="loading" :delay="200" style="width: 100%; height: 100vh;">
                 <virtual-grid v-if="searchResults.length > 0" :items="searchResults" :show_badge="true" />
