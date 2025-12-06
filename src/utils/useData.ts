@@ -264,17 +264,17 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
     const startAt = startOf7DaysAgo.getTime()
 
     const headers = {
-        'authorization': 'Bearer xQsc18bnNkUpWk3JGdYv6Aex4hjftuD5VW7b9O4jNx5Q1x928T9JqyhkUsqn8+HvblkGvjmWS3FgfCqvqIw5cYsoyo4rdpoxVcE5ie3pYTVO5dPEb2pX8ZIZS2hyMO7o/DoXEBC8J20KbxbWUUUX2MarBsY3+38GNc8sbDsMWgG+SPQEgF6pJ4njKu7SEeypAsmj/sA8vRYkHf/h1KIzr0VJ4yXYLCr0h7DOVjX6/Wp7FeD/ZmqEExs55Q+hQ8D8bq/3bNe9aONGqQa8RwpzIuZXdqgc9ejQs2T0VT3z+zf+bQcKZGE/0fNMdIiFVaG/EReiUvqr5NooxrmplLJnDCZUZMCNuUw15BS/kxXtQPyqpRuESFZFK3C4SA9i',
-        'cookie': '_clck=fgs6kc%7C2%7Cfva%7C0%7C1938; cf_clearance=ixOAvmzI16FnGHas3KZg7x16oXsmMNlIn7MaMyaSRF8-1750647801-1.2.1.1-net_AWx9MPuBiAH5oVFz.LeOJUyPTKkDrC46c4zY8VzOLGvQqQU9Gl8oXjPs1eSQn6pYuDNtC4dWH.hA71fX_2AGuia2mnqQfQ_QQuQJ__KqnmDJqF9eeAatAe8kOnkkiPiPU.Oo8xTpvB7fkb_nVzF24QIAAmg6O3u97xQRNCQU_5CAm.v._EzMpWqroVu0Xtg_ZpPYZpkm.1qGk_9uOLVktEVaHKOzV4PxnYmlfJ1t6nmoOWzufhatyqenncYClgXhPLaK5hbkLiyr31u_gR8j4A_DIqtUAka5n7JBKtsTKVgVYAbsKFpsVkVKVuC53IpfUQoQCSDfmJ.oKnsQ7Hj9uIGxuSGUSC72EuiAmhs'
+        'authorization': 'Bearer zoF32eaXAyPS2673KpK6rH4Qv6Qw1YuubYWKLt/3D0nI6wSCDC7aWTHJNlFAlmasWv4XEWwxXLhhz79ReBu8YRmSoq2NNN5dXdewKqGXnWRqjbDhuV2zKGG7KjzbDN6cXXee7Sg/ttm4ih5lc68PaYCUOALT8P1XhKYHrxttpnw+w8Pnf8OoATbYK8B6NtSVUq6/6yjdKup9zyCjjUE+YWJmV6E+eKRiZ0wrw1WGRNtfNYe+N4PtVc4zCr8v9q73uJfBIljeGWqjuLfLTYiVYYDGC5g8A5yjUKmjlGnWkvaluuEWthueuoO5eTcgx0sO4UIHB/YGzbIvA/5RVNQ4pw2ZnQ38fHdF211pPHv4SXvIGE6zHVhiIDDnYaJy',
+        'cookie': 'rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2FQFsU%2FyxPfw1sti7TLqGJlMDbRvouzULI%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX1%2FS5aBDxxMG9%2B3tLjOMttsNWl0LYov2nkU%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22distinct_id%22%3A%229d7d4b2ab6ac7c4d3182368f718b81835361860961cad4ac4422a274cb6e3313%23a7acb562-86f4-48d7-a7dc-2a08333ddee7%22%2C%22%24sesid%22%3A%5B1760623244295%2C%220199ed52-b408-7090-b178-9168798c64df%22%2C1760623244295%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22http%3A%2F%2Ffn.trrw.tech%3A5678%2Fhome%2Fworkflows%22%7D%7D; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX1%2B%2F0zfQtow53oKxBLS4PnF7AQzPXtXJ9LImvtMegHKjJq0Eb6qn0CMWphDUmsRbYhFiTa%2Be8tijGg%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX19eJUm9r7N9ATQ00x%2F6TLmNNAwy6LEX5G01HEss%2BfAet0wQ%2Bx7FJfC1a7QLwyTPNmelB9reRNCJ95fENlt9JXiilFGCZHFsfnfvp5yqlbXzXBFJdkHrYbuvaftLLq5GxOHTsZBmVaxH98JSMeJ4AbfCeWeGBIW76DU%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BoEN3pkfpt6AcDSpJqvR0JLb7RZ7OuZThButuex3M%2Bd2GypkNkpb2W1yDo5kuC2TBtfoamYi5xMCzrWIXgt2n9MAPC53jf9zeByXiekEW4O5ZcuB8T%2FP6l887RGXyBlRtITh1BZLqgM0TQ6ajuTTvL4i6Xpdv%2Fg4s%3D; rl_session=RudderEncrypt%3AU2FsdGVkX19mG2qzqnLKsswJvs2rSu2OoxS%2FHs9wv%2F0hc1VWLgWx3wiS7ObpSYMNDxW3pkJKcUCp7DIgWSH%2FUokIHtNZM2rlnKISDJnJETsYP%2FZ312xx7uTH4UFOrvBcv9w3Jn7c5NPaETGZvGokMQ%3D%3D'
     }
     pendingViewsDataPromise = (async () => {
         try {
             const viewsDataRes = await fetch(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&compare=false`, { headers: headers })
             const viewsData = await viewsDataRes.json()
             cachedViewsData = {
-                views: viewsData.pageviews.value,
-                visitors: viewsData.visitors.value,
-                visits: viewsData.visits.value
+                views: viewsData.pageviews,
+                visitors: viewsData.visitors,
+                visits: viewsData.visits
             }
             return cachedViewsData
         } finally {
