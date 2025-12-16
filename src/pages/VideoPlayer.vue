@@ -18,7 +18,7 @@ const videoID = computed(() => {
     return Number(route.query.id) || 0
 })
 const gameName = computed(() => route.params.game as string)
-import { fetchVideoPlayCountList } from '@/utils/useData'
+import { fetchVideoPlayCount } from '@/utils/useData'
 import { fetchVideoData } from '@/utils/useData'
 import type { VideoInfo } from '@/utils/useData'
 const videoInfo = ref<VideoInfo>()
@@ -26,7 +26,7 @@ const loadVideoData = async () => {
     if (videoID.value && gameName.value) {
         videoInfo.value = await fetchVideoData(videoID.value, gameName.value)
         // 播放量
-        await fetchVideoPlayCountList([videoInfo.value])
+        await fetchVideoPlayCount([videoInfo.value])
     }
 }
 watch(
@@ -116,11 +116,11 @@ const CHINESE: DefaultLayoutTranslations = {
     Volume: '音量',
 }
 
+import { increaseVideoPlayCount } from '@/utils/useData'
 const onVideoEnded = async () => {
     try {
-        await fetch(`/api/game/video/count?game=${gameName.value}&video_id=${videoID.value}`, {
-            method: 'POST',
-        })
+        if (videoInfo.value)
+            await increaseVideoPlayCount([videoInfo.value])
     } catch (err) {
         console.error('播放量更新失败', err)
     }

@@ -10,7 +10,7 @@ const props = defineProps({
 
 // 获取侧边栏视频列表
 import { nextTick, watchEffect, ref } from 'vue'
-import { fetchVideoPlayCountList } from '@/utils/useData'
+import { fetchVideoPlayCount } from '@/utils/useData'
 import { fetchVideoList } from '@/utils/useData'
 import type { VideoInfo } from '@/utils/useData'
 const loading = ref(false)
@@ -24,7 +24,7 @@ const getSiderVideoList = async () => {
             )
 
             const results = await Promise.all(promises)
-            const allVideos = results.flatMap(result => result.video_list)
+            const allVideos = results.flatMap(result => result.items)
 
             siderVideoList.value = allVideos
                 .filter(v => v.id !== props.id)
@@ -34,7 +34,7 @@ const getSiderVideoList = async () => {
                 .sort((a, b) =>
                     new Date(b.time).getTime() - new Date(a.time).getTime()
                 )
-            await fetchVideoPlayCountList(siderVideoList.value)
+            await fetchVideoPlayCount(siderVideoList.value)
         } finally {
             loading.value = false
             await nextTick()

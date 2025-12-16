@@ -2,6 +2,8 @@
 import { h, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { IconDeviceDesktopDown, IconBrandGithubFilled, IconFileRssFilled } from '@tabler/icons-vue'
+import { ModelContextProtocolIcon } from 'vue3-simple-icons'
+
 
 // 深色模式
 import { useDarkTheme } from '@/utils/useDarkTheme'
@@ -15,6 +17,17 @@ const { screenWidth } = useScreenWidth()
 // 右侧按钮信息
 const route = useRoute()
 const buttonInfo = {
+    mcp: {
+        icon: h(ModelContextProtocolIcon),
+        title: "MCP",
+        url: `{
+  "mcpServers": {
+    "hoyo-info": {
+      "url": "https://api.trrw.tech/mcp"
+    }
+  }
+}`
+    },
     pwa: {
         icon: h(IconDeviceDesktopDown),
         title: "保存到桌面",
@@ -91,6 +104,10 @@ const onPWAClick = async () => {
             </a-flex>
         </a>
         <a-flex class="right-items" align="center" gap="small">
+            <a-tooltip placement="bottom" :title="buttonInfo.mcp.title">
+                <a-button type="text" :icon="buttonInfo.mcp.icon" key="2" :aria-label="buttonInfo.rss.title.value"
+                    @click="copyText(buttonInfo.mcp.url, '已复制 MCP 配置')" />
+            </a-tooltip>
             <a-tooltip v-if="showPWAButton" placement="bottom" :title="buttonInfo.pwa.title">
                 <a-button type="text" :icon="buttonInfo.pwa.icon" key="3" :aria-label="buttonInfo.pwa.title"
                     @click="onPWAClick" />

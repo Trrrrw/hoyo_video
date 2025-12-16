@@ -66,14 +66,14 @@ const getTotalVideoList = async () => {
     if (route.params.game && route.query.type && route.query.page && route.query.pageSize) {
         loading.value = true
         try {
-            const { total, video_list } = await fetchVideoList(
+            const { total, items } = await fetchVideoList(
                 route.params.game as string,
                 route.query.type as string,
                 parseInt(route.query.page as string),
                 parseInt(route.query.pageSize as string)
             )
             totalVideos.value = total
-            videoList.value = video_list
+            videoList.value = items
         } finally {
             loading.value = false
             await nextTick()
