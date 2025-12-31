@@ -36,9 +36,9 @@ const loading = ref(true)
 <template>
     <a-card :hoverable="true" @click="onClick" :body-style="{ textAlign: 'center' }">
         <template #cover>
-            <a-spin :spinning="loading" :delay="200">
+            <a-spin :spinning="loading || cover === './empty.png'" :delay="200">
                 <img :src="cover" style="width: 100%; aspect-ratio: 16/8; object-fit: cover;" draggable="false"
-                    loading="lazy" @load="() => { loading = false }" />
+                    loading="lazy" @load="() => { loading = false || cover === './empty.png' }" />
                 <div v-if="show_badge" class="cover-badge">
                     <img :src="loadGameIcon(game_name)" alt="game icon" style="width: 24px; height: 24px;"
                         draggable="false" loading="lazy" />

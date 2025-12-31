@@ -22,7 +22,7 @@ const buttonInfo = {
         title: "MCP",
         url: `{
   "mcpServers": {
-    "hoyo-info": {
+    "Hoyo Info MCP": {
       "url": "https://api.trrw.tech/mcp"
     }
   }
