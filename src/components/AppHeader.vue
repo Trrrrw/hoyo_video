@@ -46,51 +46,54 @@ const buttonInfo = {
 }
 
 // PWA 按钮点击
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-const showPWAButton = ref<boolean>(false)
-let deferredPrompt: any = null
-onMounted(() => {
-    // 监听浏览器触发安装事件
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault() // 阻止浏览器自动弹出安装提示
-        deferredPrompt = e // 缓存事件
-        showPWAButton.value = true // 显示“安装”按钮
-    })
-
-    // 如果 PWA 已安装，隐藏按钮
-    window.addEventListener('appinstalled', () => {
-        showPWAButton.value = false
-        deferredPrompt = null
-        console.log('✅ PWA 已安装')
-    })
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('beforeinstallprompt', () => { })
-    window.removeEventListener('appinstalled', () => { })
-})
-
-const onPWAClick = async () => {
-    if (!deferredPrompt) {
-        console.warn('❌ 当前不支持 PWA 安装或已安装。')
-        return
-    }
-
-    // 调用浏览器安装提示
-    deferredPrompt.prompt()
-
-    // 等待用户选择
-    const { outcome } = await deferredPrompt.userChoice
-    if (outcome === 'accepted') {
-        console.log('🎉 用户接受安装 PWA')
-    } else {
-        console.log('🙅 用户拒绝安装 PWA')
-    }
-
-    // 清理状态
-    deferredPrompt = null
-    showPWAButton.value = false
+import { ref, onMounted, onUnmounted } from 'vue';
+// 定义 BeforeInstallPromptEvent 类型（TS 默认库中没有这个类型）
+interface BeforeInstallPromptEvent extends Event {
+    readonly platforms: string[];
+    readonly userChoice: Promise<{
+        outcome: 'accepted' | 'dismissed';
+        platform: string;
+    }>;
+    prompt(): Promise<void>;
 }
+// 存储安装事件
+const deferredPrompt = ref<BeforeInstallPromptEvent | null>(null);
+const showPWAButton = ref(false);
+const handleBeforeInstallPrompt = (e: Event) => {
+    // 阻止 Chrome 67 及更早版本自动显示提示
+    e.preventDefault();
+    // 保存事件以便稍后触发
+    deferredPrompt.value = e as BeforeInstallPromptEvent;
+    // 显示安装按钮
+    showPWAButton.value = true;
+};
+const handleAppInstalled = () => {
+    // 安装完成后隐藏按钮并清理事件
+    showPWAButton.value = false;
+    deferredPrompt.value = null;
+    console.log('PWA 已成功安装');
+};
+// 执行安装逻辑
+const installPWA = async () => {
+    if (!deferredPrompt.value) return;
+    // 显示安装确认弹窗
+    await deferredPrompt.value.prompt();
+    
+    // 等待用户选择结果
+    const { outcome } = await deferredPrompt.value.userChoice;
+    console.log(`用户安装选择: ${outcome}`);
+    // 不管结果如何，清理掉该事件，因为它只能使用一次
+    deferredPrompt.value = null;
+    showPWAButton.value = false;
+};
+onMounted(() => {
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+});
+onUnmounted(() => {
+    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.removeEventListener('appinstalled', handleAppInstalled);
+});
 </script>
 
 <template>
@@ -110,7 +113,7 @@ const onPWAClick = async () => {
             </a-tooltip>
             <a-tooltip v-if="showPWAButton" placement="bottom" :title="buttonInfo.pwa.title">
                 <a-button type="text" :icon="buttonInfo.pwa.icon" key="3" :aria-label="buttonInfo.pwa.title"
-                    @click="onPWAClick" />
+                    @click="installPWA" />
             </a-tooltip>
             <a-tooltip placement="bottom" :title="buttonInfo.rss.title.value">
                 <a-button type="text" :icon="buttonInfo.rss.icon" key="2" :aria-label="buttonInfo.rss.title.value"

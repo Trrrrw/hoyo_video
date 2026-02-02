@@ -42,3 +42,4 @@ __screenshots__/
 !.edgeone/project.json
 .tef_dist/*
   
+bun.lock
