@@ -47,7 +47,6 @@ const buttonInfo = {
 
 // PWA 按钮点击
 import { ref, onMounted, onUnmounted } from 'vue';
-// 定义 BeforeInstallPromptEvent 类型（TS 默认库中没有这个类型）
 interface BeforeInstallPromptEvent extends Event {
     readonly platforms: string[];
     readonly userChoice: Promise<{

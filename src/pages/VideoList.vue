@@ -42,10 +42,9 @@ const menuItems = computed<MenuItem[]>(() => {
     }))
 })
 const selectedType = ref(route.query.type ? [route.query.type] : [])
-const onMenuSelect = (info: { key: string; keyPath: string[]; selectedKeys: string[] }) => {
+const onMenuSelect = (info: { key: string; keyPath: string[] }) => {
     scrollToTop(scrollableContainerRef.value, true)
-    selectedType.value = info.selectedKeys
-    currentPage.value = 1
+    selectedType.value = info.keyPath
     router.push({
         name: 'VideoList',
         params: { game: route.params.game },
@@ -88,19 +87,25 @@ import { scrollToTop } from '@/utils/scrollHandler'
 const currentPage = ref(parseInt(route.query.page as string) || 1)
 const pageSize = ref(parseInt(route.query.pageSize as string) || 20)
 const scrollableContainerRef = ref(null)
+// 监听路由参数变化，当type变化时重置currentPage
+watch(() => route.query.type, () => {
+    currentPage.value = 1
+})
 watch([currentPage, pageSize], ([newPage, newSize]) => {
-    currentPage.value = newPage
-    pageSize.value = newSize
-    router.push({
-        name: 'VideoList',
-        params: { game: route.params.game },
-        query: {
-            ...route.query,
-            page: newPage,
-            pageSize: newSize
-        }
-    })
-    scrollToTop(scrollableContainerRef.value)
+    const currentRoutePage = parseInt(route.query.page as string) || 1
+    const currentRoutePageSize = parseInt(route.query.pageSize as string) || 20
+    if (currentPage.value !== currentRoutePage || pageSize.value !== currentRoutePageSize) {
+        router.push({
+            name: 'VideoList',
+            params: { game: route.params.game },
+            query: {
+                ...route.query,
+                page: newPage,
+                pageSize: newSize
+            }
+        })
+        scrollToTop(scrollableContainerRef.value)
+    }
 })
 
 // 返回按钮
@@ -131,7 +136,7 @@ const { isDark } = useDarkTheme()
             </a-spin>
         </a-layout-content>
         <a-layout-footer :style="{ backgroundColor: isDark ? '#141414' : '#ffffff' }">
-            <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" :total="totalVideos"
+            <a-pagination v-model:current="currentPage" v-model:pageSize="pageSize" :total="totalVideos" showSizeChanger
                 style="width: fit-content; margin: auto;" />
         </a-layout-footer>
     </a-layout>
