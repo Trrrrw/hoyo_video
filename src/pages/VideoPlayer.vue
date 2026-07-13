@@ -189,14 +189,14 @@ const setSiderState = () => {
 watchEffect(setSiderState)
 
 // Waline
-import { Waline } from '@waline/client/component'
-import '@waline/client/style'
-const serverURL = 'https://video-waline.trrw.tech'
-const path = computed(() => useRoute().fullPath)
-onMounted(() => {
-    document.documentElement.style.setProperty('--waline-theme-color', '#1677ff')
-    document.documentElement.style.setProperty('--waline-active-color', '#4096ff')
-})
+// import { Waline } from '@waline/client/component'
+// import '@waline/client/style'
+// const serverURL = 'https://video-waline.trrw.tech'
+// const path = computed(() => useRoute().fullPath)
+// onMounted(() => {
+//     document.documentElement.style.setProperty('--waline-theme-color', '#1677ff')
+//     document.documentElement.style.setProperty('--waline-active-color', '#4096ff')
+// })
 </script>
 
 <template>
@@ -248,7 +248,7 @@ onMounted(() => {
                     </a-popover>
                     <a-button :icon="h(ExportOutlined)" @click="onOfficialButtonClick">官网</a-button>
                 </a-flex>
-                <Waline :serverURL="serverURL" :path="path" :dark="isDark" style="width: 100%;" />
+                <!-- <Waline :serverURL="serverURL" :path="path" :dark="isDark" style="width: 100%;" /> -->
             </a-flex>
         </a-layout-content>
         <more-videos v-if="showSider && videoInfo" :game="gameName" :id="videoID" :types="videoInfo.type" />

@@ -17,7 +17,6 @@
     "@ant-design/icons-vue": "^7.0.1",
     "@tabler/icons-vue": "^3.35.0",
     "@vueuse/head": "^2.0.0",
-    "@waline/client": "^3.7.0",
     "ant-design-vue": "4.x",
     "chart.js": "^4.5.1",
     "file-saver": "^2.0.5",

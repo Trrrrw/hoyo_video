@@ -649,11 +649,6 @@
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.7.tgz#baccb07a970b91707df3a3e8ba6896c57ead2d11"
   integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
 
-"@types/web-bluetooth@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.21.tgz#525433c784aed9b457aaa0ee3d92aeb71f346b63"
-  integrity sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==
-
 "@unhead/dom@1.11.20", "@unhead/dom@^1.7.0":
   version "1.11.20"
   resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.11.20.tgz#b777f439e1c5f80ebcceb89aa45c45e877013c62"
@@ -890,15 +885,6 @@
   resolved "https://registry.yarnpkg.com/@vue/tsconfig/-/tsconfig-0.8.1.tgz#4732251fa58945024424385cf3be0b1708fad5fe"
   integrity sha512-aK7feIWPXFSUhsCP9PFqPyFOcz4ENkb8hZ2pneL6m2UjCkccvaOhC/5KCKluuBufvp2KzkbdA2W2pk20vLzu3g==
 
-"@vueuse/core@^13.9.0":
-  version "13.9.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-13.9.0.tgz#051aeff47a259e9e4d7d0cc3e54879817b0cbcad"
-  integrity sha512-ts3regBQyURfCE2BcytLqzm8+MmLlo5Ln/KLoxDVcsZ2gzIwVNnQpQOL/UKV8alUqjSZOlpFZcRNsLRqj+OzyA==
-  dependencies:
-    "@types/web-bluetooth" "^0.0.21"
-    "@vueuse/metadata" "13.9.0"
-    "@vueuse/shared" "13.9.0"
-
 "@vueuse/head@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-2.0.0.tgz#a4570c0933368a436796c2f737d56e169a8f0864"
@@ -908,34 +894,6 @@
     "@unhead/schema" "^1.7.0"
     "@unhead/ssr" "^1.7.0"
     "@unhead/vue" "^1.7.0"
-
-"@vueuse/metadata@13.9.0":
-  version "13.9.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-13.9.0.tgz#57c738d99661c33347080c0bc4cd11160e0d0881"
-  integrity sha512-1AFRvuiGphfF7yWixZa0KwjYH8ulyjDCC0aFgrGRz8+P4kvDFSdXLVfTk5xAN9wEuD1J6z4/myMoYbnHoX07zg==
-
-"@vueuse/shared@13.9.0":
-  version "13.9.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-13.9.0.tgz#7168b4ed647e625b05eb4e7e80fe8aabd00e3923"
-  integrity sha512-e89uuTLMh0U5cZ9iDpEI2senqPGfbPRTHM/0AaQkcxnpqjkZqDYP8rpfm7edOz8s+pOCOROEy1PIveSW8+fL5g==
-
-"@waline/api@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@waline/api/-/api-1.0.0.tgz#ff299456a796d989bfeb789459a4bfa2c1efa335"
-  integrity sha512-o0lWjt+/oZH1/4q3DJxTf5kdkgNbSmoLRXIiGznW225A6hq9/9IkOO1DiAijIsxGYJS6psFC+58+IzkD1EerBA==
-
-"@waline/client@^3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@waline/client/-/client-3.7.0.tgz#461e7e24c1b2191001f7974bdb714ea5b46fc999"
-  integrity sha512-vD2Wea82qhQkm8+aj9WlW8qYAHE7HgtRXoxFgYkpmBbRiGUHqF2mU8EwGgmL1gqZGd8gMGD+h0b30s7Uw55Orw==
-  dependencies:
-    "@vueuse/core" "^13.9.0"
-    "@waline/api" "1.0.0"
-    autosize "^6.0.1"
-    marked "^16.4.0"
-    marked-highlight "^2.2.2"
-    recaptcha-v3 "^1.11.3"
-    vue "^3.5.22"
 
 acorn@^8.14.0, acorn@^8.15.0:
   version "8.15.0"
@@ -994,11 +952,6 @@ async-validator@^4.0.0:
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-4.2.5.tgz#c96ea3332a521699d0afaaceed510a54656c6339"
   integrity sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg==
-
-autosize@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/autosize/-/autosize-6.0.1.tgz#64ee78dd7029be959eddd3afbbd33235b957e10f"
-  integrity sha512-f86EjiUKE6Xvczc4ioP1JBlWG7FKrE13qe/DxBCpe8GCipCq2nFw73aO8QEBKHfSbYGDN5eB9jXWKen7tspDqQ==
 
 baseline-browser-mapping@^2.8.19:
   version "2.8.20"
@@ -1348,16 +1301,6 @@ magic-string@^0.30.19, magic-string@^0.30.4:
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.5.5"
 
-marked-highlight@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/marked-highlight/-/marked-highlight-2.2.2.tgz#2ed092581225a16b16ef9bee7099e66612b6d8b3"
-  integrity sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==
-
-marked@^16.4.0:
-  version "16.4.1"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-16.4.1.tgz#db37c878cfa28fa57b8dd471fe92a83282911052"
-  integrity sha512-ntROs7RaN3EvWfy3EZi14H4YxmT6A5YvywfhO+0pm+cH/dnSQRmdAmoFIc3B9aiwTehyk7pESH4ofyBY+V5hZg==
-
 media-captions@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/media-captions/-/media-captions-1.0.4.tgz#aaacb6a554f7549fc7308b6b7cf766686cf42fad"
@@ -1536,11 +1479,6 @@ readdirp@^4.0.1:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-4.1.2.tgz#eb85801435fbf2a7ee58f19e0921b068fc69948d"
   integrity sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==
-
-recaptcha-v3@^1.11.3:
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/recaptcha-v3/-/recaptcha-v3-1.11.3.tgz#ea0ba6da462196236c243bc1fbba4a4072646d26"
-  integrity sha512-sEE6J0RzUkS+sKEBpgCD/AqCU0ffrAVOADGjvAx9vcttN+VLK42SWMkj/J/I6vHu3Kew+xcfbBqDVb65N0QGDw==
 
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
