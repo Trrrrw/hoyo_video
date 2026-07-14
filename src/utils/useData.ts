@@ -120,7 +120,7 @@ export const fetchVideoList = (
 /**
  * 获取视频详细信息
  * @param {number} id 视频ID
- * @param {string} game 游戏名称 
+ * @param {string} game 游戏名称
  * @returns {Promise<VideoInfo>} 视频信息
  */
 export const fetchVideoData = (id: number, game: string): Promise<VideoInfo> => {
@@ -133,7 +133,7 @@ export const fetchVideoData = (id: number, game: string): Promise<VideoInfo> => 
 
 /**
  * 搜索视频
- * @param {string} game 游戏名称 
+ * @param {string} game 游戏名称
  * @param {string} q 搜索关键词
  * @returns {Promise<VideoInfo[]>} 视频列表
  */
@@ -201,11 +201,13 @@ let cachedViewsData: ViewsData | null = null
 let pendingViewsDataPromise: Promise<ViewsData> | null = null
 let cachedChartData: ChartData | null = null
 let pendingChartDataPromise: Promise<ChartData> | null = null
-export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
-    if (cachedViewsData && cachedChartData) return [cachedViewsData, cachedChartData]
-    if (pendingViewsDataPromise && pendingChartDataPromise) {
-        const [viewsData, chartData] = await Promise.all([pendingViewsDataPromise, pendingChartDataPromise])
-        return [viewsData, chartData]
+let cachedActiveData: number | null = null
+let pendingActiveDataPromise: Promise<number> | null = null
+export const fetchUmamiData = async (): Promise<[ViewsData, ChartData, number]> => {
+    if (cachedViewsData && cachedChartData && cachedActiveData) return [cachedViewsData, cachedChartData, cachedActiveData]
+    if (pendingViewsDataPromise && pendingChartDataPromise && pendingActiveDataPromise) {
+        const [viewsData, chartData, activeData] = await Promise.all([pendingViewsDataPromise, pendingChartDataPromise, pendingActiveDataPromise])
+        return [viewsData, chartData, activeData]
     }
 
     // 获取当前日期的23:59:59的时间戳
@@ -219,13 +221,13 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
     const endAt = endOfDay.getTime()
     const startAt = startOf7DaysAgo.getTime()
 
-    const headers = {
-        'authorization': 'Bearer zoF32eaXAyPS2673KpK6rH4Qv6Qw1YuubYWKLt/3D0nI6wSCDC7aWTHJNlFAlmasWv4XEWwxXLhhz79ReBu8YRmSoq2NNN5dXdewKqGXnWRqjbDhuV2zKGG7KjzbDN6cXXee7Sg/ttm4ih5lc68PaYCUOALT8P1XhKYHrxttpnw+w8Pnf8OoATbYK8B6NtSVUq6/6yjdKup9zyCjjUE+YWJmV6E+eKRiZ0wrw1WGRNtfNYe+N4PtVc4zCr8v9q73uJfBIljeGWqjuLfLTYiVYYDGC5g8A5yjUKmjlGnWkvaluuEWthueuoO5eTcgx0sO4UIHB/YGzbIvA/5RVNQ4pw2ZnQ38fHdF211pPHv4SXvIGE6zHVhiIDDnYaJy',
-        'cookie': 'rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2FQFsU%2FyxPfw1sti7TLqGJlMDbRvouzULI%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX1%2FS5aBDxxMG9%2B3tLjOMttsNWl0LYov2nkU%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22distinct_id%22%3A%229d7d4b2ab6ac7c4d3182368f718b81835361860961cad4ac4422a274cb6e3313%23a7acb562-86f4-48d7-a7dc-2a08333ddee7%22%2C%22%24sesid%22%3A%5B1760623244295%2C%220199ed52-b408-7090-b178-9168798c64df%22%2C1760623244295%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22http%3A%2F%2Ffn.trrw.tech%3A5678%2Fhome%2Fworkflows%22%7D%7D; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX1%2B%2F0zfQtow53oKxBLS4PnF7AQzPXtXJ9LImvtMegHKjJq0Eb6qn0CMWphDUmsRbYhFiTa%2Be8tijGg%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX19eJUm9r7N9ATQ00x%2F6TLmNNAwy6LEX5G01HEss%2BfAet0wQ%2Bx7FJfC1a7QLwyTPNmelB9reRNCJ95fENlt9JXiilFGCZHFsfnfvp5yqlbXzXBFJdkHrYbuvaftLLq5GxOHTsZBmVaxH98JSMeJ4AbfCeWeGBIW76DU%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BoEN3pkfpt6AcDSpJqvR0JLb7RZ7OuZThButuex3M%2Bd2GypkNkpb2W1yDo5kuC2TBtfoamYi5xMCzrWIXgt2n9MAPC53jf9zeByXiekEW4O5ZcuB8T%2FP6l887RGXyBlRtITh1BZLqgM0TQ6ajuTTvL4i6Xpdv%2Fg4s%3D; rl_session=RudderEncrypt%3AU2FsdGVkX19mG2qzqnLKsswJvs2rSu2OoxS%2FHs9wv%2F0hc1VWLgWx3wiS7ObpSYMNDxW3pkJKcUCp7DIgWSH%2FUokIHtNZM2rlnKISDJnJETsYP%2FZ312xx7uTH4UFOrvBcv9w3Jn7c5NPaETGZvGokMQ%3D%3D'
+  const headers = {
+      'x-umami-share-context': 1,
+      'x-umami-share-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaGFyZUlkIjoiYjA4MDcwYWUtYWJmZS00YjA5LTlkYTAtMmYxOWZiMGQxZWE5Iiwic2hhcmVUeXBlIjoxLCJwYXJhbWV0ZXJzIjp7InV0bSI6ZmFsc2UsImdvYWxzIjpmYWxzZSwiZXZlbnRzIjp0cnVlLCJjb21wYXJlIjpmYWxzZSwiZnVubmVscyI6ZmFsc2UsInJldmVudWUiOmZhbHNlLCJqb3VybmV5cyI6ZmFsc2UsIm92ZXJ2aWV3Ijp0cnVlLCJyZWFsdGltZSI6dHJ1ZSwic2Vzc2lvbnMiOnRydWUsImJyZWFrZG93biI6ZmFsc2UsInJldGVudGlvbiI6ZmFsc2UsImFsbG93RmlsdGVyIjp0cnVlLCJhdHRyaWJ1dGlvbiI6ZmFsc2UsInBlcmZvcm1hbmNlIjpmYWxzZX0sIndlYnNpdGVJZCI6IjE5NTEwMGZlLTA5NjEtNDkwNi05ZmMyLTA4NDgzM2MzMGU2NSIsInR5cGUiOiJzaGFyZSIsImlhdCI6MTc4Mzk5NjAwMn0.0dRN_E-aji--y6BV9Rff1X9cV0jO9njvaTJ78T_aujw'
     }
     pendingViewsDataPromise = (async () => {
         try {
-            const viewsDataRes = await fetch(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&compare=false`, { headers: headers })
+            const viewsDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/stats?startAt=${startAt}&endAt=${endAt}&page=1`, { headers: headers })
             const viewsData = await viewsDataRes.json()
             cachedViewsData = {
                 views: viewsData.pageviews,
@@ -239,7 +241,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
     })()
     pendingChartDataPromise = (async () => {
         try {
-            const chartDataRes = await fetch(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai`, { headers: headers })
+            const chartDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&page=1`, { headers: headers })
             interface ChartData {
                 pageviews: ChartDataPoint[]
                 sessions: ChartDataPoint[]
@@ -259,6 +261,16 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
             pendingChartDataPromise = null
         }
     })()
-    const [viewsData, chartData] = await Promise.all([pendingViewsDataPromise, pendingChartDataPromise])
-    return [viewsData, chartData]
+  pendingActiveDataPromise = (async () => {
+    try {
+      const activeDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/active`, { headers: headers })
+      const avtiveData: { visitors: number } = await activeDataRes.json()
+      cachedActiveData = avtiveData.visitors
+      return cachedActiveData
+    } finally {
+      pendingActiveDataPromise = null
+    }
+    })()
+    const [viewsData, chartData, activeData] = await Promise.all([pendingViewsDataPromise, pendingChartDataPromise, pendingActiveDataPromise])
+    return [viewsData, chartData, activeData]
 }

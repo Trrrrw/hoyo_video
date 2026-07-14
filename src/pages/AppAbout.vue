@@ -28,7 +28,8 @@ const view_data = reactive({
     },
     visitors: {
         label: '访客',
-        value: ref(0)
+        value: ref(0),
+        active: ref(0)
     },
     visits: {
         label: '访问次数',
@@ -42,13 +43,14 @@ const visitDatasets = ref<number[]>([])
 // 获取数据
 import { fetchUmamiData } from "@/utils/useData"
 onMounted(async () => {
-    const [viewsData, chartData] = await fetchUmamiData()
+    const [viewsData, chartData, activeData] = await fetchUmamiData()
     view_data.views.value = viewsData.views
     view_data.visitors.value = viewsData.visitors
     view_data.visits.value = viewsData.visits
     chartLabels.value = chartData.chartLabels
     visitorDatasets.value = chartData.visitorDatasets
     visitDatasets.value = chartData.visitDatasets
+    view_data.visitors.active = activeData
 })
 
 // 设置折线图
@@ -162,8 +164,12 @@ const contactInformation = [
                         <a-statistic title="更新日期" :value="update_time" />
                     </a-card>
                 </a-col>
-                <a-col :flex="1" v-for="(item, _) in view_data">
-                    <a-card>
+                <a-col :flex="1" v-for="(item, key) in view_data">
+                    <a-card v-if="key === 'visitors'" style="position: relative">
+                        <a-tag color="green" style="position: absolute; top:8px; right:0">{{ item.active }}</a-tag>
+                        <a-statistic :title="item.label" :value="item.value" />
+                    </a-card>
+                    <a-card v-else>
                         <a-statistic :title="item.label" :value="item.value" />
                     </a-card>
                 </a-col>
