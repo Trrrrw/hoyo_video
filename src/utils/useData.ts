@@ -222,7 +222,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData, number]> 
     const startAt = startOf7DaysAgo.getTime()
 
   const headers = {
-      'x-umami-share-context': 1,
+      'x-umami-share-context': '1',
       'x-umami-share-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaGFyZUlkIjoiYjA4MDcwYWUtYWJmZS00YjA5LTlkYTAtMmYxOWZiMGQxZWE5Iiwic2hhcmVUeXBlIjoxLCJwYXJhbWV0ZXJzIjp7InV0bSI6ZmFsc2UsImdvYWxzIjpmYWxzZSwiZXZlbnRzIjp0cnVlLCJjb21wYXJlIjpmYWxzZSwiZnVubmVscyI6ZmFsc2UsInJldmVudWUiOmZhbHNlLCJqb3VybmV5cyI6ZmFsc2UsIm92ZXJ2aWV3Ijp0cnVlLCJyZWFsdGltZSI6dHJ1ZSwic2Vzc2lvbnMiOnRydWUsImJyZWFrZG93biI6ZmFsc2UsInJldGVudGlvbiI6ZmFsc2UsImFsbG93RmlsdGVyIjp0cnVlLCJhdHRyaWJ1dGlvbiI6ZmFsc2UsInBlcmZvcm1hbmNlIjpmYWxzZX0sIndlYnNpdGVJZCI6IjE5NTEwMGZlLTA5NjEtNDkwNi05ZmMyLTA4NDgzM2MzMGU2NSIsInR5cGUiOiJzaGFyZSIsImlhdCI6MTc4Mzk5NjAwMn0.0dRN_E-aji--y6BV9Rff1X9cV0jO9njvaTJ78T_aujw'
     }
     pendingViewsDataPromise = (async () => {

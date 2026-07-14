@@ -24,7 +24,8 @@ onMounted(async () => {
 const view_data = reactive({
     views: {
         label: '浏览量',
-        value: ref(0)
+        value: ref(0),
+        active: ref(0)
     },
     visitors: {
         label: '访客',
@@ -33,7 +34,8 @@ const view_data = reactive({
     },
     visits: {
         label: '访问次数',
-        value: ref(0)
+        value: ref(0),
+        active: ref(0)
     }
 })
 // 折线图数据
