@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* 与 ThemeProvider 添加到 html 的 .dark 类保持一致 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Ant Design 风格的细滚动条，颜色跟随 ConfigProvider 的主题变量 */
+.app-scrollbar {
+  scrollbar-color: var(--ant-color-fill, rgba(0, 0, 0, 0.15)) transparent;
+  scrollbar-width: thin;
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .app-scrollbar {
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+  }
+}
+
+.app-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.app-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--ant-color-fill, rgba(0, 0, 0, 0.15));
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  min-height: 32px;
+}
+
+.app-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(
+    --ant-color-fill-content-hover,
+    rgba(0, 0, 0, 0.15)
+  );
+  background-clip: padding-box;
+}
+
+.app-scrollbar::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+  background: transparent;
+}
+
+.app-scrollbar::-webkit-scrollbar-button:single-button,
+.app-scrollbar::-webkit-scrollbar-button:vertical:decrement,
+.app-scrollbar::-webkit-scrollbar-button:vertical:increment,
+.app-scrollbar::-webkit-scrollbar-button:horizontal:decrement,
+.app-scrollbar::-webkit-scrollbar-button:horizontal:increment {
+  width: 0;
+  height: 0;
+  display: none;
+  background: transparent;
+}

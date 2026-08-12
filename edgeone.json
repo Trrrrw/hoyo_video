@@ -1,9 +1,0 @@
-{
-    "redirects": [
-        {
-            "source": "/:name.xml",
-            "destination": "/api/:name.xml",
-            "statusCode": 301
-        }
-    ]
-}

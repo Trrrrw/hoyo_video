@@ -1,143 +1,88 @@
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/Trrrrw/hoyo_video">
-    <img src="src/assets/images/logo.webp" alt="Logo" width="219" height="80">
-  </a>
+# 影像档案架
 
-  <h3 align="center">影像档案架</h3>
+一个用于整理、检索和观看游戏官方视频的非官方 Web 应用
 
-  <p align="center">
-    整合原神、崩铁、绝区零的官网视频
-    <br />
-    <a href="https://hoyo-video.trrw.tech/"><strong>Explore »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Trrrrw/hoyo_video/issues/new?labels=bug">Report Bug</a>
-    &middot;
-    <a href="https://github.com/Trrrrw/hoyo_video/issues/new?labels=enhancement">Request Feature</a>
-  </p>
-</div>
+[访问网站](https://video.trrw.cn) · [报告问题](https://github.com/Trrrrw/hoyo_video/issues)
 
+![影像档案架桌面端截图](public/screenshots/desktop-wide-1.png)
 
-<div align="center">
+## 功能
 
-[![Vercel][vercel-shield]][vercel-url]
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
+- 按游戏、内容来源和标签浏览视频
+- 根据关键词搜索视频，并进一步筛选标签
+- 在线播放视频并查看相关内容
+- 复制分类、搜索结果等页面的 RSS 订阅链接
+- 使用浏览器下载视频、封面与 NFO 元数据
+- 通过 Aria2 RPC 创建下载任务，并按 Emby 媒体库结构整理文件
+- 支持桌面端与移动端，并可作为 PWA 安装
+- 提供明暗主题切换
 
-</div>
+## 技术栈
 
+- [React](https://react.dev/) 与 [TypeScript](https://www.typescriptlang.org/)
+- [React Router](https://reactrouter.com/)
+- [Ant Design](https://ant.design/) 与 [Tailwind CSS](https://tailwindcss.com/)
+- [Video.js React](https://videojs.org/)
+- [Vite](https://vite.dev/)
 
-<!-- ABOUT THE PROJECT -->
-## 关于项目
+## 本地开发
 
-[![Product Screen Shot][product-screenshot]](https://hoyo-video.trrw.tech/)
+请先安装 Node.js 和 [pnpm](https://pnpm.io/)，然后执行：
 
-官网的画质比蜀黍的好的多，但是官网用起来不是很方便，所以就有了这个项目。
+```bash
+git clone https://github.com/Trrrrw/hoyo_video.git
+cd hoyo_video
+pnpm install
+pnpm dev
+```
 
-项目特色:
-* 视频分类: 对视频进行分类，方便查找
-* 视频下载: 可以很方便地下载视频及封面文件
-* 视频搜索: 可以通过关键字搜索视频
-* RSS 订阅: 可以通过 RSS 订阅及时获取更新
+开发服务器默认监听所有本地网络接口，终端会显示可访问的地址
 
+## 环境变量
 
-### 技术栈
+前端通过 `VITE_BACKEND_BASE` 指定后端服务地址。该变量可选，未配置时默认使用 `https://akasha.trrw.cn`
 
-* [![Vue][Vue.js]][Vue-url]
-* [![Vite][Vite.js]][Vite-url]
-* [![Yarn][Yarn.js]][Yarn-url]
+如需连接其他后端，可在项目根目录创建 `.env.local`：
 
+```dotenv
+VITE_BACKEND_BASE=https://example.com
+```
 
-<!-- GETTING STARTED -->
-## 开始使用
+Vite 会在构建时写入该变量，因此请勿在其中保存密钥或其他敏感信息
 
-### 环境要求
+## 检查与构建
 
-* [yarn](https://www.yarnpkg.cn/getting-started/install)
+```bash
+# 代码检查
+pnpm lint
 
-### 本地开发
+# 生产构建
+pnpm build
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/Trrrrw/hoyo_video.git
-   ```
-2. Install NPM packages
-   ```sh
-   yarn
-   ```
-3. Run the development server
-   ```sh
-   yarn dev
-   ```
+# 本地预览构建结果
+pnpm preview
+```
 
+构建产物位于 `dist` 目录。部署时需要将未知路径回退到 `index.html`，以支持前端路由直接访问和刷新
 
-<!-- ROADMAP -->
-## 开发计划
+## 项目结构
 
-- [x] ~~记录播放进度~~
-- [x] ~~搜索结果排序~~
-- [x] ~~全部视频页面~~
+```text
+src/
+├── api/          后端请求、缓存与数据类型
+├── assets/       图片等静态资源
+├── components/   通用组件、播放器与下载界面
+├── hooks/        可复用 React Hooks
+├── layouts/      页面布局
+├── libs/         下载、Aria2 与格式化工具
+├── pages/        路由页面
+└── theme/        主题状态与配置
+```
 
-See the [open issues](https://github.com/Trrrrw/hoyo_video/issues) for a full list of proposed features (and known issues).
+## 内容与版权声明
 
+本项目是个人制作的非官方整理工具，仅用于索引、整理和个人非商业浏览相关游戏官方发布的视频内容，不代表米哈游或其他权利方，也未获得其官方授权
 
-<!-- CONTACT -->
-## 联系方式
+站内展示的视频、图片、游戏名称、角色名称及其他相关素材，其著作权、商标权和其他权利归米哈游及相关权利方所有。本项目不主张对上述素材享有任何权利
 
-Trrrrw - [@trrrrrrrw](https://x.com/trrrrrrrw) - wzhhenry@qq.com
-
-QQ群: [https://qm.qq.com/q/6l9M3S5YUU](https://qm.qq.com/q/6l9M3S5YUU)
-
-Project Link: [https://github.com/Trrrrw/hoyo_video](https://github.com/Trrrrw/hoyo_video)
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* [Trae](https://www.trae.ai)
-* [Ant Design Vue](https://www.antdv.com/components/overview-cn)
-* [iconfont.cn](http://iconfont.cn)
-* [Img Shields](https://shields.io)
-* [Vercel](https://vercel.com)
-
-
-<!-- COPYRIGHT -->
-## Copyright
-
-* 本项目代码基于 MIT 许可证开源
-* 项目中的视频内容和图片资源版权归米哈游所有
-* 本项目仅作为这些内容的展示工具，不对这些资源进行任何权利声明
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[vercel-shield]: https://vercelbadge.vercel.app/api/Trrrrw/hoyo_video
-[vercel-url]: https://vercel.com/trrw/hoyo-video
-[contributors-shield]: https://img.shields.io/github/contributors/Trrrrw/hoyo_video
-[contributors-url]: https://github.com/Trrrrw/hoyo_video/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Trrrrw/hoyo_video
-[forks-url]: https://github.com/Trrrrw/hoyo_video/network/members
-[stars-shield]: https://img.shields.io/github/stars/Trrrrw/hoyo_video
-[stars-url]: https://github.com/Trrrrw/hoyo_video/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Trrrrw/hoyo_video
-[issues-url]: https://github.com/Trrrrw/hoyo_video/issues
-[license-shield]: https://img.shields.io/github/license/Trrrrw/hoyo_video
-[license-url]: https://github.com/Trrrrw/hoyo_video/blob/master/LICENSE.txt
-[product-screenshot]: public/screenshots/desktop-wide-1.png
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Vite.js]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff
-[Vite-url]: https://vitejs.org/
-[Yarn.js]: https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=fff
-[Yarn-url]: https://yarnpkg.com/
+如有版权或内容问题，请通过 [Issues](https://github.com/Trrrrw/hoyo_video/issues) 或 [contact@trrw.cn](mailto:contact@trrw.cn) 联系

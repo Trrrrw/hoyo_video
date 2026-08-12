@@ -1,0 +1,97 @@
+.video-player-skin {
+  --media-border-radius: 0;
+}
+
+.video-player-loading-indicator {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  color: oklch(1 0 0);
+  pointer-events: none;
+}
+
+.video-player-spinner {
+  position: relative;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: calc(infinity * 1px);
+  --media-icon-size: 1.5rem;
+}
+
+.video-player-navigation {
+  position: absolute;
+  inset: 0.75rem;
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.video-player-navigation:not([data-visible]) {
+  pointer-events: none;
+}
+
+.video-player-navigation-surface {
+  position: relative;
+  display: grid;
+  pointer-events: auto;
+  border-radius: calc(infinity * 1px);
+  transition-timing-function: var(--media-controls-transition-timing-function);
+  transition-duration: var(--media-controls-transition-duration);
+  transition-property: scale, opacity;
+}
+
+.video-player-navigation:not([data-visible])
+  .video-player-navigation-surface {
+  opacity: 0;
+  scale: 0.95;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-player-navigation-surface {
+    transition-property: opacity;
+  }
+
+  .video-player-navigation:not([data-visible])
+    .video-player-navigation-surface {
+    scale: 1;
+  }
+}
+
+.video-player-navigation .media-button {
+  pointer-events: auto;
+  color: var(--media-color-primary, oklch(1 0 0));
+  text-shadow: 0 1px 0 var(--media-current-shadow-color);
+}
+
+/* Keep the default play, volume, timeline, and fullscreen controls while
+   replacing only its seek and settings buttons */
+.video-player-skin .media-controls .media-button--seek,
+.video-player-skin .media-controls .media-button--settings,
+.video-player-skin .media-controls button.media-button--settings {
+  display: none !important;
+}
+
+.video-player-skin .media-controls .media-button-group:last-child {
+  & .video-player-download-control {
+    order: 1;
+  }
+
+  & .media-button--cast,
+  & .media-button--airplay {
+    order: 2;
+  }
+
+  & .media-button--pip {
+    order: 3;
+  }
+
+  & .media-button--fullscreen {
+    order: 4;
+  }
+}

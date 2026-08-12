@@ -1,6 +1,8 @@
 {
     "name": "影像档案架",
-    "description": "整合原神、崩铁、绝区零的官网视频",
+    "short_name": "影像档案架",
+    "description": "个人制作的非官方整理工具，用于检索相关游戏官方发布的视频内容，支持分类、搜索、播放与 RSS 订阅",
+    "id": "/",
     "start_url": "/",
     "scope": "/",
     "lang": "zh-CN",
@@ -40,21 +42,9 @@
     ],
     "screenshots": [
         {
-            "src": "/screenshots/desktop-wide-1.avif",
-            "sizes": "1920x1080",
-            "type": "image/avif",
-            "form_factor": "wide"
-        },
-        {
             "src": "/screenshots/desktop-wide-1.png",
             "sizes": "1920x1080",
             "type": "image/png",
-            "form_factor": "wide"
-        },
-        {
-            "src": "/screenshots/desktop-wide-2.avif",
-            "sizes": "1280x720",
-            "type": "image/avif",
             "form_factor": "wide"
         },
         {
@@ -64,24 +54,13 @@
             "form_factor": "wide"
         },
         {
-            "src": "/screenshots/mobile-1.avif",
-            "sizes": "1080x1920",
-            "type": "image/avif"
-        },
-        {
             "src": "/screenshots/mobile-1.png",
             "sizes": "1080x1920",
             "type": "image/png"
         },
         {
-            "src": "/screenshots/mobile-2.avif",
-            "sizes": "1080x1920",
-            "type": "image/avif",
-            "form_factor": "narrow"
-        },
-        {
             "src": "/screenshots/mobile-2.png",
-            "sizes": "1080x1920",
+            "sizes": "390x844",
             "type": "image/png",
             "form_factor": "narrow"
         }
