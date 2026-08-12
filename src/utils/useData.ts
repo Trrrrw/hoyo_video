@@ -227,7 +227,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData, number]> 
     }
     pendingViewsDataPromise = (async () => {
         try {
-            const viewsDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/stats?startAt=${startAt}&endAt=${endAt}&page=1`, { headers: headers })
+            const viewsDataRes = await fetch(`https://umami.trrw.cn/api/websites/195100fe-0961-4906-9fc2-084833c30e65/stats?startAt=${startAt}&endAt=${endAt}&page=1`, { headers: headers })
             const viewsData = await viewsDataRes.json()
             cachedViewsData = {
                 views: viewsData.pageviews,
@@ -241,7 +241,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData, number]> 
     })()
     pendingChartDataPromise = (async () => {
         try {
-            const chartDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&page=1`, { headers: headers })
+            const chartDataRes = await fetch(`https://umami.trrw.cn/api/websites/195100fe-0961-4906-9fc2-084833c30e65/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&page=1`, { headers: headers })
             interface ChartData {
                 pageviews: ChartDataPoint[]
                 sessions: ChartDataPoint[]
@@ -263,7 +263,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData, number]> 
     })()
   pendingActiveDataPromise = (async () => {
     try {
-      const activeDataRes = await fetch(`https://umami.trrw.tech/api/websites/195100fe-0961-4906-9fc2-084833c30e65/active`, { headers: headers })
+      const activeDataRes = await fetch(`https://umami.trrw.cn/api/websites/195100fe-0961-4906-9fc2-084833c30e65/active`, { headers: headers })
       const avtiveData: { visitors: number } = await activeDataRes.json()
       cachedActiveData = avtiveData.visitors
       return cachedActiveData

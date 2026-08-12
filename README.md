@@ -10,7 +10,7 @@
   <p align="center">
     整合原神、崩铁、绝区零的官网视频
     <br />
-    <a href="https://hoyo-video.trrw.tech/"><strong>Explore »</strong></a>
+    <a href="https://video.trrw.cn/"><strong>Explore »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Trrrrw/hoyo_video/issues/new?labels=bug">Report Bug</a>
@@ -35,7 +35,7 @@
 <!-- ABOUT THE PROJECT -->
 ## 关于项目
 
-[![Product Screen Shot][product-screenshot]](https://hoyo-video.trrw.tech/)
+[![Product Screen Shot][product-screenshot]](https://video.trrw.cn/)
 
 官网的画质比蜀黍的好的多，但是官网用起来不是很方便，所以就有了这个项目。
 

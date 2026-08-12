@@ -276,7 +276,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
     }
     pendingViewsDataPromise = (async () => {
         try {
-            const viewsDataRes = await fetch(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&compare=false`, { headers: headers })
+            const viewsDataRes = await fetch(`https://umami.trrw.cn/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/stats?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai&compare=false`, { headers: headers })
             const viewsData = await viewsDataRes.json()
             cachedViewsData = {
                 views: viewsData.pageviews,
@@ -290,7 +290,7 @@ export const fetchUmamiData = async (): Promise<[ViewsData, ChartData]> => {
     })()
     pendingChartDataPromise = (async () => {
         try {
-            const chartDataRes = await fetch(`https://umami.trrw.tech/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai`, { headers: headers })
+            const chartDataRes = await fetch(`https://umami.trrw.cn/api/websites/4f5de7ac-459b-4481-8011-5c27fc8759a3/pageviews?startAt=${startAt}&endAt=${endAt}&unit=day&timezone=Asia%2FShanghai`, { headers: headers })
             interface ChartData {
                 pageviews: ChartDataPoint[]
                 sessions: ChartDataPoint[]
