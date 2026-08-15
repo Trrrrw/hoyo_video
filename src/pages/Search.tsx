@@ -22,6 +22,7 @@ import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
 import EmptyMark from "../assets/home-mark/home-mark-1.avif";
 import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
+import { formatDuring, parseDuring } from "../libs/newsFilterParams";
 import { SearchSkeleton } from "../components/LoadingSkeletons";
 
 const { RangePicker } = DatePicker;
@@ -32,13 +33,14 @@ export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const copyWithMessage = useCopyText();
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [during, setDuring] = useState<string>();
-  const [reverse, setReverse] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const gameId = searchParams.get("game");
   const query = searchParams.get("q")?.trim() ?? "";
   const sourceId = searchParams.get("source");
+  const selectedTags = searchParams.getAll("tag");
+  const during = searchParams.get("during") ?? undefined;
+  const duringValue = parseDuring(searchParams.get("during"));
+  const reverse = searchParams.get("reverse") === "true";
   const [searchValue, setSearchValue] = useState(query);
 
   const { games, isLoading: isGamesLoading } = useGames();
@@ -70,10 +72,6 @@ export default function Search() {
   useEffect(() => {
     setSearchValue(query);
   }, [query]);
-
-  useEffect(() => {
-    setSelectedTags([]);
-  }, [sourceId]);
 
   useEffect(() => {
     if (!sourcesReady) return;
@@ -120,23 +118,21 @@ export default function Search() {
 
   const handleSearch = (value: string) => {
     const nextQuery = value.trim();
-    const nextParams = new URLSearchParams();
-
-    if (gameId) nextParams.set("game", gameId);
-    if (nextQuery) nextParams.set("q", nextQuery);
-    if (sourceId) nextParams.set("source", sourceId);
-
-    void navigate({
-      pathname: "/search",
-      search: nextParams.toString(),
+    setSearchParams((current) => {
+      if (gameId) current.set("game", gameId);
+      if (nextQuery) current.set("q", nextQuery);
+      else current.delete("q");
+      if (sourceId) current.set("source", sourceId);
+      else current.delete("source");
+      return current;
     });
   };
 
   const handleSourceChange = (nextSourceId: string) => {
-    setSelectedTags([]);
     setSearchParams(
       (current) => {
         current.set("source", nextSourceId);
+        current.delete("tag");
         return current;
       },
       { replace: true },
@@ -144,23 +140,47 @@ export default function Search() {
   };
 
   const handleGameChange = (nextGameId: string) => {
-    setSelectedTags([]);
-    const nextParams = new URLSearchParams();
-    nextParams.set("game", nextGameId);
-    if (query) nextParams.set("q", query);
-
-    void navigate({
-      pathname: "/search",
-      search: nextParams.toString(),
+    setSearchParams((current) => {
+      current.set("game", nextGameId);
+      if (query) current.set("q", query);
+      else current.delete("q");
+      current.delete("source");
+      current.delete("tag");
+      return current;
     });
   };
 
   const handleDuringChange = (dates: Parameters<NonNullable<React.ComponentProps<typeof RangePicker>["onChange"]>>[0]) => {
-    const [start, end] = dates ?? [];
-    setDuring(
-      start || end
-        ? `${start?.format("YYYYMMDD") ?? ""}-${end?.format("YYYYMMDD") ?? ""}`
-        : undefined,
+    const nextDuring = formatDuring(dates);
+    setSearchParams(
+      (current) => {
+        if (nextDuring) current.set("during", nextDuring);
+        else current.delete("during");
+        return current;
+      },
+      { replace: true },
+    );
+  };
+
+  const handleTagsChange = (nextTags: string[]) => {
+    setSearchParams(
+      (current) => {
+        current.delete("tag");
+        nextTags.forEach((tag) => current.append("tag", tag));
+        return current;
+      },
+      { replace: true },
+    );
+  };
+
+  const handleReverseChange = (value: string) => {
+    setSearchParams(
+      (current) => {
+        if (value === "升序") current.set("reverse", "true");
+        else current.delete("reverse");
+        return current;
+      },
+      { replace: true },
     );
   };
 
@@ -298,18 +318,19 @@ export default function Search() {
                     value: tag.name,
                   }))}
                   maxTagCount="responsive"
-                  onChange={setSelectedTags}
+                  onChange={handleTagsChange}
                   aria-label="筛选标签"
                 />
                 <RangePicker
                   allowEmpty={[true, true]}
                   format="YYYY年MM月DD日"
+                  value={duringValue}
                   onChange={handleDuringChange}
                 />
                 <Segmented<string>
                   options={["降序", "升序"]}
                   value={reverse ? "升序" : "降序"}
-                  onChange={(value) => setReverse(value === "升序")}
+                  onChange={handleReverseChange}
                 />
               </Flex>
             ),

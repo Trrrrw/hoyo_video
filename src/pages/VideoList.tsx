@@ -12,20 +12,29 @@ import { FilterOutlined } from "@ant-design/icons";
 import { IconRss } from "@tabler/icons-react";
 import { useCopyText } from "../hooks/useCopyText";
 import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
+import { formatDuring, parseDuring } from "../libs/newsFilterParams";
 import { VideoListSkeleton } from "../components/LoadingSkeletons";
 
 const { RangePicker } = DatePicker;
 
-function videoListUrl(gameId: string, sourceId: string, tagName: string) {
-  return `/${gameId}/videos?${new URLSearchParams({
-    source: sourceId,
-    tag: tagName,
-  })}`;
+function videoListUrl(
+  gameId: string,
+  sourceId: string,
+  tagName?: string,
+  during?: string,
+  reverse = false,
+) {
+  const params = new URLSearchParams({ source: sourceId });
+  if (tagName) params.set("tag", tagName);
+  if (during) params.set("during", during);
+  if (reverse) params.set("reverse", "true");
+
+  return `/${gameId}/videos?${params}`;
 }
 
 export default function VideoList() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const copyWithMessage = useCopyText();
 
@@ -63,16 +72,9 @@ export default function VideoList() {
       ? source.id
       : undefined;
 
-  const [during, setDuring] = useState<string | undefined>(
-    () => sessionStorage.getItem("filterDuring") ?? undefined,
-  );
-  const [reverse, setReverse] = useState(
-    () => sessionStorage.getItem("filterReverse") === "true",
-  );
-  useEffect(() => {
-    sessionStorage.removeItem("filterDuring");
-    sessionStorage.removeItem("filterReverse");
-  }, [during, reverse]);
+  const during = searchParams.get("during") ?? undefined;
+  const duringValue = parseDuring(searchParams.get("during"));
+  const reverse = searchParams.get("reverse") === "true";
 
   const {
     news,
@@ -90,16 +92,18 @@ export default function VideoList() {
   });
 
   function handleFilterChange(nextDuring?: string, nextReverse = false) {
-    setDuring(nextDuring);
-    setReverse(nextReverse);
+    setSearchParams(
+      (current) => {
+        if (nextDuring) current.set("during", nextDuring);
+        else current.delete("during");
 
-    if (nextDuring) {
-      sessionStorage.setItem("filterDuring", nextDuring);
-    } else {
-      sessionStorage.removeItem("filterDuring");
-    }
+        if (nextReverse) current.set("reverse", "true");
+        else current.delete("reverse");
 
-    sessionStorage.setItem("filterReverse", String(nextReverse));
+        return current;
+      },
+      { replace: true },
+    );
   }
 
   function handleCopyRssUrl() {
@@ -173,12 +177,24 @@ export default function VideoList() {
               {
                 id: "__all__",
                 name: "全部视频",
-                to: `/${game.id}/videos?${new URLSearchParams({ source: source.id })}`,
+                to: videoListUrl(
+                  game.id,
+                  source.id,
+                  undefined,
+                  during,
+                  reverse,
+                ),
               },
               ...tags.map((item) => ({
                 id: item.name,
                 name: item.name,
-                to: videoListUrl(game.id, source.id, item.name),
+                to: videoListUrl(
+                  game.id,
+                  source.id,
+                  item.name,
+                  during,
+                  reverse,
+                ),
               })),
             ],
           }}
@@ -220,19 +236,14 @@ export default function VideoList() {
                 <RangePicker
                   allowEmpty={[true, true]}
                   format="YYYY年MM月DD日"
+                  value={duringValue}
                   onChange={(dates) => {
-                    const [start, end] = dates ?? [];
-
-                    const nextDuring =
-                      start || end
-                        ? `${start?.format("YYYYMMDD") ?? ""}-${end?.format("YYYYMMDD") ?? ""}`
-                        : undefined;
-
-                    handleFilterChange(nextDuring, reverse);
+                    handleFilterChange(formatDuring(dates), reverse);
                   }}
                 />
                 <Segmented<string>
                   options={["降序", "升序"]}
+                  value={reverse ? "升序" : "降序"}
                   onChange={(value) => {
                     handleFilterChange(during, value === "升序");
                   }}
