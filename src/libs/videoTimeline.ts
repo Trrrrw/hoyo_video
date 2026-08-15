@@ -7,6 +7,13 @@ export function getTimelineDateKey(publishTime: string | null): string {
   return date.isValid() ? date.format("YYYY-MM-DD") : "unknown";
 }
 
+export function getTimelineMonthKey(publishTime: string | null): string {
+  if (!publishTime) return "unknown";
+
+  const date = dayjs(publishTime);
+  return date.isValid() ? date.format("YYYY-MM") : "unknown";
+}
+
 export function getTimelineGroupId(dateKey: string): string {
   return `timeline-${dateKey}`;
 }

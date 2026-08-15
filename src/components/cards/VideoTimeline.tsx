@@ -1,6 +1,6 @@
 import { FloatButton, Typography } from "antd";
 import dayjs from "dayjs";
-import { useLocation, useNavigationType } from "react-router";
+import { Link, useLocation, useNavigationType } from "react-router";
 import {
   type CSSProperties,
   type Key,
@@ -16,6 +16,7 @@ import type { NewsInfo } from "../../api/types";
 import {
   getTimelineDateKey,
   getTimelineGroupId,
+  getTimelineMonthKey,
 } from "../../libs/videoTimeline";
 import { VideoCardSkeleton } from "../LoadingSkeletons";
 
@@ -36,21 +37,21 @@ type VideoTimelineProps = {
   className?: string;
 };
 
-type VideoGroup = {
+type VideoMonthGroup = {
   key: string;
   label: string;
   items: NewsInfo[];
 };
 
-function groupVideosByDate(items: NewsInfo[]): VideoGroup[] {
-  const groups = new Map<string, VideoGroup>();
+function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
+  const groups = new Map<string, VideoMonthGroup>();
 
   for (const item of items) {
     const date = item.publish_time ? dayjs(item.publish_time) : null;
-    const key = getTimelineDateKey(item.publish_time);
+    const key = getTimelineMonthKey(item.publish_time);
     const label = date?.isValid()
-      ? date.format("YYYY年MM月DD日")
-      : "未知日期";
+      ? date.format("YYYY年MM月")
+      : "未知月份";
     const group = groups.get(key);
 
     if (group) {
@@ -61,6 +62,13 @@ function groupVideosByDate(items: NewsInfo[]): VideoGroup[] {
   }
 
   return [...groups.values()];
+}
+
+function getTimelineDateLabel(publishTime: string | null): string {
+  if (!publishTime) return "未知日期";
+
+  const date = dayjs(publishTime);
+  return date.isValid() ? date.format("MM月DD日") : "未知日期";
 }
 
 function getTimelineScrollKey(pathname: string, search: string) {
@@ -118,7 +126,7 @@ export default function VideoTimeline({
   const pendingScrollTop = useRef<number | null>(null);
   const scrolledHashTarget = useRef<string | null>(null);
   const loadMoreInFlight = useRef(false);
-  const groups = useMemo(() => groupVideosByDate(items), [items]);
+  const groups = useMemo(() => groupVideosByMonth(items), [items]);
   const setScrollElement = useCallback((element: HTMLDivElement | null) => {
     setScrollElementState(element);
     if (element) setWidth(element.getBoundingClientRect().width);
@@ -292,7 +300,7 @@ export default function VideoTimeline({
 
   useEffect(() => {
     maybeLoadMore();
-  }, [groups.length, maybeLoadMore]);
+  }, [items.length, maybeLoadMore]);
 
   if (!isLoading && items.length === 0 && !hasMore) {
     return <div className={className}>{empty}</div>;
@@ -331,32 +339,57 @@ export default function VideoTimeline({
             className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"
             style={{ background: "var(--ant-color-border)" }}
           />
-          {groups.map((group) => (
-            <section
-              id={getTimelineGroupId(group.key)}
-              key={group.key}
-              className="relative pb-8 last:pb-2"
-            >
-              <div className="relative mb-3 flex min-h-6 items-center">
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
-                  style={{
-                    background: "var(--ant-color-primary)",
-                    borderColor: "var(--ant-color-bg-container)",
-                  }}
-                />
-                <Text strong type="secondary">
-                  {group.label}
-                </Text>
-              </div>
-              <div style={gridStyle}>
-                {group.items.map((item) => (
-                  <div key={getKey(item)}>{renderItem(item)}</div>
-                ))}
-              </div>
-            </section>
-          ))}
+          {groups.map((group) => {
+            const renderedDateKeys = new Set<string>();
+
+            return (
+              <section key={group.key} className="relative pb-8 last:pb-2">
+                <div className="relative mb-3 flex min-h-6 items-center">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
+                    style={{
+                      background: "var(--ant-color-primary)",
+                      borderColor: "var(--ant-color-bg-container)",
+                    }}
+                  />
+                  <Text strong type="secondary">
+                    {group.label}
+                  </Text>
+                </div>
+                <div style={gridStyle}>
+                  {group.items.map((item) => {
+                    const dateKey = getTimelineDateKey(item.publish_time);
+                    const isFirstDateItem = !renderedDateKeys.has(dateKey);
+                    renderedDateKeys.add(dateKey);
+                    const dateHref = `${location.pathname}${location.search}#${getTimelineGroupId(dateKey)}`;
+
+                    return (
+                      <div key={getKey(item)} className="min-w-0">
+                        <Link
+                          id={
+                            isFirstDateItem
+                              ? getTimelineGroupId(dateKey)
+                              : undefined
+                          }
+                          to={dateHref}
+                          className="mb-2! inline-flex! items-center! rounded-md! px-2! py-1! text-inherit! text-xs! no-underline!"
+                          style={{
+                            background: "var(--ant-color-fill-secondary)",
+                          }}
+                        >
+                          <Text type="secondary">
+                            {getTimelineDateLabel(item.publish_time)}
+                          </Text>
+                        </Link>
+                        {renderItem(item)}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
           {(isLoading || isLoadingMore) && (
             <section className="relative pb-2">
               <div className="relative mb-3 flex min-h-6 items-center">
