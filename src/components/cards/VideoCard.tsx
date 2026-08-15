@@ -152,7 +152,7 @@ export default function VideoCard({
           {video.cover ? (
             <img
               src={video.cover}
-              alt={video.title}
+              alt=""
               className="aspect-video w-full rounded-xl object-cover"
             />
           ) : (
@@ -177,7 +177,7 @@ export default function VideoCard({
             }}
           >
             <Title
-              level={5}
+              level={2}
               className="mb-0! line-clamp-2! text-base! leading-6! font-semibold!"
             >
               {video.title}
@@ -206,7 +206,11 @@ export default function VideoCard({
           onOpenChange={setDropdownOpen}
           menu={{ items: dropdownMenuItems, onClick: onDropdownMenuClick }}
         >
-          <Button type="text" icon={<IconDotsVertical />} />
+          <Button
+            type="text"
+            icon={<IconDotsVertical />}
+            aria-label={`更多操作：${video.title}`}
+          />
         </Dropdown>
       </Flex>
       <DownloadVideoModal

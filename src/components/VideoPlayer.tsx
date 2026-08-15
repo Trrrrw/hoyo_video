@@ -47,7 +47,7 @@ function VideoPlayerNavigation({
   const controlsVisible = controls?.controlsVisible ?? true;
 
   return (
-    <div
+    <nav
       className="video-player-navigation"
       data-visible={controlsVisible ? "" : undefined}
       aria-label="视频操作"
@@ -75,7 +75,7 @@ function VideoPlayerNavigation({
           <IconLink className="media-icon" aria-hidden="true" />
         </a>
       </span>
-    </div>
+    </nav>
   );
 }
 

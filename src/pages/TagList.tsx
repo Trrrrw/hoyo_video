@@ -16,6 +16,7 @@ import {
   TagGridSkeleton,
   TagListSkeleton,
 } from "../components/LoadingSkeletons";
+import PageTitle from "../components/PageTitle";
 
 type TagGridItem =
   | { type: "all"; key: "all" }
@@ -77,8 +78,16 @@ export default function TagList() {
     }
   }, [navigate, source, sourceId, sortedSources.length, sourcesReady]);
 
+  const pageTitle =
+    game && source ? `${game.name} · ${source.name} · 标签` : "标签";
+
   if (isGamesLoading || !sourcesReady || !game || !source) {
-    return <TagListSkeleton />;
+    return (
+      <>
+        <PageTitle title={pageTitle} />
+        <TagListSkeleton />
+      </>
+    );
   }
 
   const handleCopyRssUrl = () => {
@@ -90,8 +99,11 @@ export default function TagList() {
   };
 
   return (
-    <Flex vertical gap="middle" className="min-h-0 min-w-0 flex-1 p-3!">
-      <Flex justify="space-between" align="center">
+    <>
+      <PageTitle title={pageTitle} />
+      <Flex vertical gap="middle" className="min-h-0 min-w-0 flex-1 p-3!">
+        <h1 className="sr-only">{game.name} / {source.name} 标签</h1>
+        <Flex justify="space-between" align="center">
         <AppBreadcrumb
           game={{ id: game.id, name: game.name }}
           source={{
@@ -111,9 +123,9 @@ export default function TagList() {
           aria-label="复制 RSS 订阅链接"
           onClick={handleCopyRssUrl}
         />
-      </Flex>
+        </Flex>
 
-      {isTagsLoading ? (
+        {isTagsLoading ? (
         <TagGridSkeleton count={8} minItemWidth={300} />
       ) : (
         <CardGrid
@@ -130,7 +142,8 @@ export default function TagList() {
           height="auto"
           minItemWidth={300}
         />
-      )}
-    </Flex>
+        )}
+      </Flex>
+    </>
   );
 }

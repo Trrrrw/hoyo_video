@@ -1,4 +1,5 @@
 import { backendFetch } from "./client";
+import { isNewsVideoResponse, parseJson } from "./parse";
 
 export type NewsVideo = {
   video_url: string;
@@ -17,7 +18,11 @@ export async function getNewsVideo(
     `/api/v1/games/${gameId}/news/${newsId}/video`,
     { source_id: sourceId },
   );
-  const data = (await response.json()) as NewsVideoResponse;
+  const data = await parseJson<NewsVideoResponse>(
+    response,
+    isNewsVideoResponse,
+    "视频地址",
+  );
 
   if (!data.video_url) {
     throw new Error("视频链接为空");

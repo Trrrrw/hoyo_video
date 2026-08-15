@@ -24,6 +24,7 @@ import EmptyMark from "../assets/home-mark/home-mark-1.avif";
 import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
 import { formatDuring, parseDuring } from "../libs/newsFilterParams";
 import { SearchSkeleton } from "../components/LoadingSkeletons";
+import PageTitle from "../components/PageTitle";
 
 const { RangePicker } = DatePicker;
 const { Text, Title } = Typography;
@@ -115,6 +116,7 @@ export default function Search() {
     limit: 24,
     reverse,
   });
+  const pageTitle = query ? `搜索「${query}」` : "搜索";
 
   const handleSearch = (value: string) => {
     const nextQuery = value.trim();
@@ -205,7 +207,12 @@ export default function Search() {
     !sourcesReady ||
     !source
   ) {
-    return <SearchSkeleton />;
+    return (
+      <>
+        <PageTitle title={pageTitle} />
+        <SearchSkeleton />
+      </>
+    );
   }
 
   const emptyState = (
@@ -223,10 +230,12 @@ export default function Search() {
   );
 
   return (
-    <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
+    <>
+      <PageTitle title={pageTitle} />
+      <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
       <Flex vertical gap="small">
         <Flex align="center" justify="space-between" gap="small">
-          <Title level={3} className="mb-0! mt-0!">
+          <Title level={1} className="mb-0! mt-0! text-xl!">
             搜索视频
           </Title>
           <Flex gap="small">
@@ -365,6 +374,7 @@ export default function Search() {
         empty={emptyState}
         minItemWidth={340}
       />
-    </Flex>
+      </Flex>
+    </>
   );
 }

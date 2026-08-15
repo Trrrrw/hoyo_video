@@ -7,6 +7,7 @@ import { Button, Card, Flex, Layout, Result, Typography } from "antd";
 import type { ReactNode } from "react";
 import { useBackendErrorState } from "../hooks/useBackendErrorNavigation";
 import AppHeader from "./AppHeader";
+import PageTitle from "./PageTitle";
 
 type ErrorPageProps = {
   status: string;
@@ -28,8 +29,10 @@ export default function ErrorPage({
   actions,
 }: ErrorPageProps) {
   return (
-    <Layout className="min-h-dvh!">
-      <AppHeader showRightItems={false} />
+    <>
+      <PageTitle title={`${status} ${title}`} />
+      <Layout className="min-h-dvh!">
+        <AppHeader showRightItems={false} />
 
       <Flex
         vertical
@@ -37,6 +40,9 @@ export default function ErrorPage({
         justify="center"
         className="min-h-0 flex-1 p-4 sm:p-8"
       >
+        <h1 className="sr-only">
+          {status} {title}
+        </h1>
         <Card
           className="w-full max-w-2xl overflow-hidden shadow-sm"
           styles={{ body: { padding: 0 } }}
@@ -72,8 +78,9 @@ export default function ErrorPage({
             </Typography.Text>
           </div>
         </Card>
-      </Flex>
-    </Layout>
+        </Flex>
+      </Layout>
+    </>
   );
 }
 

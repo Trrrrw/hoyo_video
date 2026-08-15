@@ -65,6 +65,7 @@ function LeftItems({
       <Link
         to="/"
         reloadDocument
+        aria-label="影像档案架"
         className="flex h-full min-w-0 items-center text-inherit! no-underline! hover:text-inherit!"
       >
         <Flex
@@ -74,7 +75,7 @@ function LeftItems({
         >
           <img
             src={Logo}
-            alt="影像档案架"
+            alt=""
             className="h-8 w-auto"
             draggable="false"
             fetchPriority="high"

@@ -31,6 +31,7 @@ import {
   getTimelineGroupId,
 } from "../libs/videoTimeline";
 import { VideoListSkeleton } from "../components/LoadingSkeletons";
+import PageTitle from "../components/PageTitle";
 
 const { RangePicker } = DatePicker;
 
@@ -177,6 +178,12 @@ export default function VideoList() {
     sourcesReady,
   ]);
 
+  const videoListLabel = tag?.name ?? "全部视频";
+  const pageTitle =
+    game && source
+      ? `${game.name} · ${source.name} · ${videoListLabel}${isTimelineView ? " · 时间轴" : ""}`
+      : "视频列表";
+
   if (
     isGamesLoading ||
     !sourcesReady ||
@@ -184,12 +191,22 @@ export default function VideoList() {
     !game ||
     !source
   ) {
-    return <VideoListSkeleton timeline={isTimelineView} />;
+    return (
+      <>
+        <PageTitle title={pageTitle} />
+        <VideoListSkeleton timeline={isTimelineView} />
+      </>
+    );
   }
 
   return (
-    <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
-      <Flex justify="space-between" align="center">
+    <>
+      <PageTitle title={pageTitle} />
+      <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
+        <h1 className="sr-only">
+          {game.name} / {source.name} / {videoListLabel}
+        </h1>
+        <Flex justify="space-between" align="center">
         <AppBreadcrumb
           game={{ id: game.id, name: game.name }}
           source={{
@@ -248,7 +265,7 @@ export default function VideoList() {
             onClick={() => setIsFilterVisible((visible) => !visible)}
           />
         </Flex>
-      </Flex>
+        </Flex>
 
       <Collapse
         ghost
@@ -295,7 +312,7 @@ export default function VideoList() {
         ]}
       />
 
-      {isTimelineView ? (
+        {isTimelineView ? (
         <VideoTimeline
           items={news}
           getKey={(item) => item.id}
@@ -338,7 +355,8 @@ export default function VideoList() {
           empty={tag ? "该标签暂无视频" : "该来源暂无视频"}
           minItemWidth={340}
         />
-      )}
-    </Flex>
+        )}
+      </Flex>
+    </>
   );
 }

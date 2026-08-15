@@ -400,7 +400,11 @@ export default function VideoTimeline({
           width: "calc(100% + 16px)",
         }}
       >
-        <div className="relative pl-8" aria-label="视频时间轴">
+        <div
+          className="relative pl-8"
+          role="region"
+          aria-label="视频时间轴"
+        >
           <div
             aria-hidden="true"
             className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"

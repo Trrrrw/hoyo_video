@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
 import { backendFetch } from "./client";
-import type { ListResponse, NewsCount, RecentNews } from "./types";
+import {
+  isGameInfo,
+  isListResponse,
+  parseJson,
+} from "./parse";
+import type { GameInfo, ListResponse } from "./types";
 
-export type GameInfo = {
-  id: string;
-  name: string;
-  index: number;
-  cover: string | null;
-  icon: string | null;
-  news_count: NewsCount;
-  recent_news: RecentNews;
-};
+export type { GameInfo } from "./types";
 
 // 游戏列表在一次页面生命周期内不会频繁变化，所有组件共享同一个缓存和请求
 let cachedGames: GameInfo[] | undefined;
@@ -29,7 +26,12 @@ export function getGames(): Promise<GameInfo[]> {
 
   gamesRequest = backendFetch("/api/v1/games")
     .then(async (response) => {
-      const data = (await response.json()) as ListResponse<GameInfo>;
+      const data = await parseJson<ListResponse<GameInfo>>(
+        response,
+        (value): value is ListResponse<GameInfo> =>
+          isListResponse(value, isGameInfo),
+        "游戏列表",
+      );
       cachedGames = data.items;
       return data.items;
     })

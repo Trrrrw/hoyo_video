@@ -1,26 +1,10 @@
 import { useEffect, useState } from "react";
 import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
 import { backendFetch } from "./client";
-import type { NewsCount, RecentNews } from "./types";
+import { isTagsResponse, parseJson } from "./parse";
+import type { TagGroupInfo, TagInfo, TagsResponse } from "./types";
 
-export type TagInfo = {
-  name: string;
-  index: number;
-  news_count: NewsCount;
-  recent: RecentNews;
-};
-
-export type TagGroupInfo = {
-  name: string | null;
-  index: number | null;
-  tags: TagInfo[];
-};
-
-export type TagsResponse = {
-  game_id: string;
-  source_id: string;
-  groups: TagGroupInfo[];
-};
+export type { TagGroupInfo, TagInfo, TagsResponse } from "./types";
 
 function toDisplayTag(tag: TagInfo): TagInfo {
   return {
@@ -37,7 +21,7 @@ export async function getTags(
     source_id: sourceId,
   });
 
-  return (await response.json()) as TagsResponse;
+  return parseJson<TagsResponse>(response, isTagsResponse, "标签列表");
 }
 
 export function useTags(gameId: string, sourceId: string | undefined) {

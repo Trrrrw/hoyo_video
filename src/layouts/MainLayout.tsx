@@ -47,7 +47,7 @@ export default function MainLayout() {
             <Button
               type="link"
               size="small"
-              className="px-1!"
+              className="px-1! text-blue-700! dark:text-blue-300!"
               onClick={openDownloadGuideFromBanner}
             >
               查看方法

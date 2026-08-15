@@ -3,17 +3,22 @@ import { useEffect, useState } from "react";
 import { useGames } from "../api/useGames";
 import { backendUrl } from "../api/client";
 import { useNavigate } from "react-router";
+import PageTitle from "../components/PageTitle";
 
 export default function Home() {
   return (
-    <Flex
-      vertical
-      align="center"
-      className="w-full px-4! pt-[clamp(6rem,20vh,13rem)]!"
-    >
-      <RandomHomeMark />
-      <SearchInput />
-    </Flex>
+    <>
+      <PageTitle />
+      <Flex
+        vertical
+        align="center"
+        className="w-full px-4! pt-[clamp(6rem,20vh,13rem)]!"
+      >
+        <h1 className="sr-only">影像档案架</h1>
+        <RandomHomeMark />
+        <SearchInput />
+      </Flex>
+    </>
   );
 }
 

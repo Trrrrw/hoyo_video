@@ -19,7 +19,7 @@ export default function RelatedVideos({
 }: RelatedVideosProps) {
   return (
     <section aria-labelledby="related-videos-title" className="h-fit min-w-0">
-      <Title id="related-videos-title" level={4} className="mb-3! mt-0!">
+      <Title id="related-videos-title" level={3} className="mb-3! mt-0!">
         相关推荐
       </Title>
 
@@ -49,7 +49,7 @@ export default function RelatedVideos({
                   {video.cover ? (
                     <img
                       src={video.cover}
-                      alt={video.title}
+                      alt=""
                       loading="lazy"
                       draggable={false}
                       className="h-full w-full object-cover group-hover:brightness-90 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]"

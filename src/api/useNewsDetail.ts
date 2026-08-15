@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
 import { backendFetch } from "./client";
+import { isNewsDetailInfo, parseJson } from "./parse";
 import type { NewsDetailInfo } from "./types";
 import { getNewsVideo } from "./useNewsVideo";
 
@@ -13,7 +14,11 @@ export async function getNewsDetail(
     source_id: sourceId,
   });
 
-  const news = (await response.json()) as NewsDetailInfo;
+  const news = await parseJson<NewsDetailInfo>(
+    response,
+    isNewsDetailInfo,
+    "视频详情",
+  );
 
   if (news.news_type === "video") {
     const video = await getNewsVideo(gameId, newsId, sourceId);

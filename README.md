@@ -40,15 +40,16 @@ pnpm dev
 
 ## 环境变量
 
-前端通过 `VITE_BACKEND_BASE` 指定后端服务地址。该变量可选，未配置时默认使用 `https://akasha.trrw.cn`
-
-如需连接其他后端，可在项目根目录创建 `.env.local`：
+本地开发使用项目根目录下未提交的 `.env`：
 
 ```dotenv
-VITE_BACKEND_BASE=https://example.com
+VITE_DEV_BACKEND_BASE=http://127.0.0.1:7040
+VITE_DEV_API_DELAY_MS=1000
 ```
 
-Vite 会在构建时写入该变量，因此请勿在其中保存密钥或其他敏感信息
+`VITE_DEV_BACKEND_BASE` 只在 `pnpm dev` 的默认开发模式下生效，未配置时使用生产后端 `https://akasha.trrw.cn`。开发环境的接口延迟默认为一秒，可设置为 `0` 关闭
+
+部署构建时可以通过 `VITE_BACKEND_BASE` 覆盖后端地址；否则使用 `https://akasha.trrw.cn`。接口请求超时默认为 15 秒，可通过 `VITE_API_TIMEOUT_MS` 调整。Vite 会在构建时写入这些变量，因此请勿在其中保存密钥或其他敏感信息
 
 ## 检查与构建
 

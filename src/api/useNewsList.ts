@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
 import { backendFetch } from "./client";
+import { isNewsInfo, isPageResponse, parseJson } from "./parse";
 import type { NewsInfo, PageResponse } from "./types";
 
 export type { NewsInfo } from "./types";
@@ -57,7 +58,25 @@ export async function getNewsList(
     reverse,
   });
 
-  return (await response.json()) as NewsPage;
+  return parseJson<NewsPage>(
+    response,
+    (value): value is NewsPage =>
+      isPageResponse(
+        value,
+        isNewsInfo,
+        (meta): meta is NewsPage["meta"] => {
+          return (
+            typeof meta === "object" &&
+            meta !== null &&
+            "game_id" in meta &&
+            "source_id" in meta &&
+            typeof meta.game_id === "string" &&
+            typeof meta.source_id === "string"
+          );
+        },
+      ),
+    "视频列表",
+  );
 }
 
 export function useNewsList(gameId: string, query: NewsListQuery) {

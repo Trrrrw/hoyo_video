@@ -11,6 +11,7 @@ import { VideoDetailSkeleton } from "../components/LoadingSkeletons";
 import { useGames } from "../api/useGames";
 import { cleanHtmlText } from "../libs/cleanHtmlText";
 import { getVideoTimelineHref } from "../libs/videoTimeline";
+import PageTitle from "../components/PageTitle";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -38,6 +39,7 @@ export default function VideoDetail() {
     sources.find((source) => source.id === sourceId)?.name ??
     sourceId ??
     "未知来源";
+  const pageTitle = news?.title ?? "视频详情";
 
   useEffect(() => {
     if (!isLoading && !news) {
@@ -46,7 +48,12 @@ export default function VideoDetail() {
   }, [news, isLoading, navigate]);
 
   if (isLoading || !news) {
-    return <VideoDetailSkeleton />;
+    return (
+      <>
+        <PageTitle title={pageTitle} />
+        <VideoDetailSkeleton />
+      </>
+    );
   }
 
   const handleBack = () => {
@@ -64,12 +71,14 @@ export default function VideoDetail() {
   };
 
   return (
-    <Flex
-      vertical
-      gap="middle"
-      className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto p-3!"
-    >
-      <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_21.875rem] 2xl:grid-cols-[minmax(0,1fr)_24rem]">
+    <>
+      <PageTitle title={pageTitle} />
+      <Flex
+        vertical
+        gap="middle"
+        className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto p-3!"
+      >
+        <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_21.875rem] 2xl:grid-cols-[minmax(0,1fr)_24rem]">
         <Flex vertical gap="middle" className="min-w-0">
           <Card
             className="overflow-hidden! bg-black!"
@@ -100,8 +109,9 @@ export default function VideoDetail() {
           gameId={gameId ?? ""}
           from={from}
         />
-      </div>
-    </Flex>
+        </div>
+      </Flex>
+    </>
   );
 }
 
@@ -123,7 +133,7 @@ function VideoInfo({
   return (
     <Card>
       <Flex vertical gap="middle">
-        <Title level={2} className="mb-0! mt-0!">
+        <Title level={1} className="mb-0! mt-0! text-2xl!">
           {news.title}
         </Title>
         <Flex wrap align="center" gap="small">

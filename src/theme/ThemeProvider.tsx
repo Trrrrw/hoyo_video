@@ -64,6 +64,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
             resolvedTheme === "dark"
               ? antdTheme.darkAlgorithm
               : antdTheme.defaultAlgorithm,
+          token: {
+            colorTextSecondary:
+              resolvedTheme === "dark" ? "#bfbfbf" : "#595959",
+          },
           components: {
             Layout:
               resolvedTheme === "dark"

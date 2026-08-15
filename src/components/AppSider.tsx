@@ -104,7 +104,7 @@ function SiderTopItems({
         icon: game.icon ? (
           <img
             src={backendUrl(game.icon)}
-            alt={game.name}
+            alt=""
             className="size-3.5 rounded object-cover"
             draggable={false}
           />
@@ -164,7 +164,7 @@ function SiderBottomItems({ onNavigate }: SiderItemsProps) {
         target="_blank"
         rel="noopener noreferrer"
         title={icpRecord}
-        className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 pb-1 text-center text-[10px] leading-4 text-[var(--ant-color-text-tertiary)]! hover:text-[var(--ant-color-text-secondary)]!"
+        className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 pb-1 text-center text-[10px] leading-4 text-[var(--ant-color-text-secondary)]! hover:text-[var(--ant-color-text)]!"
       >
         {icpRecord}
       </a>

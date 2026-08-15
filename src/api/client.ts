@@ -1,8 +1,58 @@
-import { createResponse, responseCache } from "./cache";
+import {
+  createResponse,
+  deleteInFlightResponse,
+  getCachedResponse,
+  getInFlightResponse,
+  setCachedResponse,
+  setInFlightResponse,
+  type CachedResponse,
+} from "./cache";
 import type { QueryParams } from "./types";
 
+const isDevelopmentMode = import.meta.env.MODE === "development";
+const configuredBackendBase = import.meta.env.VITE_BACKEND_BASE?.trim();
+const developmentBackendBase = isDevelopmentMode
+  ? import.meta.env.VITE_DEV_BACKEND_BASE?.trim()
+  : undefined;
 const BACKEND_BASE =
-  import.meta.env.VITE_BACKEND_BASE ?? "https://akasha.trrw.cn";
+  configuredBackendBase || developmentBackendBase || "https://akasha.trrw.cn";
+
+const API_DELAY_MS = readNonNegativeInteger(
+  import.meta.env.VITE_DEV_API_DELAY_MS,
+  isDevelopmentMode ? 1_000 : 0,
+);
+const API_TIMEOUT_MS = readPositiveInteger(
+  import.meta.env.VITE_API_TIMEOUT_MS,
+  15_000,
+);
+const METADATA_CACHE_TTL_MS = 5 * 60 * 1_000;
+
+function readNonNegativeInteger(value: string | undefined, fallback: number) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
+function readPositiveInteger(value: string | undefined, fallback: number) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function getCompletedCacheTtl(url: URL) {
+  if (
+    url.pathname === "/api/v1/games" ||
+    url.pathname.endsWith("/news/sources") ||
+    url.pathname.endsWith("/news/tags")
+  ) {
+    return METADATA_CACHE_TTL_MS;
+  }
+
+  return 0;
+}
+
+function wait(milliseconds: number) {
+  if (milliseconds === 0) return Promise.resolve();
+  return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
+}
 
 export function backendUrl(path: string): string {
   return new URL(path, BACKEND_BASE).href;
@@ -18,6 +68,40 @@ export class BackendError extends Error {
   }
 }
 
+async function requestBackend(url: URL): Promise<CachedResponse> {
+  await wait(API_DELAY_MS);
+
+  const controller = new AbortController();
+  let timedOut = false;
+  const timeoutId = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, API_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new BackendError(
+        response.status,
+        `请求失败：${response.status} ${response.statusText}`,
+      );
+    }
+
+    return {
+      body: await response.arrayBuffer(),
+      headers: [...response.headers],
+      status: response.status,
+      statusText: response.statusText,
+    };
+  } catch (error) {
+    if (error instanceof BackendError) throw error;
+    if (timedOut) throw new BackendError(0, "请求超时，请稍后重试");
+    throw new BackendError(0, "无法连接到服务器");
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 export async function backendFetch(
   path: string,
   query?: QueryParams,
@@ -30,42 +114,21 @@ export async function backendFetch(
   }
 
   const cacheKey = url.href;
-  let request = responseCache.get(cacheKey);
+  const cachedResponse = getCachedResponse(cacheKey);
+  if (cachedResponse) return createResponse(cachedResponse);
 
-  if (!request) {
-    const requestStart = import.meta.env.DEV
-      ? new Promise<void>((resolve) => setTimeout(resolve, 1_000))
-      : Promise.resolve();
+  const completedCacheTtl = getCompletedCacheTtl(url);
+  const inFlightRequest = getInFlightResponse(cacheKey);
+  if (inFlightRequest) return createResponse(await inFlightRequest);
 
-    request = requestStart
-      .then(() => fetch(url))
-      .catch(() => {
-        throw new BackendError(0, "无法连接到服务器");
-      })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new BackendError(
-            response.status,
-            `请求失败：${response.status} ${response.statusText}`,
-          );
-        }
-        return {
-          body: await response.arrayBuffer(),
-          headers: [...response.headers],
-          status: response.status,
-          statusText: response.statusText,
-        };
-      });
-
-    responseCache.set(cacheKey, request);
-  }
+  const request = requestBackend(url);
+  setInFlightResponse(cacheKey, request);
 
   try {
-    return createResponse(await request);
-  } catch (error) {
-    if (responseCache.get(cacheKey) === request) {
-      responseCache.delete(cacheKey);
-    }
-    throw error;
+    const response = await request;
+    setCachedResponse(cacheKey, response, completedCacheTtl);
+    return createResponse(response);
+  } finally {
+    deleteInFlightResponse(cacheKey, request);
   }
 }

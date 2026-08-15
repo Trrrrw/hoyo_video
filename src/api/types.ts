@@ -23,6 +23,16 @@ export type NewsCount = {
   video: number;
 };
 
+export type GameInfo = {
+  id: string;
+  name: string;
+  index: number;
+  cover: string | null;
+  icon: string | null;
+  news_count: NewsCount;
+  recent_news: RecentNews;
+};
+
 export type NewsCharacter = {
   id: string;
   item_id: string;
@@ -63,4 +73,29 @@ export type NewsDetailInfo = NewsInfo & {
 export type RecentNews = {
   article: NewsInfo[];
   video: NewsInfo[];
+};
+
+export type NewsSourceInfo = {
+  id: string;
+  name: string;
+  index: number;
+};
+
+export type TagInfo = {
+  name: string;
+  index: number;
+  news_count: NewsCount;
+  recent: RecentNews;
+};
+
+export type TagGroupInfo = {
+  name: string | null;
+  index: number | null;
+  tags: TagInfo[];
+};
+
+export type TagsResponse = {
+  game_id: string;
+  source_id: string;
+  groups: TagGroupInfo[];
 };
