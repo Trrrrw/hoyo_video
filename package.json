@@ -13,13 +13,13 @@
     "@ant-design/icons": "~6.3.2",
     "@icons-pack/react-simple-icons": "^13.13.0",
     "@tabler/icons-react": "^3.46.0",
-    "@tanstack/react-virtual": "^3.14.9",
     "@videojs/react": "10.0.0-beta.25",
     "antd": "^6.6.0",
     "dayjs": "^1.11.21",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router": "^8.3.0"
+    "react-router": "^8.3.0",
+    "react-virtuoso": "^4.18.11"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

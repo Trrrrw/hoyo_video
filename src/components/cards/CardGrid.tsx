@@ -1,5 +1,5 @@
 import { FloatButton } from "antd";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { Virtuoso } from "react-virtuoso";
 import { useLocation } from "react-router";
 import {
   type CSSProperties,
@@ -9,6 +9,7 @@ import {
   useEffect,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -33,6 +34,8 @@ type CardGridProps<T> = {
   className?: string;
 };
 
+const edgePadding = 8;
+
 export default function CardGrid<T>({
   items,
   getKey,
@@ -48,7 +51,6 @@ export default function CardGrid<T>({
   empty = "暂无内容",
   className,
 }: CardGridProps<T>) {
-  const edgePadding = 8;
   const location = useLocation();
   const locationState =
     location.state && typeof location.state === "object"
@@ -60,22 +62,28 @@ export default function CardGrid<T>({
     [location.pathname, location.search],
   );
   const [scrollElement, setScrollElementState] =
-    useState<HTMLDivElement | null>(null);
+    useState<HTMLElement | null>(null);
   const [width, setWidth] = useState(0);
+  const loadMoreInFlight = useRef(false);
 
-  const setScrollElement = useCallback((element: HTMLDivElement | null) => {
-    setScrollElementState(element);
-    if (element) setWidth(element.getBoundingClientRect().width);
-  }, []);
+  const setScrollElement = useCallback(
+    (element: HTMLElement | Window | null) => {
+      const scrollContainer =
+        element instanceof HTMLElement ? element : null;
+      setScrollElementState(scrollContainer);
+      if (scrollContainer) setWidth(scrollContainer.clientWidth);
+    },
+    [],
+  );
 
   useLayoutEffect(() => {
     if (!scrollElement) return;
 
-    const updateWidth = () =>
-      setWidth(scrollElement.getBoundingClientRect().width);
+    const updateWidth = () => setWidth(scrollElement.clientWidth);
     const observer = new ResizeObserver(updateWidth);
     observer.observe(scrollElement);
     window.addEventListener("resize", updateWidth);
+    updateWidth();
 
     return () => {
       observer.disconnect();
@@ -89,48 +97,110 @@ export default function CardGrid<T>({
     Math.floor((contentWidth + gap) / (minItemWidth + gap)),
   );
   const rowCount = Math.ceil(items.length / columns);
-  const virtualizer = useVirtualizer({
-    count: rowCount + (hasMore ? 1 : 0),
-    getScrollElement: () => scrollElement,
-    estimateSize: () => estimateRowHeight + gap,
-    getItemKey: (index) => {
+  const totalCount = rowCount + (hasMore ? 1 : 0);
+  const gridStyle = useMemo(
+    () =>
+      ({
+        boxSizing: "border-box",
+        height: `calc(100% + ${edgePadding * 2}px)`,
+        left: -edgePadding,
+        minWidth: 0,
+        overflowX: "hidden",
+        overflowY: "auto",
+        position: "absolute",
+        top: -edgePadding,
+        width: `calc(100% + ${edgePadding * 2}px)`,
+      }) as CSSProperties,
+    [],
+  );
+
+  const requestLoadMore = useCallback(() => {
+    if (
+      !hasMore ||
+      isLoading ||
+      isLoadingMore ||
+      !onLoadMore ||
+      loadMoreInFlight.current
+    ) {
+      return;
+    }
+
+    loadMoreInFlight.current = true;
+    onLoadMore();
+  }, [hasMore, isLoading, isLoadingMore, onLoadMore]);
+
+  useEffect(() => {
+    if (!isLoadingMore) loadMoreInFlight.current = false;
+  }, [isLoadingMore]);
+
+  const computeItemKey = useCallback(
+    (index: number) => {
       if (index === rowCount) return "loader";
-      return `${columns}-${String(getKey(items[index * columns]!))}`;
+
+      const item = items[index * columns];
+      return item
+        ? `${columns}-${String(getKey(item))}`
+        : `${columns}-row-${index}`;
     },
-    overscan: 2,
-  });
-  const virtualRows = virtualizer.getVirtualItems();
+    [columns, getKey, items, rowCount],
+  );
+  const itemContent = useCallback(
+    (index: number) => {
+      const isLoaderRow = index === rowCount;
+      const rowItems = isLoaderRow
+        ? []
+        : items.slice(index * columns, (index + 1) * columns);
+      const loadingItemCount =
+        !isLoaderRow && isLoadingMore
+          ? Math.max(0, columns - rowItems.length)
+          : 0;
+
+      return (
+        <div
+          style={{
+            boxSizing: "border-box",
+            paddingBottom: gap,
+            paddingInline: edgePadding,
+            paddingTop: index === 0 ? edgePadding : 0,
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              columnGap: gap,
+              display: "grid",
+              gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+            }}
+          >
+            {isLoaderRow
+              ? Array.from({ length: columns }, (_, skeletonIndex) => (
+                  <VideoCardSkeleton key={skeletonIndex} />
+                ))
+              : rowItems.map((item) => (
+                  <div key={getKey(item)}>{renderItem(item)}</div>
+                ))}
+            {Array.from({ length: loadingItemCount }, (_, skeletonIndex) => (
+              <VideoCardSkeleton key={`loading-${skeletonIndex}`} />
+            ))}
+          </div>
+        </div>
+      );
+    },
+    [columns, gap, getKey, isLoadingMore, items, renderItem, rowCount],
+  );
 
   useRestoreScrollPosition({
     hasMore,
     isLoading,
     isLoadingMore,
-    layoutVersion: `${columns}:${items.length}`,
+    layoutVersion: `${columns}:${rowCount}:${items.length}`,
     locationKey: `${location.pathname}${location.search}`,
-    onLoadMore,
+    onLoadMore: requestLoadMore,
     onRestoreComplete: consumeRestoreNavigationState,
     scrollElement,
     shouldRestore: shouldRestoreScroll,
     storageKey: scrollStorageKey,
   });
-
-  useEffect(() => {
-    virtualizer.measure();
-  }, [columns, virtualizer]);
-
-  useEffect(() => {
-    const lastRow = virtualRows.at(-1);
-    if (
-      hasMore &&
-      !isLoading &&
-      !isLoadingMore &&
-      onLoadMore &&
-      lastRow &&
-      lastRow.index >= rowCount - 1
-    ) {
-      onLoadMore();
-    }
-  }, [hasMore, isLoading, isLoadingMore, onLoadMore, rowCount, virtualRows]);
 
   if (!isLoading && items.length === 0 && !hasMore) {
     return <div className={className}>{empty}</div>;
@@ -147,85 +217,18 @@ export default function CardGrid<T>({
         width: "100%",
       }}
     >
-      <div
-        ref={setScrollElement}
+      <Virtuoso
         className="app-scrollbar"
-        style={{
-          boxSizing: "border-box",
-          height: `calc(100% + ${edgePadding * 2}px)`,
-          left: -edgePadding,
-          overflowX: "hidden",
-          overflowY: "auto",
-          padding: edgePadding,
-          position: "absolute",
-          top: -edgePadding,
-          width: `calc(100% + ${edgePadding * 2}px)`,
-        }}
-      >
-        <div
-          style={{
-            height: virtualizer.getTotalSize(),
-            position: "relative",
-            width: "100%",
-          }}
-        >
-          {virtualRows.map((virtualRow) => {
-            const isLoaderRow = virtualRow.index === rowCount;
-            const rowItems = items.slice(
-              virtualRow.index * columns,
-              (virtualRow.index + 1) * columns,
-            );
-            const loadingItemCount =
-              !isLoaderRow && isLoadingMore
-                ? Math.max(0, columns - rowItems.length)
-                : 0;
-
-            return (
-              <div
-                key={virtualRow.key}
-                ref={virtualizer.measureElement}
-                data-index={virtualRow.index}
-                style={{
-                  boxSizing: "border-box",
-                  paddingBottom: gap,
-                  position: "absolute",
-                  transform: `translateY(${virtualRow.start}px)`,
-                  width: "100%",
-                }}
-              >
-                {isLoaderRow ? (
-                  <div
-                    style={{
-                      columnGap: gap,
-                      display: "grid",
-                      gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-                    }}
-                  >
-                    {Array.from({ length: columns }, (_, index) => (
-                      <VideoCardSkeleton key={index} />
-                    ))}
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      columnGap: gap,
-                      display: "grid",
-                      gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-                    }}
-                  >
-                    {rowItems.map((item) => (
-                      <div key={getKey(item)}>{renderItem(item)}</div>
-                    ))}
-                    {Array.from({ length: loadingItemCount }, (_, index) => (
-                      <VideoCardSkeleton key={`loading-${index}`} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+        computeItemKey={computeItemKey}
+        defaultItemHeight={estimateRowHeight + gap}
+        endReached={requestLoadMore}
+        increaseViewportBy={{ bottom: 600, top: 600 }}
+        itemContent={itemContent}
+        overscan={200}
+        scrollerRef={setScrollElement}
+        style={gridStyle}
+        totalCount={totalCount}
+      />
       {scrollElement && (
         <FloatButton.BackTop
           target={() => scrollElement}

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useCallback, useLayoutEffect, useState } from "react";
 
 const { Text } = Typography;
+const scrollbarGutter = 8;
 
 type GridSkeletonProps = {
   count?: number;
@@ -59,9 +60,11 @@ function SkeletonGrid({
     <div
       className={className}
       style={{
+        boxSizing: "border-box",
         display: "grid",
         gap: 16,
         gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${minItemWidth}px), 1fr))`,
+        paddingRight: scrollbarGutter,
       }}
     >
       {Array.from({ length: count }, (_, index) => (
@@ -154,7 +157,12 @@ export function TagGridSkeleton(props: GridSkeletonProps) {
 
 function HeaderSkeleton({ actions = 2 }: { actions?: number }) {
   return (
-    <Flex justify="space-between" align="center" aria-hidden="true">
+    <Flex
+      justify="space-between"
+      align="center"
+      aria-hidden="true"
+      style={{ minHeight: 32 }}
+    >
       <Skeleton.Input active size="small" style={{ width: 240 }} />
       <Flex gap="small">
         {Array.from({ length: actions }, (_, index) => (
@@ -173,6 +181,7 @@ export function VideoListSkeleton({ timeline = false }: { timeline?: boolean }) 
       className="min-h-0 min-w-0 flex-1 overflow-hidden p-3!"
     >
       <HeaderSkeleton />
+      <div aria-hidden="true" />
       {timeline ? <VideoTimelineSkeleton /> : <VideoGridSkeleton count={8} />}
     </Flex>
   );

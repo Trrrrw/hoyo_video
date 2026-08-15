@@ -58,3 +58,12 @@
   display: none;
   background: transparent;
 }
+
+.timeline-virtuoso [data-testid="virtuoso-top-item-list"] {
+  display: none;
+}
+
+.timeline-virtuoso.timeline-virtuoso-at-top
+  [data-testid="virtuoso-top-item-list"] {
+  display: block;
+}
