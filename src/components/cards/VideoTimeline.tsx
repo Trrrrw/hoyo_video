@@ -89,19 +89,28 @@ export default function VideoTimeline({
     () => getTimelineScrollKey(location.pathname, location.search),
     [location.pathname, location.search],
   );
-  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
-    null,
-  );
+  const [scrollElement, setScrollElementState] =
+    useState<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState(0);
   const pendingScrollTop = useRef<number | null>(null);
   const groups = useMemo(() => groupVideosByDate(items), [items]);
+  const setScrollElement = useCallback((element: HTMLDivElement | null) => {
+    setScrollElementState(element);
+    if (element) setWidth(element.getBoundingClientRect().width);
+  }, []);
+  const contentWidth = Math.max(0, width - 16 - 32);
+  const columns = Math.max(
+    1,
+    Math.floor((contentWidth + gap) / (minItemWidth + gap)),
+  );
   const gridStyle = useMemo<CSSProperties>(
     () => ({
       columnGap: gap,
       display: "grid",
-      gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${minItemWidth}px), 1fr))`,
+      gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
       rowGap: gap,
     }),
-    [gap, minItemWidth],
+    [columns, gap],
   );
 
   const maybeLoadMore = useCallback(() => {
@@ -121,6 +130,21 @@ export default function VideoTimeline({
       scrollElement.clientHeight;
     if (distanceToBottom <= 600) onLoadMore();
   }, [hasMore, isLoading, isLoadingMore, onLoadMore, scrollElement]);
+
+  useLayoutEffect(() => {
+    if (!scrollElement) return;
+
+    const updateWidth = () =>
+      setWidth(scrollElement.getBoundingClientRect().width);
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(scrollElement);
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, [scrollElement]);
 
   useLayoutEffect(() => {
     pendingScrollTop.current = null;
@@ -259,7 +283,7 @@ export default function VideoTimeline({
                 <Text type="secondary">加载中</Text>
               </div>
               <div style={gridStyle}>
-                {Array.from({ length: 3 }, (_, index) => (
+                {Array.from({ length: columns }, (_, index) => (
                   <VideoCardSkeleton key={index} />
                 ))}
               </div>
