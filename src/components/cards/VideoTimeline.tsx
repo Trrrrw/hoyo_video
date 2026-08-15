@@ -1,6 +1,6 @@
 import { FloatButton, Typography } from "antd";
 import dayjs from "dayjs";
-import { Link, useLocation, useNavigationType } from "react-router";
+import { useLocation, useNavigationType } from "react-router";
 import {
   type CSSProperties,
   type Key,
@@ -62,13 +62,6 @@ function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
   }
 
   return [...groups.values()];
-}
-
-function getTimelineDateLabel(publishTime: string | null): string {
-  if (!publishTime) return "未知日期";
-
-  const date = dayjs(publishTime);
-  return date.isValid() ? date.format("MM月DD日") : "未知日期";
 }
 
 function getTimelineScrollKey(pathname: string, search: string) {
@@ -362,26 +355,17 @@ export default function VideoTimeline({
                     const dateKey = getTimelineDateKey(item.publish_time);
                     const isFirstDateItem = !renderedDateKeys.has(dateKey);
                     renderedDateKeys.add(dateKey);
-                    const dateHref = `${location.pathname}${location.search}#${getTimelineGroupId(dateKey)}`;
 
                     return (
-                      <div key={getKey(item)} className="min-w-0">
-                        <Link
-                          id={
-                            isFirstDateItem
-                              ? getTimelineGroupId(dateKey)
-                              : undefined
-                          }
-                          to={dateHref}
-                          className="mb-2! inline-flex! items-center! rounded-md! px-2! py-1! text-inherit! text-xs! no-underline!"
-                          style={{
-                            background: "var(--ant-color-fill-secondary)",
-                          }}
-                        >
-                          <Text type="secondary">
-                            {getTimelineDateLabel(item.publish_time)}
-                          </Text>
-                        </Link>
+                      <div
+                        id={
+                          isFirstDateItem
+                            ? getTimelineGroupId(dateKey)
+                            : undefined
+                        }
+                        key={getKey(item)}
+                        className="min-w-0"
+                      >
                         {renderItem(item)}
                       </div>
                     );
