@@ -244,7 +244,7 @@ export default function VideoTimeline({
           width: "calc(100% + 16px)",
         }}
       >
-        <Timeline mode="start" items={timelineItems} />
+        <Timeline mode="start" titleSpan={4} items={timelineItems} />
       </div>
       {scrollElement && (
         <FloatButton.BackTop
