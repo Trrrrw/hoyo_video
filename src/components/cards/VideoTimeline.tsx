@@ -1,4 +1,4 @@
-import { FloatButton, Timeline, Typography } from "antd";
+import { FloatButton, Typography } from "antd";
 import dayjs from "dayjs";
 import { useLocation, useNavigationType } from "react-router";
 import {
@@ -190,33 +190,6 @@ export default function VideoTimeline({
     return <div className={className}>{empty}</div>;
   }
 
-  const timelineItems = [
-    ...groups.map((group) => ({
-      title: <Text type="secondary">{group.label}</Text>,
-      content: (
-        <div style={gridStyle}>
-          {group.items.map((item) => (
-            <div key={getKey(item)}>{renderItem(item)}</div>
-          ))}
-        </div>
-      ),
-    })),
-    ...(isLoading || isLoadingMore
-      ? [
-          {
-            title: <Text type="secondary">加载中</Text>,
-            content: (
-              <div style={gridStyle}>
-                {Array.from({ length: 3 }, (_, index) => (
-                  <VideoCardSkeleton key={index} />
-                ))}
-              </div>
-            ),
-          },
-        ]
-      : []),
-  ];
-
   return (
     <div
       className={className}
@@ -244,7 +217,55 @@ export default function VideoTimeline({
           width: "calc(100% + 16px)",
         }}
       >
-        <Timeline mode="start" titleSpan={4} items={timelineItems} />
+        <div className="relative pl-8" aria-label="视频时间轴">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"
+            style={{ background: "var(--ant-color-border)" }}
+          />
+          {groups.map((group) => (
+            <section key={group.key} className="relative pb-8 last:pb-2">
+              <div className="relative mb-3 flex min-h-6 items-center">
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
+                  style={{
+                    background: "var(--ant-color-primary)",
+                    borderColor: "var(--ant-color-bg-container)",
+                  }}
+                />
+                <Text strong type="secondary">
+                  {group.label}
+                </Text>
+              </div>
+              <div style={gridStyle}>
+                {group.items.map((item) => (
+                  <div key={getKey(item)}>{renderItem(item)}</div>
+                ))}
+              </div>
+            </section>
+          ))}
+          {(isLoading || isLoadingMore) && (
+            <section className="relative pb-2">
+              <div className="relative mb-3 flex min-h-6 items-center">
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
+                  style={{
+                    background: "var(--ant-color-fill-secondary)",
+                    borderColor: "var(--ant-color-bg-container)",
+                  }}
+                />
+                <Text type="secondary">加载中</Text>
+              </div>
+              <div style={gridStyle}>
+                {Array.from({ length: 3 }, (_, index) => (
+                  <VideoCardSkeleton key={index} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </div>
       {scrollElement && (
         <FloatButton.BackTop
