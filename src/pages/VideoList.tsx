@@ -1,4 +1,11 @@
-import { Button, Collapse, DatePicker, Flex, Segmented } from "antd";
+import {
+  Button,
+  Collapse,
+  DatePicker,
+  Flex,
+  Segmented,
+  Switch,
+} from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { useGames } from "../api/useGames";
@@ -8,6 +15,7 @@ import { useTags } from "../api/useTags";
 import AppBreadcrumb from "../components/AppBreadcrumb";
 import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
+import VideoTimeline from "../components/cards/VideoTimeline";
 import { FilterOutlined } from "@ant-design/icons";
 import { IconRss } from "@tabler/icons-react";
 import { useCopyText } from "../hooks/useCopyText";
@@ -23,11 +31,13 @@ function videoListUrl(
   tagName?: string,
   during?: string,
   reverse = false,
+  view?: string,
 ) {
   const params = new URLSearchParams({ source: sourceId });
   if (tagName) params.set("tag", tagName);
   if (during) params.set("during", during);
   if (reverse) params.set("reverse", "true");
+  if (view === "timeline") params.set("view", view);
 
   return `/${gameId}/videos?${params}`;
 }
@@ -75,6 +85,7 @@ export default function VideoList() {
   const during = searchParams.get("during") ?? undefined;
   const duringValue = parseDuring(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
+  const isTimelineView = searchParams.get("view") === "timeline";
 
   const {
     news,
@@ -100,6 +111,17 @@ export default function VideoList() {
         if (nextReverse) current.set("reverse", "true");
         else current.delete("reverse");
 
+        return current;
+      },
+      { replace: true },
+    );
+  }
+
+  function handleViewChange(checked: boolean) {
+    setSearchParams(
+      (current) => {
+        if (checked) current.set("view", "timeline");
+        else current.delete("view");
         return current;
       },
       { replace: true },
@@ -183,6 +205,7 @@ export default function VideoList() {
                   undefined,
                   during,
                   reverse,
+                  isTimelineView ? "timeline" : undefined,
                 ),
               },
               ...tags.map((item) => ({
@@ -194,6 +217,7 @@ export default function VideoList() {
                   item.name,
                   during,
                   reverse,
+                  isTimelineView ? "timeline" : undefined,
                 ),
               })),
             ],
@@ -248,32 +272,62 @@ export default function VideoList() {
                     handleFilterChange(during, value === "升序");
                   }}
                 />
+                <Switch
+                  checked={isTimelineView}
+                  checkedChildren="时间轴"
+                  unCheckedChildren="网格"
+                  onChange={handleViewChange}
+                  aria-label="时间轴视图"
+                />
               </Flex>
             ),
           },
         ]}
       />
 
-      <CardGrid
-        items={news}
-        getKey={(item) => item.id}
-        renderItem={(item) => (
-          <VideoCard
-            video={item}
-            gameId={game.id}
-            gameName={game.name}
-            sourceId={source.id}
-          />
-        )}
-        className="min-h-0 flex-1"
-        height="auto"
-        isLoading={isNewsLoading}
-        isLoadingMore={isLoadingMore}
-        hasMore={hasMore}
-        onLoadMore={loadMore}
-        empty={tag ? "该标签暂无视频" : "该来源暂无视频"}
-        minItemWidth={340}
-      />
+      {isTimelineView ? (
+        <VideoTimeline
+          items={news}
+          getKey={(item) => item.id}
+          renderItem={(item) => (
+            <VideoCard
+              video={item}
+              gameId={game.id}
+              gameName={game.name}
+              sourceId={source.id}
+            />
+          )}
+          className="min-h-0 flex-1"
+          height="auto"
+          isLoading={isNewsLoading}
+          isLoadingMore={isLoadingMore}
+          hasMore={hasMore}
+          onLoadMore={loadMore}
+          empty={tag ? "该标签暂无视频" : "该来源暂无视频"}
+          minItemWidth={340}
+        />
+      ) : (
+        <CardGrid
+          items={news}
+          getKey={(item) => item.id}
+          renderItem={(item) => (
+            <VideoCard
+              video={item}
+              gameId={game.id}
+              gameName={game.name}
+              sourceId={source.id}
+            />
+          )}
+          className="min-h-0 flex-1"
+          height="auto"
+          isLoading={isNewsLoading}
+          isLoadingMore={isLoadingMore}
+          hasMore={hasMore}
+          onLoadMore={loadMore}
+          empty={tag ? "该标签暂无视频" : "该来源暂无视频"}
+          minItemWidth={340}
+        />
+      )}
     </Flex>
   );
 }
