@@ -10,6 +10,7 @@ import { useSources } from "../api/useSources";
 import { VideoDetailSkeleton } from "../components/LoadingSkeletons";
 import { useGames } from "../api/useGames";
 import { cleanHtmlText } from "../libs/cleanHtmlText";
+import { getVideoTimelineHref } from "../libs/videoTimeline";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -86,6 +87,12 @@ export default function VideoDetail() {
             news={news}
             sourceId={sourceId}
             sourceName={sourceName}
+            timelineHref={getVideoTimelineHref({
+              gameId,
+              sourceId,
+              publishTime: news.publish_time,
+              from,
+            })}
           />
         </Flex>
         <RelatedVideos
@@ -103,11 +110,13 @@ function VideoInfo({
   news,
   sourceId,
   sourceName,
+  timelineHref,
 }: {
   gameId?: string;
   news: NewsInfo;
   sourceId?: string;
   sourceName: string;
+  timelineHref?: string;
 }) {
   const intro = cleanHtmlText(news.intro);
 
@@ -119,11 +128,21 @@ function VideoInfo({
         </Title>
         <Flex wrap align="center" gap="small">
           <Text type="secondary">来源：{sourceName}</Text>
-          <Text type="secondary">
-            {news.publish_time
-              ? dayjs(news.publish_time).format("YYYY年MM月DD日 HH:mm")
-              : "未知时间"}
-          </Text>
+          {timelineHref ? (
+            <Link to={timelineHref} className="text-inherit!">
+              <Text type="secondary">
+                {news.publish_time
+                  ? dayjs(news.publish_time).format("YYYY年MM月DD日 HH:mm")
+                  : "未知时间"}
+              </Text>
+            </Link>
+          ) : (
+            <Text type="secondary">
+              {news.publish_time
+                ? dayjs(news.publish_time).format("YYYY年MM月DD日 HH:mm")
+                : "未知时间"}
+            </Text>
+          )}
           {news.tags.map((tag) => {
             const tagLink =
               gameId && sourceId

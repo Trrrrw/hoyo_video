@@ -10,3 +10,34 @@ export function getTimelineDateKey(publishTime: string | null): string {
 export function getTimelineGroupId(dateKey: string): string {
   return `timeline-${dateKey}`;
 }
+
+export function getVideoTimelineHref({
+  gameId,
+  sourceId,
+  publishTime,
+  from,
+}: {
+  gameId?: string;
+  sourceId?: string;
+  publishTime: string | null;
+  from?: string;
+}): string | undefined {
+  if (!gameId || !sourceId) return undefined;
+
+  const listPathname = `/${gameId}/videos`;
+  const targetUrl = new URL(
+    from ?? listPathname,
+    "https://video-timeline.local",
+  );
+
+  if (targetUrl.pathname !== listPathname) {
+    targetUrl.pathname = listPathname;
+    targetUrl.search = "";
+  }
+
+  targetUrl.searchParams.set("source", sourceId);
+  targetUrl.searchParams.set("view", "timeline");
+  targetUrl.hash = `#${getTimelineGroupId(getTimelineDateKey(publishTime))}`;
+
+  return `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+}
