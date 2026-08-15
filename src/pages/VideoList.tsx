@@ -184,7 +184,7 @@ export default function VideoList() {
     !game ||
     !source
   ) {
-    return <VideoListSkeleton />;
+    return <VideoListSkeleton timeline={isTimelineView} />;
   }
 
   return (

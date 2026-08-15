@@ -1,5 +1,7 @@
-import { Card, Flex, Skeleton } from "antd";
+import { Card, Flex, Skeleton, Typography } from "antd";
 import type { ReactNode } from "react";
+
+const { Text } = Typography;
 
 type GridSkeletonProps = {
   count?: number;
@@ -72,6 +74,54 @@ export function VideoGridSkeleton(props: GridSkeletonProps) {
   return <SkeletonGrid {...props} renderItem={() => <VideoCardSkeleton />} />;
 }
 
+export function VideoTimelineLoadingSkeleton({ columns = 4 }: { columns?: number }) {
+  return (
+    <section className="relative pb-2">
+      <div className="relative mb-3 flex min-h-6 items-center">
+        <span
+          aria-hidden="true"
+          className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
+          style={{
+            background: "var(--ant-color-fill-secondary)",
+            borderColor: "var(--ant-color-bg-container)",
+          }}
+        />
+        <Text type="secondary">加载中</Text>
+      </div>
+      <div
+        style={{
+          columnGap: 16,
+          display: "grid",
+          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+          rowGap: 16,
+        }}
+      >
+        {Array.from({ length: columns }, (_, index) => (
+          <VideoCardSkeleton key={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function VideoTimelineSkeleton() {
+  return (
+    <div
+      className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto"
+      aria-hidden="true"
+    >
+      <div className="relative pl-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"
+          style={{ background: "var(--ant-color-border)" }}
+        />
+        <VideoTimelineLoadingSkeleton />
+      </div>
+    </div>
+  );
+}
+
 export function TagGridSkeleton(props: GridSkeletonProps) {
   return <SkeletonGrid {...props} renderItem={() => <TagCardSkeleton />} />;
 }
@@ -89,7 +139,7 @@ function HeaderSkeleton({ actions = 2 }: { actions?: number }) {
   );
 }
 
-export function VideoListSkeleton() {
+export function VideoListSkeleton({ timeline = false }: { timeline?: boolean }) {
   return (
     <Flex
       vertical
@@ -97,7 +147,7 @@ export function VideoListSkeleton() {
       className="min-h-0 min-w-0 flex-1 overflow-hidden p-3!"
     >
       <HeaderSkeleton />
-      <VideoGridSkeleton count={8} />
+      {timeline ? <VideoTimelineSkeleton /> : <VideoGridSkeleton count={8} />}
     </Flex>
   );
 }

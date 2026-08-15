@@ -18,7 +18,7 @@ import {
   getTimelineGroupId,
   getTimelineMonthKey,
 } from "../../libs/videoTimeline";
-import { VideoCardSkeleton } from "../LoadingSkeletons";
+import { VideoTimelineLoadingSkeleton } from "../LoadingSkeletons";
 
 const { Text } = Typography;
 
@@ -375,24 +375,7 @@ export default function VideoTimeline({
             );
           })}
           {(isLoading || isLoadingMore) && (
-            <section className="relative pb-2">
-              <div className="relative mb-3 flex min-h-6 items-center">
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
-                  style={{
-                    background: "var(--ant-color-fill-secondary)",
-                    borderColor: "var(--ant-color-bg-container)",
-                  }}
-                />
-                <Text type="secondary">加载中</Text>
-              </div>
-              <div style={gridStyle}>
-                {Array.from({ length: columns }, (_, index) => (
-                  <VideoCardSkeleton key={index} />
-                ))}
-              </div>
-            </section>
+            <VideoTimelineLoadingSkeleton columns={columns} />
           )}
         </div>
       </div>
