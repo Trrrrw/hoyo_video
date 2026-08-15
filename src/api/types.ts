@@ -23,6 +23,12 @@ export type NewsCount = {
   video: number;
 };
 
+export type NewsCharacter = {
+  id: string;
+  item_id: string;
+  name: string;
+};
+
 export type NewsInfo = {
   id: string;
   source_id: string;
@@ -30,6 +36,7 @@ export type NewsInfo = {
   source_url: string;
   news_type: string;
   tags: string[];
+  characters: NewsCharacter[];
   cover: string | null;
   intro: string | null;
   publish_time: string | null;
@@ -46,6 +53,7 @@ export type RelatedVideoInfo = Pick<
   | "cover"
   | "video_duration"
   | "tags"
+  | "characters"
 >;
 
 export type NewsDetailInfo = NewsInfo & {

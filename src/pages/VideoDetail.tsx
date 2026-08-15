@@ -160,6 +160,11 @@ function VideoInfo({
               <Tag key={tag}>{tag}</Tag>
             );
           })}
+          {news.characters.map((character) => (
+            <Tag color="blue" key={`${character.id}-${character.item_id}`}>
+              {character.name}
+            </Tag>
+          ))}
         </Flex>
         <Paragraph className="mb-0! whitespace-pre-wrap">
           {intro || "暂无简介"}
