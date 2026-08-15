@@ -7,7 +7,7 @@ import {
   Typography,
   type MenuProps,
 } from "antd";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import type { NewsInfo } from "../../api/types";
 import dayjs from "dayjs";
 import { IconDotsVertical } from "@tabler/icons-react";
@@ -30,6 +30,7 @@ type VideoCardProps = {
   gameId: string;
   gameName: string;
   sourceId: string;
+  publishTimeHref?: string;
 };
 
 const dropdownMenuItems: MenuProps["items"] = [
@@ -60,7 +61,9 @@ export default function VideoCard({
   gameId,
   gameName,
   sourceId,
+  publishTimeHref,
 }: VideoCardProps) {
+  const currentLocation = useLocation();
   const copyWithMessage = useCopyText();
   const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | null>(
     null,
@@ -70,6 +73,11 @@ export default function VideoCard({
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const videoDuration = video.video_duration;
+  const publishTimeLabel = video.publish_time
+    ? dayjs(video.publish_time).format("YYYY年MM月DD日HH:mm:ss")
+    : "未知时间";
+  const from = `${currentLocation.pathname}${currentLocation.search}${currentLocation.hash}`;
+  const detailHref = `/${gameId}/videos/${sourceId}/${video.id}`;
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -129,9 +137,9 @@ export default function VideoCard({
   return (
     <Flex vertical className="group block text-inherit! pb-2">
       <Link
-        to={`/${gameId}/videos/${sourceId}/${video.id}`}
+        to={detailHref}
         state={{
-          from: `${location.pathname}${location.search}`,
+          from,
         }}
       >
         <div
@@ -161,27 +169,38 @@ export default function VideoCard({
         </div>
       </Link>
       <Flex justify="space-between">
-        <Link
-          to={`/${gameId}/videos/${sourceId}/${video.id}`}
-          state={{
-            from: `${location.pathname}${location.search}`,
-          }}
-        >
-          <div>
+        <div>
+          <Link
+            to={detailHref}
+            state={{
+              from,
+            }}
+          >
             <Title
               level={5}
               className="mb-0! line-clamp-2! text-base! leading-6! font-semibold!"
             >
               {video.title}
             </Title>
+          </Link>
 
-            <Text type="secondary" className="mt-1! block! text-sm!">
-              {video.publish_time
-                ? dayjs(video.publish_time).format("YYYY年MM月DD日HH:mm:ss")
-                : "未知时间"}
-            </Text>
-          </div>
-        </Link>
+          {publishTimeHref ? (
+            <Link
+              to={publishTimeHref}
+              className="mt-1! block! text-inherit! text-sm!"
+            >
+              <Text type="secondary">{publishTimeLabel}</Text>
+            </Link>
+          ) : (
+            <Link
+              to={detailHref}
+              state={{ from }}
+              className="mt-1! block! text-inherit! text-sm!"
+            >
+              <Text type="secondary">{publishTimeLabel}</Text>
+            </Link>
+          )}
+        </div>
         <Dropdown
           open={dropdownOpen}
           onOpenChange={setDropdownOpen}

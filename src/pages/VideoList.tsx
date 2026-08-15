@@ -7,7 +7,12 @@ import {
   Switch,
 } from "antd";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router";
 import { useGames } from "../api/useGames";
 import { useNewsList } from "../api/useNewsList";
 import { useSources } from "../api/useSources";
@@ -21,6 +26,10 @@ import { IconRss } from "@tabler/icons-react";
 import { useCopyText } from "../hooks/useCopyText";
 import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
 import { formatDuring, parseDuring } from "../libs/newsFilterParams";
+import {
+  getTimelineDateKey,
+  getTimelineGroupId,
+} from "../libs/videoTimeline";
 import { VideoListSkeleton } from "../components/LoadingSkeletons";
 
 const { RangePicker } = DatePicker;
@@ -43,6 +52,7 @@ function videoListUrl(
 }
 
 export default function VideoList() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -295,6 +305,7 @@ export default function VideoList() {
               gameId={game.id}
               gameName={game.name}
               sourceId={source.id}
+              publishTimeHref={`${location.pathname}${location.search}#${getTimelineGroupId(getTimelineDateKey(item.publish_time))}`}
             />
           )}
           className="min-h-0 flex-1"

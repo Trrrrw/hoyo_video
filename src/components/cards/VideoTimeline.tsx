@@ -13,6 +13,10 @@ import {
   useState,
 } from "react";
 import type { NewsInfo } from "../../api/types";
+import {
+  getTimelineDateKey,
+  getTimelineGroupId,
+} from "../../libs/videoTimeline";
 import { VideoCardSkeleton } from "../LoadingSkeletons";
 
 const { Text } = Typography;
@@ -43,7 +47,7 @@ function groupVideosByDate(items: NewsInfo[]): VideoGroup[] {
 
   for (const item of items) {
     const date = item.publish_time ? dayjs(item.publish_time) : null;
-    const key = date?.isValid() ? date.format("YYYY-MM-DD") : "unknown";
+    const key = getTimelineDateKey(item.publish_time);
     const label = date?.isValid()
       ? date.format("YYYY年MM月DD日")
       : "未知日期";
@@ -61,6 +65,21 @@ function groupVideosByDate(items: NewsInfo[]): VideoGroup[] {
 
 function getTimelineScrollKey(pathname: string, search: string) {
   return `video-timeline-scroll:${pathname}${search}`;
+}
+
+function getTimelineHashTarget(hash: string): string | null {
+  if (!hash.startsWith("#timeline-")) return null;
+
+  let targetId = hash.slice(1);
+  try {
+    targetId = decodeURIComponent(targetId);
+  } catch {
+    return null;
+  }
+
+  return /^timeline-(?:\d{4}-\d{2}-\d{2}|unknown)$/.test(targetId)
+    ? targetId
+    : null;
 }
 
 export default function VideoTimeline({
@@ -85,6 +104,10 @@ export default function VideoTimeline({
       : undefined;
   const shouldRestoreScroll =
     navigationType === "POP" || locationState?.restoreScroll === true;
+  const hashTargetId = useMemo(
+    () => getTimelineHashTarget(location.hash),
+    [location.hash],
+  );
   const scrollStorageKey = useMemo(
     () => getTimelineScrollKey(location.pathname, location.search),
     [location.pathname, location.search],
@@ -93,6 +116,8 @@ export default function VideoTimeline({
     useState<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
   const pendingScrollTop = useRef<number | null>(null);
+  const scrolledHashTarget = useRef<string | null>(null);
+  const loadMoreInFlight = useRef(false);
   const groups = useMemo(() => groupVideosByDate(items), [items]);
   const setScrollElement = useCallback((element: HTMLDivElement | null) => {
     setScrollElementState(element);
@@ -113,23 +138,30 @@ export default function VideoTimeline({
     [columns, gap],
   );
 
-  const maybeLoadMore = useCallback(() => {
+  const requestLoadMore = useCallback(() => {
     if (
-      !scrollElement ||
       !hasMore ||
       isLoading ||
       isLoadingMore ||
-      !onLoadMore
+      !onLoadMore ||
+      loadMoreInFlight.current
     ) {
       return;
     }
+
+    loadMoreInFlight.current = true;
+    onLoadMore();
+  }, [hasMore, isLoading, isLoadingMore, onLoadMore]);
+
+  const maybeLoadMore = useCallback(() => {
+    if (!scrollElement) return;
 
     const distanceToBottom =
       scrollElement.scrollHeight -
       scrollElement.scrollTop -
       scrollElement.clientHeight;
-    if (distanceToBottom <= 600) onLoadMore();
-  }, [hasMore, isLoading, isLoadingMore, onLoadMore, scrollElement]);
+    if (distanceToBottom <= 600) requestLoadMore();
+  }, [requestLoadMore, scrollElement]);
 
   useLayoutEffect(() => {
     if (!scrollElement) return;
@@ -207,6 +239,58 @@ export default function VideoTimeline({
   }, [scrollElement, scrollStorageKey]);
 
   useEffect(() => {
+    if (!isLoadingMore) loadMoreInFlight.current = false;
+  }, [isLoadingMore]);
+
+  const scrollToHashTarget = useCallback(() => {
+    if (!hashTargetId || !scrollElement) return false;
+
+    const target = document.getElementById(hashTargetId);
+    if (!target) return false;
+
+    const scrollRect = scrollElement.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    scrollElement.scrollTop = Math.max(
+      0,
+      targetRect.top - scrollRect.top + scrollElement.scrollTop - 8,
+    );
+    return true;
+  }, [hashTargetId, scrollElement]);
+
+  useEffect(() => {
+    if (!hashTargetId) {
+      scrolledHashTarget.current = null;
+      return;
+    }
+    if (
+      !scrollElement ||
+      scrolledHashTarget.current === hashTargetId
+    ) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      if (scrollToHashTarget()) {
+        scrolledHashTarget.current = hashTargetId;
+        return;
+      }
+
+      requestLoadMore();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [
+    hashTargetId,
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    items.length,
+    requestLoadMore,
+    scrollElement,
+    scrollToHashTarget,
+  ]);
+
+  useEffect(() => {
     maybeLoadMore();
   }, [groups.length, maybeLoadMore]);
 
@@ -248,7 +332,11 @@ export default function VideoTimeline({
             style={{ background: "var(--ant-color-border)" }}
           />
           {groups.map((group) => (
-            <section key={group.key} className="relative pb-8 last:pb-2">
+            <section
+              id={getTimelineGroupId(group.key)}
+              key={group.key}
+              className="relative pb-8 last:pb-2"
+            >
               <div className="relative mb-3 flex min-h-6 items-center">
                 <span
                   aria-hidden="true"
