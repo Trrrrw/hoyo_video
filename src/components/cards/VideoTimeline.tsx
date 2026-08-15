@@ -1,6 +1,7 @@
 import { FloatButton, Typography } from "antd";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import dayjs from "dayjs";
-import { useLocation, useNavigationType } from "react-router";
+import { useLocation } from "react-router";
 import {
   type CSSProperties,
   type Key,
@@ -18,6 +19,10 @@ import {
   getTimelineGroupId,
   getTimelineMonthKey,
 } from "../../libs/videoTimeline";
+import {
+  consumeRestoreNavigationState,
+  useRestoreScrollPosition,
+} from "../../hooks/useRestoreScrollPosition";
 import { VideoTimelineLoadingSkeleton } from "../LoadingSkeletons";
 
 const { Text } = Typography;
@@ -43,6 +48,29 @@ type VideoMonthGroup = {
   items: NewsInfo[];
 };
 
+type TimelineCardItem = {
+  item: NewsInfo;
+  anchorId?: string;
+};
+
+type VideoTimelineRow =
+  | {
+      type: "header";
+      key: string;
+      label: string;
+      paddingBottom: number;
+    }
+  | {
+      type: "cards";
+      key: string;
+      items: TimelineCardItem[];
+      paddingBottom: number;
+    }
+  | {
+      type: "loading";
+      key: string;
+    };
+
 function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
   const groups = new Map<string, VideoMonthGroup>();
 
@@ -62,6 +90,57 @@ function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
   }
 
   return [...groups.values()];
+}
+
+function createTimelineRows(
+  groups: VideoMonthGroup[],
+  columns: number,
+  gap: number,
+  showLoading: boolean,
+) {
+  const rows: VideoTimelineRow[] = [];
+  const anchorRowIndexes = new Map<string, number>();
+
+  groups.forEach((group, groupIndex) => {
+    const isLastGroup = groupIndex === groups.length - 1;
+    const groupPaddingBottom = isLastGroup && !showLoading ? 8 : 32;
+    const renderedDateKeys = new Set<string>();
+
+    rows.push({
+      type: "header",
+      key: `${group.key}:header`,
+      label: group.label,
+      paddingBottom: 12,
+    });
+
+    for (let start = 0; start < group.items.length; start += columns) {
+      const rowIndex = rows.length;
+      const rowItems = group.items.slice(start, start + columns).map((item) => {
+        const dateKey = getTimelineDateKey(item.publish_time);
+        const isFirstDateItem = !renderedDateKeys.has(dateKey);
+        renderedDateKeys.add(dateKey);
+        const anchorId = isFirstDateItem
+          ? getTimelineGroupId(dateKey)
+          : undefined;
+
+        if (anchorId) anchorRowIndexes.set(anchorId, rowIndex);
+
+        return { anchorId, item };
+      });
+      const isLastRow = start + columns >= group.items.length;
+
+      rows.push({
+        type: "cards",
+        key: `${group.key}:cards:${start / columns}`,
+        items: rowItems,
+        paddingBottom: isLastRow ? groupPaddingBottom : gap,
+      });
+    }
+  });
+
+  if (showLoading) rows.push({ type: "loading", key: "loading" });
+
+  return { anchorRowIndexes, rows };
 }
 
 function getTimelineScrollKey(pathname: string, search: string) {
@@ -98,13 +177,11 @@ export default function VideoTimeline({
   className,
 }: VideoTimelineProps) {
   const location = useLocation();
-  const navigationType = useNavigationType();
   const locationState =
     location.state && typeof location.state === "object"
       ? (location.state as { restoreScroll?: boolean })
       : undefined;
-  const shouldRestoreScroll =
-    navigationType === "POP" || locationState?.restoreScroll === true;
+  const shouldRestoreScroll = locationState?.restoreScroll === true;
   const hashTargetId = useMemo(
     () => getTimelineHashTarget(location.hash),
     [location.hash],
@@ -116,7 +193,6 @@ export default function VideoTimeline({
   const [scrollElement, setScrollElementState] =
     useState<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
-  const pendingScrollTop = useRef<number | null>(null);
   const scrolledHashTarget = useRef<string | null>(null);
   const loadMoreInFlight = useRef(false);
   const groups = useMemo(() => groupVideosByMonth(items), [items]);
@@ -138,6 +214,30 @@ export default function VideoTimeline({
     }),
     [columns, gap],
   );
+  const { anchorRowIndexes, rows } = useMemo(
+    () =>
+      createTimelineRows(
+        groups,
+        columns,
+        gap,
+        isLoading || isLoadingMore,
+      ),
+    [columns, gap, groups, isLoading, isLoadingMore],
+  );
+  const virtualizer = useVirtualizer({
+    count: rows.length,
+    estimateSize: (index) => {
+      const row = rows[index];
+      if (!row) return 320;
+      if (row.type === "header") return 36 + row.paddingBottom;
+      if (row.type === "loading") return 360;
+      return 320 + row.paddingBottom;
+    },
+    getItemKey: (index) => rows[index]?.key ?? `timeline-row-${index}`,
+    getScrollElement: () => scrollElement,
+    overscan: 3,
+  });
+  const virtualRows = virtualizer.getVirtualItems();
 
   const requestLoadMore = useCallback(() => {
     if (
@@ -153,6 +253,23 @@ export default function VideoTimeline({
     loadMoreInFlight.current = true;
     onLoadMore();
   }, [hasMore, isLoading, isLoadingMore, onLoadMore]);
+
+  useRestoreScrollPosition({
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    layoutVersion: `${columns}:${items.length}`,
+    locationKey: `${location.pathname}${location.search}`,
+    onLoadMore: requestLoadMore,
+    onRestoreComplete: consumeRestoreNavigationState,
+    scrollElement,
+    shouldRestore: shouldRestoreScroll,
+    storageKey: scrollStorageKey,
+  });
+
+  useEffect(() => {
+    virtualizer.measure();
+  }, [columns, rows.length, virtualizer]);
 
   const maybeLoadMore = useCallback(() => {
     if (!scrollElement) return;
@@ -179,66 +296,6 @@ export default function VideoTimeline({
     };
   }, [scrollElement]);
 
-  useLayoutEffect(() => {
-    pendingScrollTop.current = null;
-
-    if (!scrollElement || !shouldRestoreScroll) return;
-
-    const savedScrollTop = Number(
-      sessionStorage.getItem(scrollStorageKey) ?? "0",
-    );
-    if (!Number.isFinite(savedScrollTop) || savedScrollTop <= 0) return;
-
-    pendingScrollTop.current = savedScrollTop;
-
-    const restoreScrollPosition = () => {
-      const targetScrollTop = pendingScrollTop.current;
-      if (targetScrollTop === null) return;
-
-      const maxScrollTop = Math.max(
-        0,
-        scrollElement.scrollHeight - scrollElement.clientHeight,
-      );
-      scrollElement.scrollTop = Math.min(targetScrollTop, maxScrollTop);
-
-      if (maxScrollTop >= targetScrollTop) {
-        pendingScrollTop.current = null;
-      }
-    };
-
-    restoreScrollPosition();
-    const frame = requestAnimationFrame(restoreScrollPosition);
-
-    return () => cancelAnimationFrame(frame);
-  }, [items.length, scrollElement, scrollStorageKey, shouldRestoreScroll]);
-
-  useEffect(() => {
-    if (!scrollElement) return;
-
-    const saveScrollPosition = () => {
-      const targetScrollTop = pendingScrollTop.current;
-      if (
-        targetScrollTop !== null &&
-        scrollElement.scrollTop < targetScrollTop
-      ) {
-        return;
-      }
-
-      sessionStorage.setItem(
-        scrollStorageKey,
-        String(Math.round(scrollElement.scrollTop)),
-      );
-    };
-
-    scrollElement.addEventListener("scroll", saveScrollPosition, {
-      passive: true,
-    });
-
-    return () => {
-      scrollElement.removeEventListener("scroll", saveScrollPosition);
-    };
-  }, [scrollElement, scrollStorageKey]);
-
   useEffect(() => {
     if (!isLoadingMore) loadMoreInFlight.current = false;
   }, [isLoadingMore]);
@@ -258,6 +315,10 @@ export default function VideoTimeline({
     return true;
   }, [hashTargetId, scrollElement]);
 
+  const hashTargetRowIndex = hashTargetId
+    ? anchorRowIndexes.get(hashTargetId)
+    : undefined;
+
   useEffect(() => {
     if (!hashTargetId) {
       scrolledHashTarget.current = null;
@@ -270,18 +331,30 @@ export default function VideoTimeline({
       return;
     }
 
-    const frame = requestAnimationFrame(() => {
+    if (hashTargetRowIndex === undefined) {
+      const frame = requestAnimationFrame(requestLoadMore);
+      return () => cancelAnimationFrame(frame);
+    }
+
+    virtualizer.scrollToIndex(hashTargetRowIndex, { align: "start" });
+    let attempts = 0;
+    let frame: number;
+    const alignHashTarget = () => {
       if (scrollToHashTarget()) {
         scrolledHashTarget.current = hashTargetId;
         return;
       }
 
-      requestLoadMore();
-    });
+      attempts += 1;
+      if (attempts < 20) frame = requestAnimationFrame(alignHashTarget);
+    };
+    frame = requestAnimationFrame(alignHashTarget);
 
     return () => cancelAnimationFrame(frame);
   }, [
+    anchorRowIndexes,
     hashTargetId,
+    hashTargetRowIndex,
     hasMore,
     isLoading,
     isLoadingMore,
@@ -289,6 +362,7 @@ export default function VideoTimeline({
     requestLoadMore,
     scrollElement,
     scrollToHashTarget,
+    virtualizer,
   ]);
 
   useEffect(() => {
@@ -332,51 +406,74 @@ export default function VideoTimeline({
             className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"
             style={{ background: "var(--ant-color-border)" }}
           />
-          {groups.map((group) => {
-            const renderedDateKeys = new Set<string>();
+          <div
+            style={{
+              height: virtualizer.getTotalSize(),
+              position: "relative",
+              width: "100%",
+            }}
+          >
+            {virtualRows.map((virtualRow) => {
+              const row = rows[virtualRow.index];
+              if (!row) return null;
 
-            return (
-              <section key={group.key} className="relative pb-8 last:pb-2">
-                <div className="relative mb-3 flex min-h-6 items-center">
-                  <span
-                    aria-hidden="true"
-                    className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
-                    style={{
-                      background: "var(--ant-color-primary)",
-                      borderColor: "var(--ant-color-bg-container)",
-                    }}
-                  />
-                  <Text strong type="secondary">
-                    {group.label}
-                  </Text>
+              return (
+                <div
+                  key={virtualRow.key}
+                  ref={virtualizer.measureElement}
+                  data-index={virtualRow.index}
+                  style={{
+                    boxSizing: "border-box",
+                    left: 0,
+                    position: "absolute",
+                    top: 0,
+                    transform: `translateY(${virtualRow.start}px)`,
+                    width: "100%",
+                  }}
+                >
+                  {row.type === "header" && (
+                    <div
+                      className="relative flex min-h-6 items-center"
+                      style={{ paddingBottom: row.paddingBottom }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute -left-6 top-1.5 size-3 rounded-full border-2"
+                        style={{
+                          background: "var(--ant-color-primary)",
+                          borderColor: "var(--ant-color-bg-container)",
+                        }}
+                      />
+                      <Text strong type="secondary">
+                        {row.label}
+                      </Text>
+                    </div>
+                  )}
+                  {row.type === "cards" && (
+                    <div
+                      style={{
+                        ...gridStyle,
+                        paddingBottom: row.paddingBottom,
+                      }}
+                    >
+                      {row.items.map(({ anchorId, item }) => (
+                        <div
+                          id={anchorId}
+                          key={getKey(item)}
+                          className="min-w-0"
+                        >
+                          {renderItem(item)}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {row.type === "loading" && (
+                    <VideoTimelineLoadingSkeleton columns={columns} />
+                  )}
                 </div>
-                <div style={gridStyle}>
-                  {group.items.map((item) => {
-                    const dateKey = getTimelineDateKey(item.publish_time);
-                    const isFirstDateItem = !renderedDateKeys.has(dateKey);
-                    renderedDateKeys.add(dateKey);
-
-                    return (
-                      <div
-                        id={
-                          isFirstDateItem
-                            ? getTimelineGroupId(dateKey)
-                            : undefined
-                        }
-                        key={getKey(item)}
-                        className="min-w-0"
-                      >
-                        {renderItem(item)}
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            );
-          })}
-          {(isLoading || isLoadingMore) && (
-            <VideoTimelineLoadingSkeleton columns={columns} />
-          )}
+              );
+            })}
+          </div>
         </div>
       </div>
       {scrollElement && (

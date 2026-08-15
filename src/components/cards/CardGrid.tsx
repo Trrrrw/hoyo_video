@@ -1,6 +1,6 @@
 import { FloatButton } from "antd";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useLocation, useNavigationType } from "react-router";
+import { useLocation } from "react-router";
 import {
   type CSSProperties,
   type Key,
@@ -9,9 +9,12 @@ import {
   useEffect,
   useLayoutEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
+import {
+  consumeRestoreNavigationState,
+  useRestoreScrollPosition,
+} from "../../hooks/useRestoreScrollPosition";
 import { VideoCardSkeleton } from "../LoadingSkeletons";
 
 type CardGridProps<T> = {
@@ -47,20 +50,17 @@ export default function CardGrid<T>({
 }: CardGridProps<T>) {
   const edgePadding = 8;
   const location = useLocation();
-  const navigationType = useNavigationType();
   const locationState =
     location.state && typeof location.state === "object"
       ? (location.state as { restoreScroll?: boolean })
       : undefined;
-  const shouldRestoreScroll =
-    navigationType === "POP" || locationState?.restoreScroll === true;
+  const shouldRestoreScroll = locationState?.restoreScroll === true;
   const scrollStorageKey = useMemo(
     () => `card-grid-scroll:${location.pathname}${location.search}`,
     [location.pathname, location.search],
   );
   const [scrollElement, setScrollElementState] =
     useState<HTMLDivElement | null>(null);
-  const pendingScrollTop = useRef<number | null>(null);
   const [width, setWidth] = useState(0);
 
   const setScrollElement = useCallback((element: HTMLDivElement | null) => {
@@ -101,71 +101,18 @@ export default function CardGrid<T>({
   });
   const virtualRows = virtualizer.getVirtualItems();
 
-  useLayoutEffect(() => {
-    pendingScrollTop.current = null;
-
-    if (!scrollElement || !shouldRestoreScroll) return;
-
-    const savedScrollTop = Number(
-      sessionStorage.getItem(scrollStorageKey) ?? "0",
-    );
-    if (!Number.isFinite(savedScrollTop) || savedScrollTop <= 0) return;
-
-    pendingScrollTop.current = savedScrollTop;
-
-    const restoreScrollPosition = () => {
-      const targetScrollTop = pendingScrollTop.current;
-      if (targetScrollTop === null) return;
-
-      const maxScrollTop = Math.max(
-        0,
-        scrollElement.scrollHeight - scrollElement.clientHeight,
-      );
-      scrollElement.scrollTop = Math.min(targetScrollTop, maxScrollTop);
-
-      if (maxScrollTop >= targetScrollTop) {
-        pendingScrollTop.current = null;
-      }
-    };
-
-    restoreScrollPosition();
-    const frame = requestAnimationFrame(restoreScrollPosition);
-
-    return () => cancelAnimationFrame(frame);
-  }, [
-    columns,
-    items.length,
+  useRestoreScrollPosition({
+    hasMore,
+    isLoading,
+    isLoadingMore,
+    layoutVersion: `${columns}:${items.length}`,
+    locationKey: `${location.pathname}${location.search}`,
+    onLoadMore,
+    onRestoreComplete: consumeRestoreNavigationState,
     scrollElement,
-    scrollStorageKey,
-    shouldRestoreScroll,
-  ]);
-
-  useEffect(() => {
-    if (!scrollElement) return;
-
-    const saveScrollPosition = () => {
-      const targetScrollTop = pendingScrollTop.current;
-      if (
-        targetScrollTop !== null &&
-        scrollElement.scrollTop < targetScrollTop
-      ) {
-        return;
-      }
-
-      sessionStorage.setItem(
-        scrollStorageKey,
-        String(Math.round(scrollElement.scrollTop)),
-      );
-    };
-
-    scrollElement.addEventListener("scroll", saveScrollPosition, {
-      passive: true,
-    });
-
-    return () => {
-      scrollElement.removeEventListener("scroll", saveScrollPosition);
-    };
-  }, [scrollElement, scrollStorageKey]);
+    shouldRestore: shouldRestoreScroll,
+    storageKey: scrollStorageKey,
+  });
 
   useEffect(() => {
     virtualizer.measure();

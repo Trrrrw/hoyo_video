@@ -1,5 +1,6 @@
 import { Card, Flex, Skeleton, Typography } from "antd";
 import type { ReactNode } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 const { Text } = Typography;
 
@@ -105,8 +106,33 @@ export function VideoTimelineLoadingSkeleton({ columns = 4 }: { columns?: number
 }
 
 function VideoTimelineSkeleton() {
+  const [scrollElement, setScrollElementState] =
+    useState<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState(0);
+  const setScrollElement = useCallback((element: HTMLDivElement | null) => {
+    setScrollElementState(element);
+    if (element) setWidth(element.getBoundingClientRect().width);
+  }, []);
+  useLayoutEffect(() => {
+    if (!scrollElement) return;
+
+    const updateWidth = () =>
+      setWidth(scrollElement.getBoundingClientRect().width);
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(scrollElement);
+    updateWidth();
+
+    return () => observer.disconnect();
+  }, [scrollElement]);
+  const contentWidth = Math.max(0, width - 16 - 32);
+  const columns = Math.max(
+    1,
+    Math.floor((contentWidth + 16) / (340 + 16)),
+  );
+
   return (
     <div
+      ref={setScrollElement}
       className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto"
       aria-hidden="true"
     >
@@ -116,7 +142,7 @@ function VideoTimelineSkeleton() {
           className="pointer-events-none absolute top-2 bottom-2 left-3 w-0.5"
           style={{ background: "var(--ant-color-border)" }}
         />
-        <VideoTimelineLoadingSkeleton />
+        <VideoTimelineLoadingSkeleton columns={columns} />
       </div>
     </div>
   );
