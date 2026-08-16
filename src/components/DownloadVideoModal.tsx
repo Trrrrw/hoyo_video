@@ -22,18 +22,18 @@ import {
   getEpisodeNfoUrl,
   getMovieNfoUrl,
   getSeriesNfoUrl,
-} from "../api/getNewsNfoUrl";
+} from "../api/newsNfo";
 import type { NewsInfo } from "../api/types";
 import {
   addAria2Uri,
   getAria2Version,
   type Aria2Settings,
-} from "../libs/aria2";
+} from "../services/aria2";
 import {
   getUrlExtension,
   joinDownloadPath,
   sanitizeFileName,
-} from "../libs/downloadFiles";
+} from "../utils/downloadFiles";
 
 const aria2SettingsKey = "aria2-settings-v1";
 const defaultAria2Settings: Aria2Settings = {

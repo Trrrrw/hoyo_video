@@ -1,22 +1,22 @@
 import { Button, Flex } from "antd";
 import { useEffect, useMemo } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
-import { useGames } from "../api/useGames";
-import { useSources } from "../api/useSources";
-import { useTags } from "../api/useTags";
+import type { TagInfo } from "../api/types";
+import { useGames } from "../hooks/useGames";
+import { useSources } from "../hooks/useSources";
+import { useTags } from "../hooks/useTags";
 import AppBreadcrumb from "../components/AppBreadcrumb";
 import CardGrid from "../components/cards/CardGrid";
 import AllVideosCard from "../components/cards/AllVideosCard";
 import TagCard from "../components/cards/TagCard";
-import type { TagInfo } from "../api/useTags";
 import { useCopyText } from "../hooks/useCopyText";
-import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
+import { buildNewsRssUrl } from "../utils/newsRss";
 import { IconRss } from "@tabler/icons-react";
 import {
   TagGridSkeleton,
   TagListSkeleton,
 } from "../components/LoadingSkeletons";
-import PageTitle from "../components/PageTitle";
+import DocumentTitle from "../components/DocumentTitle";
 
 type TagGridItem =
   | { type: "all"; key: "all" }
@@ -84,7 +84,7 @@ export default function TagList() {
   if (isGamesLoading || !sourcesReady || !game || !source) {
     return (
       <>
-        <PageTitle title={pageTitle} />
+        <DocumentTitle title={pageTitle} />
         <TagListSkeleton />
       </>
     );
@@ -100,7 +100,7 @@ export default function TagList() {
 
   return (
     <>
-      <PageTitle title={pageTitle} />
+      <DocumentTitle title={pageTitle} />
       <Flex vertical gap="middle" className="min-h-0 min-w-0 flex-1 p-3!">
         <h1 className="sr-only">{game.name} / {source.name} 标签</h1>
         <Flex justify="space-between" align="center">

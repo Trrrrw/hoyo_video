@@ -1,6 +1,10 @@
 import { Card, Flex, Skeleton, Typography } from "antd";
-import type { ReactNode } from "react";
-import { useCallback, useLayoutEffect, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 const { Text } = Typography;
 const scrollbarGutter = 8;
@@ -38,7 +42,7 @@ export function VideoCardSkeleton() {
   );
 }
 
-export function TagCardSkeleton() {
+function TagCardSkeleton() {
   return (
     <Card
       aria-hidden="true"
@@ -74,11 +78,11 @@ function SkeletonGrid({
   );
 }
 
-export function VideoGridSkeleton(props: GridSkeletonProps) {
+function VideoGridSkeleton(props: GridSkeletonProps) {
   return <SkeletonGrid {...props} renderItem={() => <VideoCardSkeleton />} />;
 }
 
-export function VideoTimelineLoadingSkeleton({ columns = 4 }: { columns?: number }) {
+function VideoTimelineLoadingSkeleton({ columns = 4 }: { columns?: number }) {
   return (
     <section className="relative pb-2">
       <div className="relative mb-3 flex min-h-6 items-center">

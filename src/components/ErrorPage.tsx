@@ -5,9 +5,9 @@ import {
 } from "@ant-design/icons";
 import { Button, Card, Flex, Layout, Result, Typography } from "antd";
 import type { ReactNode } from "react";
-import { useBackendErrorState } from "../hooks/useBackendErrorNavigation";
+import { useBackendErrorState } from "../contexts/BackendErrorContext";
 import AppHeader from "./AppHeader";
-import PageTitle from "./PageTitle";
+import DocumentTitle from "./DocumentTitle";
 
 type ErrorPageProps = {
   status: string;
@@ -30,54 +30,54 @@ export default function ErrorPage({
 }: ErrorPageProps) {
   return (
     <>
-      <PageTitle title={`${status} ${title}`} />
+      <DocumentTitle title={`${status} ${title}`} />
       <Layout className="min-h-dvh!">
         <AppHeader showRightItems={false} />
 
-      <Flex
-        vertical
-        align="center"
-        justify="center"
-        className="min-h-0 flex-1 p-4 sm:p-8"
-      >
-        <h1 className="sr-only">
-          {status} {title}
-        </h1>
-        <Card
-          className="w-full max-w-2xl overflow-hidden shadow-sm"
-          styles={{ body: { padding: 0 } }}
+        <Flex
+          vertical
+          align="center"
+          justify="center"
+          className="min-h-0 flex-1 p-4 sm:p-8"
         >
-          <Result
-            className="px-4! py-8! sm:px-10! sm:py-12!"
-            icon={
-              <img
-                src={image}
-                alt={imageAlt}
-                className="mx-auto h-44 w-auto max-w-full object-contain sm:h-52"
-                draggable={false}
-              />
-            }
-            title={
-              <Flex vertical align="center" gap={4}>
-                <span className="text-3xl leading-tight font-semibold tracking-wide">
-                  {status}
-                </span>
-                <span>{title}</span>
-              </Flex>
-            }
-            subTitle={description}
-            extra={
-              <Flex wrap justify="center" gap="small">
-                {actions}
-              </Flex>
-            }
-          />
-          <div className="border-t border-black/6 px-4 py-3 text-center dark:border-white/12">
-            <Typography.Text type="secondary" className="text-xs!">
-              {hint}
-            </Typography.Text>
-          </div>
-        </Card>
+          <h1 className="sr-only">
+            {status} {title}
+          </h1>
+          <Card
+            className="w-full max-w-2xl overflow-hidden shadow-sm"
+            styles={{ body: { padding: 0 } }}
+          >
+            <Result
+              className="px-4! py-8! sm:px-10! sm:py-12!"
+              icon={
+                <img
+                  src={image}
+                  alt={imageAlt}
+                  className="mx-auto h-44 w-auto max-w-full object-contain sm:h-52"
+                  draggable={false}
+                />
+              }
+              title={
+                <Flex vertical align="center" gap={4}>
+                  <span className="text-3xl leading-tight font-semibold tracking-wide">
+                    {status}
+                  </span>
+                  <span>{title}</span>
+                </Flex>
+              }
+              subTitle={description}
+              extra={
+                <Flex wrap justify="center" gap="small">
+                  {actions}
+                </Flex>
+              }
+            />
+            <div className="border-t border-black/6 px-4 py-3 text-center dark:border-white/12">
+              <Typography.Text type="secondary" className="text-xs!">
+                {hint}
+              </Typography.Text>
+            </div>
+          </Card>
         </Flex>
       </Layout>
     </>

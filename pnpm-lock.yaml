@@ -11,9 +11,6 @@ importers:
       '@ant-design/icons':
         specifier: ~6.3.2
         version: 6.3.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@icons-pack/react-simple-icons':
-        specifier: ^13.13.0
-        version: 13.13.0(react@19.2.8)
       '@tabler/icons-react':
         specifier: ^3.46.0
         version: 3.46.0(react@19.2.8)
@@ -198,12 +195,6 @@ packages:
 
   '@emotion/unitless@0.7.5':
     resolution: {integrity: sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==}
-
-  '@icons-pack/react-simple-icons@13.13.0':
-    resolution: {integrity: sha512-B5HhQMIpcSH4z8IZ8HFhD59CboHceKYMpPC9kAwGyKntvPdyJJv26DLu4Z1wAjcCLyrJhf11tMhiQGom9Rxb9g==}
-    engines: {node: '>=24', pnpm: '>=10'}
-    peerDependencies:
-      react: ^16.13 || ^17 || ^18 || ^19
 
   '@jridgewell/gen-mapping@0.3.12':
     resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
@@ -1771,10 +1762,6 @@ snapshots:
   '@emotion/hash@0.8.0': {}
 
   '@emotion/unitless@0.7.5': {}
-
-  '@icons-pack/react-simple-icons@13.13.0(react@19.2.8)':
-    dependencies:
-      react: 19.2.8
 
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:

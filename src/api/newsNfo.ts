@@ -1,5 +1,5 @@
 import { backendUrl } from "./client";
-import { getNewsList } from "./useNewsList";
+import { fetchNewsList } from "./news";
 
 function createNfoUrl(
   path: string,
@@ -60,7 +60,7 @@ export async function findSeriesEpisodeNumber(
   let offset = 0;
 
   while (true) {
-    const page = await getNewsList(gameId, {
+    const page = await fetchNewsList(gameId, {
       sourceId,
       tags: [tagName],
       newsType: "video",

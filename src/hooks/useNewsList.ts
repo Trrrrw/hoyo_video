@@ -1,86 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
-import { backendFetch } from "./client";
-import { isNewsInfo, isPageResponse, parseJson } from "./parse";
-import type { NewsInfo, PageResponse } from "./types";
-
-export type { NewsInfo } from "./types";
-
-export type NewsListQuery = {
-  sourceId?: string;
-  q?: string;
-  tags?: string[];
-  newsType?: string;
-  during?: string;
-  limit?: number;
-  reverse?: boolean;
-};
-
-type NewsListRequest = Omit<NewsListQuery, "sourceId"> & {
-  sourceId: string;
-  offset?: number;
-};
-
-export type NewsPage = PageResponse<
-  NewsInfo,
-  {
-    game_id: string;
-    source_id: string;
-  }
->;
-
-function toBackendTagName(tag: string): string {
-  // 后端以该特殊值查询未设置任何标签的新闻。
-  return tag === "其他" ? "__untagged__" : tag;
-}
-
-export async function getNewsList(
-  gameId: string,
-  {
-    sourceId,
-    q,
-    tags,
-    newsType,
-    during,
-    limit,
-    offset,
-    reverse,
-  }: NewsListRequest,
-): Promise<NewsPage> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news`, {
-    source_id: sourceId,
-    q,
-    tags: tags?.map(toBackendTagName).join(","),
-    news_type: newsType,
-    during,
-    limit,
-    offset,
-    reverse,
-  });
-
-  return parseJson<NewsPage>(
-    response,
-    (value): value is NewsPage =>
-      isPageResponse(
-        value,
-        isNewsInfo,
-        (meta): meta is NewsPage["meta"] => {
-          return (
-            typeof meta === "object" &&
-            meta !== null &&
-            "game_id" in meta &&
-            "source_id" in meta &&
-            typeof meta.game_id === "string" &&
-            typeof meta.source_id === "string"
-          );
-        },
-      ),
-    "视频列表",
-  );
-}
+import {
+  fetchNewsList,
+  type NewsListQuery,
+  type NewsPage,
+} from "../api/news";
+import type { NewsInfo } from "../api/types";
+import { useReportBackendError } from "../contexts/BackendErrorContext";
 
 export function useNewsList(gameId: string, query: NewsListQuery) {
-  const handleBackendError = useBackendErrorNavigation();
+  const handleBackendError = useReportBackendError();
   const [news, setNews] = useState<NewsInfo[]>([]);
   const [page, setPage] = useState<NewsPage>();
   const [isLoading, setIsLoading] = useState(true);
@@ -102,7 +30,7 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
 
   const fetchPage = useCallback(
     (offset: number) =>
-      getNewsList(gameId, {
+      fetchNewsList(gameId, {
         sourceId: sourceId ?? "",
         q,
         tags: tagsQuery?.split(","),

@@ -13,6 +13,6 @@ function formatPageTitle(title?: string | null) {
   return `${shortenedTitle} - ${applicationTitle}`;
 }
 
-export default function PageTitle({ title }: { title?: string | null }) {
+export default function DocumentTitle({ title }: { title?: string | null }) {
   return <title>{formatPageTitle(title)}</title>;
 }

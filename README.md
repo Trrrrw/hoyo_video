@@ -54,6 +54,12 @@ VITE_DEV_API_DELAY_MS=1000
 ## 检查与构建
 
 ```bash
+# 类型检查与代码检查
+pnpm check
+
+# 仅类型检查
+pnpm typecheck
+
 # 代码检查
 pnpm lint
 
@@ -70,14 +76,16 @@ pnpm preview
 
 ```text
 src/
-├── api/          后端请求、缓存与数据类型
+├── api/          后端请求、响应解析、缓存与数据类型
 ├── assets/       图片等静态资源
 ├── components/   通用组件、播放器与下载界面
+├── contexts/     跨页面共享的 React Context
 ├── hooks/        可复用 React Hooks
 ├── layouts/      页面布局
-├── libs/         下载、Aria2 与格式化工具
 ├── pages/        路由页面
-└── theme/        主题状态与配置
+├── services/     Aria2 等外部服务集成
+├── theme/        主题状态与配置
+└── utils/        格式化、参数与下载辅助函数
 ```
 
 ## 内容与版权声明

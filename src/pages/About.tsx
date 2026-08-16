@@ -16,7 +16,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Logo from "../assets/logo.webp";
-import PageTitle from "../components/PageTitle";
+import DocumentTitle from "../components/DocumentTitle";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -41,7 +41,7 @@ const features = [
 export default function About() {
   return (
     <>
-      <PageTitle title="关于" />
+      <DocumentTitle title="关于" />
       <div className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto">
         <Flex
           vertical

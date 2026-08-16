@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
-import { backendFetch } from "./client";
-import { isTagsResponse, parseJson } from "./parse";
-import type { TagGroupInfo, TagInfo, TagsResponse } from "./types";
-
-export type { TagGroupInfo, TagInfo, TagsResponse } from "./types";
+import { fetchTags } from "../api/tags";
+import type { TagGroupInfo, TagInfo } from "../api/types";
+import { useReportBackendError } from "../contexts/BackendErrorContext";
 
 function toDisplayTag(tag: TagInfo): TagInfo {
   return {
@@ -13,19 +10,8 @@ function toDisplayTag(tag: TagInfo): TagInfo {
   };
 }
 
-export async function getTags(
-  gameId: string,
-  sourceId: string,
-): Promise<TagsResponse> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news/tags`, {
-    source_id: sourceId,
-  });
-
-  return parseJson<TagsResponse>(response, isTagsResponse, "标签列表");
-}
-
 export function useTags(gameId: string, sourceId: string | undefined) {
-  const handleBackendError = useBackendErrorNavigation();
+  const handleBackendError = useReportBackendError();
   const [tagGroups, setTagGroups] = useState<TagGroupInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadedSourceId, setLoadedSourceId] = useState<string>();
@@ -44,7 +30,7 @@ export function useTags(gameId: string, sourceId: string | undefined) {
       };
     }
 
-    void getTags(gameId, sourceId)
+    void fetchTags(gameId, sourceId)
       .then((data) => {
         if (!cancelled) {
           setTagGroups(

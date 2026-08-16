@@ -5,13 +5,13 @@ import { Link, useLocation, useNavigate, useParams } from "react-router";
 import type { NewsInfo } from "../api/types";
 import RelatedVideos from "../components/RelatedVideos";
 import VideoPlayer from "../components/VideoPlayer";
-import { useNewsDetail } from "../api/useNewsDetail";
-import { useSources } from "../api/useSources";
+import { useNewsDetail } from "../hooks/useNewsDetail";
+import { useSources } from "../hooks/useSources";
 import { VideoDetailSkeleton } from "../components/LoadingSkeletons";
-import { useGames } from "../api/useGames";
-import { cleanHtmlText } from "../libs/cleanHtmlText";
-import { getVideoTimelineHref } from "../libs/videoTimeline";
-import PageTitle from "../components/PageTitle";
+import { useGames } from "../hooks/useGames";
+import { cleanHtmlText } from "../utils/cleanHtmlText";
+import { getVideoTimelineHref } from "../utils/videoTimeline";
+import DocumentTitle from "../components/DocumentTitle";
 
 const { Paragraph, Text, Title } = Typography;
 
@@ -50,7 +50,7 @@ export default function VideoDetail() {
   if (isLoading || !news) {
     return (
       <>
-        <PageTitle title={pageTitle} />
+        <DocumentTitle title={pageTitle} />
         <VideoDetailSkeleton />
       </>
     );
@@ -72,7 +72,7 @@ export default function VideoDetail() {
 
   return (
     <>
-      <PageTitle title={pageTitle} />
+      <DocumentTitle title={pageTitle} />
       <Flex
         vertical
         gap="middle"

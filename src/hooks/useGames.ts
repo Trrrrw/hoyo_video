@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
-import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
-import { backendFetch } from "./client";
-import {
-  isGameInfo,
-  isListResponse,
-  parseJson,
-} from "./parse";
-import type { GameInfo, ListResponse } from "./types";
-
-export type { GameInfo } from "./types";
+import { fetchGames } from "../api/games";
+import type { GameInfo } from "../api/types";
+import { useReportBackendError } from "../contexts/BackendErrorContext";
 
 // 游戏列表在一次页面生命周期内不会频繁变化，所有组件共享同一个缓存和请求
 let cachedGames: GameInfo[] | undefined;
 let gamesRequest: Promise<GameInfo[]> | null = null;
 
 /** 获取游戏列表，并复用正在进行或已经完成的请求 */
-export function getGames(): Promise<GameInfo[]> {
+function getGames(): Promise<GameInfo[]> {
   if (cachedGames !== undefined) {
     return Promise.resolve(cachedGames);
   }
@@ -24,16 +17,10 @@ export function getGames(): Promise<GameInfo[]> {
     return gamesRequest;
   }
 
-  gamesRequest = backendFetch("/api/v1/games")
-    .then(async (response) => {
-      const data = await parseJson<ListResponse<GameInfo>>(
-        response,
-        (value): value is ListResponse<GameInfo> =>
-          isListResponse(value, isGameInfo),
-        "游戏列表",
-      );
-      cachedGames = data.items;
-      return data.items;
+  gamesRequest = fetchGames()
+    .then((games) => {
+      cachedGames = games;
+      return games;
     })
     .catch((error: unknown) => {
       // 请求失败时清除请求缓存，使下一次进入页面可以重试
@@ -46,7 +33,7 @@ export function getGames(): Promise<GameInfo[]> {
 
 /** 在组件间共享游戏列表状态 */
 export function useGames() {
-  const handleBackendError = useBackendErrorNavigation();
+  const handleBackendError = useReportBackendError();
   const [games, setGames] = useState<GameInfo[]>(() => cachedGames ?? []);
   const [isLoading, setIsLoading] = useState(() => cachedGames === undefined);
 

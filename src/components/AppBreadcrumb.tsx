@@ -1,5 +1,4 @@
-import { HomeOutlined } from "@ant-design/icons";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, HomeOutlined } from "@ant-design/icons";
 import {
   Breadcrumb,
   Button,

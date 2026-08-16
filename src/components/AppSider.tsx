@@ -2,7 +2,7 @@ import { Flex, Grid, Layout, Menu, type MenuProps } from "antd";
 import { backendUrl } from "../api/client";
 import { Link, useLocation, useNavigate } from "react-router";
 import { InfoCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { useGames } from "../api/useGames";
+import { useGames } from "../hooks/useGames";
 import { useEffect, useState } from "react";
 
 const { Sider } = Layout;

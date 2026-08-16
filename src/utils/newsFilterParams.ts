@@ -11,7 +11,7 @@ function parseDate(value: string | undefined): Dayjs | null {
   return date.isValid() ? date : null;
 }
 
-export function parseDuring(
+export function parseDuringParam(
   value: string | null,
 ): [Dayjs | null, Dayjs | null] | null {
   if (!value) return null;
@@ -25,7 +25,7 @@ export function parseDuring(
   return range[0] || range[1] ? range : null;
 }
 
-export function formatDuring(
+export function formatDuringParam(
   value: DateRangeValue | null | undefined,
 ): string | undefined {
   const [start, end] = value ?? [];

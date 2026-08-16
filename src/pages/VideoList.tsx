@@ -13,10 +13,10 @@ import {
   useParams,
   useSearchParams,
 } from "react-router";
-import { useGames } from "../api/useGames";
-import { useNewsList } from "../api/useNewsList";
-import { useSources } from "../api/useSources";
-import { useTags } from "../api/useTags";
+import { useGames } from "../hooks/useGames";
+import { useNewsList } from "../hooks/useNewsList";
+import { useSources } from "../hooks/useSources";
+import { useTags } from "../hooks/useTags";
 import AppBreadcrumb from "../components/AppBreadcrumb";
 import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
@@ -24,14 +24,17 @@ import VideoTimeline from "../components/cards/VideoTimeline";
 import { FilterOutlined } from "@ant-design/icons";
 import { IconRss } from "@tabler/icons-react";
 import { useCopyText } from "../hooks/useCopyText";
-import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
-import { formatDuring, parseDuring } from "../libs/newsFilterParams";
+import {
+  formatDuringParam,
+  parseDuringParam,
+} from "../utils/newsFilterParams";
+import { buildNewsRssUrl } from "../utils/newsRss";
 import {
   getTimelineDateKey,
   getTimelineGroupId,
-} from "../libs/videoTimeline";
+} from "../utils/videoTimeline";
 import { VideoListSkeleton } from "../components/LoadingSkeletons";
-import PageTitle from "../components/PageTitle";
+import DocumentTitle from "../components/DocumentTitle";
 
 const { RangePicker } = DatePicker;
 
@@ -94,7 +97,7 @@ export default function VideoList() {
       : undefined;
 
   const during = searchParams.get("during") ?? undefined;
-  const duringValue = parseDuring(searchParams.get("during"));
+  const duringValue = parseDuringParam(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
   const isTimelineView = searchParams.get("view") === "timeline";
 
@@ -161,7 +164,7 @@ export default function VideoList() {
       return;
     }
 
-    // 确认当前来源的 tags 已加载完成后，才判断 tag 是否存在。
+    // 确认当前来源的 tags 已加载完成后，才判断 tag 是否存在
     if (loadedSourceId === source.id && tagName && !tag) {
       void navigate("/404", { replace: true });
     }
@@ -193,7 +196,7 @@ export default function VideoList() {
   ) {
     return (
       <>
-        <PageTitle title={pageTitle} />
+        <DocumentTitle title={pageTitle} />
         <VideoListSkeleton timeline={isTimelineView} />
       </>
     );
@@ -201,7 +204,7 @@ export default function VideoList() {
 
   return (
     <>
-      <PageTitle title={pageTitle} />
+      <DocumentTitle title={pageTitle} />
       <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
         <h1 className="sr-only">
           {game.name} / {source.name} / {videoListLabel}
@@ -289,7 +292,7 @@ export default function VideoList() {
                   format="YYYY年MM月DD日"
                   value={duringValue}
                   onChange={(dates) => {
-                    handleFilterChange(formatDuring(dates), reverse);
+                    handleFilterChange(formatDuringParam(dates), reverse);
                   }}
                 />
                 <Segmented<string>

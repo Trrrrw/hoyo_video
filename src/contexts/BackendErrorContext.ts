@@ -48,7 +48,7 @@ export function useBackendErrorState() {
   return context;
 }
 
-export function useBackendErrorNavigation() {
+export function useReportBackendError() {
   const { reportError } = useBackendErrorState();
 
   return useCallback(

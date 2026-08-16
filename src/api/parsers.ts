@@ -50,7 +50,7 @@ function isNewsCount(value: unknown): value is NewsCount {
   );
 }
 
-export function isNewsCharacter(value: unknown): value is NewsCharacter {
+function isNewsCharacter(value: unknown): value is NewsCharacter {
   return (
     isRecord(value) &&
     isString(value.id) &&

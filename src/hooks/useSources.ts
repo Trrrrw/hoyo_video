@@ -1,25 +1,10 @@
 import { useEffect, useState } from "react";
-import { useBackendErrorNavigation } from "../hooks/useBackendErrorNavigation";
-import { backendFetch } from "./client";
-import { isListResponse, isNewsSourceInfo, parseJson } from "./parse";
-import type { ListResponse, NewsSourceInfo } from "./types";
-
-export type { NewsSourceInfo } from "./types";
-
-export async function getSources(gameId: string): Promise<NewsSourceInfo[]> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news/sources`);
-  const data = await parseJson<ListResponse<NewsSourceInfo>>(
-    response,
-    (value): value is ListResponse<NewsSourceInfo> =>
-      isListResponse(value, isNewsSourceInfo),
-    "来源列表",
-  );
-
-  return data.items;
-}
+import { fetchSources } from "../api/sources";
+import type { NewsSourceInfo } from "../api/types";
+import { useReportBackendError } from "../contexts/BackendErrorContext";
 
 export function useSources(gameId: string) {
-  const handleBackendError = useBackendErrorNavigation();
+  const handleBackendError = useReportBackendError();
   const [sources, setSources] = useState<NewsSourceInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadedGameId, setLoadedGameId] = useState<string>();
@@ -38,7 +23,7 @@ export function useSources(gameId: string) {
       };
     }
 
-    void getSources(gameId)
+    void fetchSources(gameId)
       .then((data) => {
         if (!cancelled) {
           setSources(data);

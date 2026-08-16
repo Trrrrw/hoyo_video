@@ -1,4 +1,4 @@
-export function formatDuration(duration: number | null) {
+export function formatDuration(duration: number | null): string {
   if (duration === null || !Number.isFinite(duration)) {
     return "--:--";
   }

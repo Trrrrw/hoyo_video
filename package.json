@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "check": "pnpm typecheck && pnpm lint",
     "lint": "oxlint --type-aware --deny typescript/no-deprecated",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
     "@ant-design/icons": "~6.3.2",
-    "@icons-pack/react-simple-icons": "^13.13.0",
     "@tabler/icons-react": "^3.46.0",
     "@videojs/react": "10.0.0-beta.25",
     "antd": "^6.6.0",

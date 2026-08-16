@@ -25,7 +25,7 @@ import {
   getTimelineDateKey,
   getTimelineGroupId,
   getTimelineMonthKey,
-} from "../../libs/videoTimeline";
+} from "../../utils/videoTimeline";
 import {
   consumeRestoreNavigationState,
   useRestoreScrollPosition,

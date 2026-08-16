@@ -14,17 +14,20 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { backendUrl } from "../api/client";
 import { useCopyText } from "../hooks/useCopyText";
-import { useGames } from "../api/useGames";
-import { useNewsList } from "../api/useNewsList";
-import { useSources } from "../api/useSources";
-import { useTags } from "../api/useTags";
+import { useGames } from "../hooks/useGames";
+import { useNewsList } from "../hooks/useNewsList";
+import { useSources } from "../hooks/useSources";
+import { useTags } from "../hooks/useTags";
 import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
 import EmptyMark from "../assets/home-mark/home-mark-1.avif";
-import { buildNewsRssUrl } from "../libs/getNewsRssUrl";
-import { formatDuring, parseDuring } from "../libs/newsFilterParams";
+import {
+  formatDuringParam,
+  parseDuringParam,
+} from "../utils/newsFilterParams";
+import { buildNewsRssUrl } from "../utils/newsRss";
 import { SearchSkeleton } from "../components/LoadingSkeletons";
-import PageTitle from "../components/PageTitle";
+import DocumentTitle from "../components/DocumentTitle";
 
 const { RangePicker } = DatePicker;
 const { Text, Title } = Typography;
@@ -40,7 +43,7 @@ export default function Search() {
   const sourceId = searchParams.get("source");
   const selectedTags = searchParams.getAll("tag");
   const during = searchParams.get("during") ?? undefined;
-  const duringValue = parseDuring(searchParams.get("during"));
+  const duringValue = parseDuringParam(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
   const [searchValue, setSearchValue] = useState(query);
 
@@ -153,7 +156,7 @@ export default function Search() {
   };
 
   const handleDuringChange = (dates: Parameters<NonNullable<React.ComponentProps<typeof RangePicker>["onChange"]>>[0]) => {
-    const nextDuring = formatDuring(dates);
+    const nextDuring = formatDuringParam(dates);
     setSearchParams(
       (current) => {
         if (nextDuring) current.set("during", nextDuring);
@@ -209,7 +212,7 @@ export default function Search() {
   ) {
     return (
       <>
-        <PageTitle title={pageTitle} />
+        <DocumentTitle title={pageTitle} />
         <SearchSkeleton />
       </>
     );
@@ -231,7 +234,7 @@ export default function Search() {
 
   return (
     <>
-      <PageTitle title={pageTitle} />
+      <DocumentTitle title={pageTitle} />
       <Flex vertical gap="small" className="min-h-0 min-w-0 flex-1 p-3!">
       <Flex vertical gap="small">
         <Flex align="center" justify="space-between" gap="small">

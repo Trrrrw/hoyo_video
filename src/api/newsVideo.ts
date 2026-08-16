@@ -1,5 +1,5 @@
 import { backendFetch } from "./client";
-import { isNewsVideoResponse, parseJson } from "./parse";
+import { isNewsVideoResponse, parseJson } from "./parsers";
 
 export type NewsVideo = {
   video_url: string;
@@ -9,7 +9,7 @@ type NewsVideoResponse = {
   video_url: string | null;
 };
 
-export async function getNewsVideo(
+export async function fetchNewsVideo(
   gameId: string,
   newsId: string,
   sourceId: string,

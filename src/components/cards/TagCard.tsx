@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import type { TagInfo } from "../../api/useTags";
+import type { TagInfo } from "../../api/types";
 import { Link } from "react-router";
 
 type TagCardProps = {

@@ -2,7 +2,7 @@ import { Empty, Flex, Typography } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router";
 import type { RelatedVideoInfo } from "../api/types";
-import { formatDuration } from "../libs/formatDuration";
+import { formatDuration } from "../utils/formatDuration";
 
 const { Text, Title } = Typography;
 

@@ -18,8 +18,8 @@ import {
   ShareAltOutlined,
 } from "@ant-design/icons";
 import { useCopyText } from "../../hooks/useCopyText";
-import { formatDuration } from "../../libs/formatDuration";
-import { getNewsVideo } from "../../api/useNewsVideo";
+import { fetchNewsVideo } from "../../api/newsVideo";
+import { formatDuration } from "../../utils/formatDuration";
 import { useEffect, useRef, useState } from "react";
 import DownloadVideoModal from "../DownloadVideoModal";
 
@@ -97,7 +97,7 @@ export default function VideoCard({
     }
     if (videoUrlRequest.current) return videoUrlRequest.current;
 
-    const request = getNewsVideo(gameId, video.id, sourceId)
+    const request = fetchNewsVideo(gameId, video.id, sourceId)
       .then(({ video_url }) => {
         setResolvedVideoUrl(video_url);
         return video_url;

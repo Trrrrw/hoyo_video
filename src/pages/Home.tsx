@@ -1,14 +1,14 @@
 import { Flex, Input, Select, Skeleton, Space } from "antd";
 import { useEffect, useState } from "react";
-import { useGames } from "../api/useGames";
+import { useGames } from "../hooks/useGames";
 import { backendUrl } from "../api/client";
 import { useNavigate } from "react-router";
-import PageTitle from "../components/PageTitle";
+import DocumentTitle from "../components/DocumentTitle";
 
 export default function Home() {
   return (
     <>
-      <PageTitle />
+      <DocumentTitle />
       <Flex
         vertical
         align="center"
