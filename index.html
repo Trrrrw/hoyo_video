@@ -2,42 +2,167 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2" />
+    <link
+      rel="preload"
+      as="image"
+      href="/icons/app-icon-192.png"
+      fetchpriority="high"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>影像档案架</title>
     <!-- PWA meta -->
     <link rel="manifest" href="/manifest.json" />
     <meta
-        name="theme-color"
-        media="(prefers-color-scheme: dark)"
-        content="#141414"
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#141414"
     />
     <meta
-        name="theme-color"
-        media="(prefers-color-scheme: light)"
-        content="#ffffff"
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#ffffff"
     />
     <!-- PWA Apple meta -->
     <meta name="apple-mobile-web-app-title" content="影像档案架" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <link
-        rel="apple-touch-icon"
-        href="/icons/pwa@192.png"
-        sizes="192x192"
+      rel="apple-touch-icon"
+      href="/icons/apple-touch-icon.png"
+      sizes="180x180"
     />
-    <link
-        rel="apple-touch-icon"
-        href="/icons/pwa@512.png"
-        sizes="512x512"
-    />
-    <link
-        rel="apple-touch-icon"
-        href="/icons/pwa@1024.png"
-        sizes="1024x1024"
-    />
+    <script>
+      try {
+        const themeMode = localStorage.getItem("theme-mode") || "system";
+        const dark =
+          themeMode === "dark" ||
+          (themeMode === "system" &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+      } catch {}
+    </script>
+    <style>
+      html,
+      body,
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      #app-loading {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        opacity: 1;
+        transition: opacity 120ms ease-out;
+      }
+
+      .dark #app-loading {
+        background: #141414;
+      }
+
+      #app-loading.is-leaving {
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      .app-loading-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transform: translateY(3px);
+        transition:
+          opacity 160ms ease-out,
+          transform 160ms ease-out;
+      }
+
+      #app-loading.is-visible .app-loading-content {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .app-loading-icon {
+        width: clamp(76px, 12vw, 96px);
+        height: auto;
+        display: block;
+      }
+
+      .app-loading-track {
+        position: relative;
+        width: 144px;
+        height: 3px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgb(0 0 0 / 8%);
+      }
+
+      .dark .app-loading-track {
+        background: rgb(255 255 255 / 12%);
+      }
+
+      .app-loading-bar {
+        position: absolute;
+        inset-block: 0;
+        width: 44%;
+        border-radius: inherit;
+        background: #f5b900;
+        animation: app-loading-progress 1.1s ease-in-out infinite;
+      }
+
+      @keyframes app-loading-progress {
+        from {
+          transform: translateX(-110%);
+        }
+
+        to {
+          transform: translateX(335%);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #app-loading,
+        .app-loading-content {
+          transition: none;
+        }
+
+        .app-loading-bar {
+          inset-inline-start: 28%;
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="app-loading" role="status" aria-label="正在加载">
+      <div class="app-loading-content">
+        <img
+          class="app-loading-icon"
+          src="/icons/app-icon-192.png"
+          width="96"
+          height="96"
+          alt=""
+        />
+        <div class="app-loading-track" aria-hidden="true">
+          <span class="app-loading-bar"></span>
+        </div>
+      </div>
+    </div>
+    <script>
+      const appLoading = document.getElementById("app-loading");
+      if (appLoading) {
+        appLoading.dataset.revealTimer = String(
+          setTimeout(() => appLoading.classList.add("is-visible"), 300),
+        );
+      }
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

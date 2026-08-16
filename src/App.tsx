@@ -1,6 +1,6 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router";
-import { useBackendErrorState } from "./hooks/useBackendErrorNavigation";
+import { useBackendErrorState } from "./contexts/BackendErrorContext";
 
 const MainLayout = lazy(() => import("./layouts/MainLayout"));
 const Home = lazy(() => import("./pages/Home"));
@@ -12,13 +12,39 @@ const ServerError = lazy(() => import("./pages/ServerError"));
 const VideoList = lazy(() => import("./pages/VideoList"));
 const VideoDetail = lazy(() => import("./pages/VideoDetail"));
 
+function RemoveInitialLoading() {
+  useEffect(() => {
+    const loading = document.getElementById("app-loading");
+    if (!loading || loading.dataset.removing === "true") return;
+
+    const revealTimer = Number(loading.dataset.revealTimer);
+    if (Number.isFinite(revealTimer)) window.clearTimeout(revealTimer);
+
+    if (!loading.classList.contains("is-visible")) {
+      loading.remove();
+      return;
+    }
+
+    loading.dataset.removing = "true";
+    loading.classList.add("is-leaving");
+    window.setTimeout(() => loading.remove(), 120);
+  }, []);
+
+  return null;
+}
+
 function App() {
   const { error } = useBackendErrorState();
 
   return (
     <Suspense fallback={null}>
+      <RemoveInitialLoading />
       {error ? (
-        error.status === 404 ? <NotFound /> : <ServerError />
+        error.status === 404 ? (
+          <NotFound />
+        ) : (
+          <ServerError />
+        )
       ) : (
         <Routes>
           <Route element={<MainLayout />}>
