@@ -42,11 +42,12 @@ export default function About() {
   return (
     <>
       <PageTitle title="关于" />
-      <Flex
-        vertical
-        gap="large"
-        className="app-scrollbar mx-auto! min-h-0 min-w-0 w-full max-w-6xl flex-1 overflow-y-auto p-3! pb-8"
-      >
+      <div className="app-scrollbar min-h-0 min-w-0 flex-1 overflow-y-auto">
+        <Flex
+          vertical
+          gap="large"
+          className="mx-auto! min-w-0 w-full max-w-6xl p-3! pb-8"
+        >
         <Card>
         <Flex
           vertical
@@ -173,7 +174,8 @@ export default function About() {
       <Text type="secondary" className="text-center text-xs">
         感谢每一位使用和反馈的朋友
         </Text>
-      </Flex>
+        </Flex>
+      </div>
     </>
   );
 }
