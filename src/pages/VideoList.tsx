@@ -8,7 +8,6 @@ import {
 } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import {
-  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -29,10 +28,6 @@ import {
   parseDuringParam,
 } from "../utils/newsFilterParams";
 import { buildNewsRssUrl } from "../utils/newsRss";
-import {
-  getTimelineDateKey,
-  getTimelineGroupId,
-} from "../utils/videoTimeline";
 import { VideoListSkeleton } from "../components/LoadingSkeletons";
 import DocumentTitle from "../components/DocumentTitle";
 
@@ -56,7 +51,6 @@ function videoListUrl(
 }
 
 export default function VideoList() {
-  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -325,7 +319,7 @@ export default function VideoList() {
               gameId={game.id}
               gameName={game.name}
               sourceId={source.id}
-              publishTimeHref={`${location.pathname}${location.search}#${getTimelineGroupId(getTimelineDateKey(item.publish_time))}`}
+              publishTimeHref={null}
             />
           )}
           className="min-h-0 flex-1"

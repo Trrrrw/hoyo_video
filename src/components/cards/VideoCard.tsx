@@ -2,15 +2,13 @@ import {
   Button,
   Dropdown,
   Flex,
-  Skeleton,
-  Tag,
   Typography,
   type MenuProps,
 } from "antd";
 import { Link, useLocation } from "react-router";
 import type { NewsInfo } from "../../api/types";
 import dayjs from "dayjs";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { IconDotsVertical, IconPlayerPlay } from "@tabler/icons-react";
 import {
   DownloadOutlined,
   ExportOutlined,
@@ -30,7 +28,7 @@ type VideoCardProps = {
   gameId: string;
   gameName: string;
   sourceId: string;
-  publishTimeHref?: string;
+  publishTimeHref?: string | null;
 };
 
 const dropdownMenuItems: MenuProps["items"] = [
@@ -141,31 +139,49 @@ export default function VideoCard({
         state={{
           from,
         }}
+        className="block text-inherit! focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none"
       >
         <div
-          className="
-            pb-2 relative
-            transition-transform duration-300 ease-out
-            motion-safe:group-hover:scale-[1.03]
-          "
+          className="relative pb-2"
         >
-          {video.cover ? (
-            <img
-              src={video.cover}
-              alt=""
-              className="aspect-video w-full rounded-xl object-cover"
+          <div className="group/media relative aspect-video overflow-hidden rounded-xl bg-black/6 shadow-sm ring-1 ring-black/6 dark:bg-white/10 dark:ring-white/10">
+            {video.cover ? (
+              <img
+                src={video.cover}
+                alt=""
+                loading="lazy"
+                draggable={false}
+                className="h-full w-full transform-gpu object-cover transition-transform duration-300 ease-out will-change-transform group-hover/media:scale-[1.04]"
+              />
+            ) : (
+              <Flex
+                align="center"
+                justify="center"
+                className="h-full w-full text-[var(--ant-color-text-tertiary)]"
+                style={{ background: "var(--ant-color-fill-secondary)" }}
+              >
+                <IconPlayerPlay size={32} stroke={1.5} aria-hidden="true" />
+              </Flex>
+            )}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0, 0, 0, 0.52), transparent)",
+              }}
             />
-          ) : (
-            <Skeleton.Image active />
-          )}
-          <Tag
-            className="
-              absolute! bottom-4 right-2
-              m-0! rounded! border-0! bg-black/70! px-1.5! py-0.5! text-xs! leading-none! text-white!
-            "
-          >
-            {formatDuration(videoDuration)}
-          </Tag>
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-200 group-hover/media:bg-black/20">
+              <span className="flex size-11 scale-90 items-center justify-center rounded-full bg-white/92 text-black opacity-0 shadow-lg transition-[transform,opacity] duration-200 ease-out group-hover/media:scale-100 group-hover/media:opacity-100 dark:bg-black/80 dark:text-white">
+                <IconPlayerPlay size={21} stroke={2} aria-hidden="true" />
+              </span>
+            </div>
+            {videoDuration !== null && (
+              <span className="absolute right-2 bottom-2 rounded-md bg-black/75 px-1.5 py-1 text-[11px] leading-none font-medium tracking-wide text-white shadow-sm">
+                {formatDuration(videoDuration)}
+              </span>
+            )}
+          </div>
         </div>
       </Link>
       <Flex justify="space-between">
@@ -184,7 +200,11 @@ export default function VideoCard({
             </Title>
           </Link>
 
-          {publishTimeHref ? (
+          {publishTimeHref === null ? (
+            <Text type="secondary" className="mt-1! block! text-sm!">
+              {publishTimeLabel}
+            </Text>
+          ) : publishTimeHref ? (
             <Link
               to={publishTimeHref}
               className="mt-1! block! text-inherit! text-sm!"
