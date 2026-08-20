@@ -4,12 +4,13 @@ import {
   DatePicker,
   Flex,
   Input,
+  Popover,
   Segmented,
   Select,
   Typography,
 } from "antd";
 import { FilterOutlined } from "@ant-design/icons";
-import { IconRss } from "@tabler/icons-react";
+import { IconHelpCircle, IconRss } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { backendUrl } from "../api/client";
@@ -316,15 +317,50 @@ export default function Search() {
             onChange={handleSourceChange}
             aria-label="选择来源"
           />
-          <Input.Search
-            className="min-w-60 flex-1!"
-            value={searchValue}
-            enterButton
-            allowClear
-            placeholder={`在${game.name}中搜索视频`}
-            onChange={(event) => setSearchValue(event.target.value)}
-            onSearch={handleSearch}
-          />
+          <Flex align="center" gap="small" className="min-w-60 flex-1">
+            <Input.Search
+              className="min-w-0 flex-1!"
+              value={searchValue}
+              enterButton
+              allowClear
+              placeholder={`在${game.name}中搜索视频`}
+              onChange={(event) => setSearchValue(event.target.value)}
+              onSearch={handleSearch}
+            />
+            <Popover
+              placement="bottomRight"
+              trigger="click"
+              title="搜索语法"
+              content={
+                <Flex vertical gap="small" className="w-64">
+                  <Text>空格：同时匹配多个关键词（AND）</Text>
+                  <Text>
+                    <span className="font-mono">|</span>：匹配任意一个关键词（OR）
+                  </Text>
+                  <Text>
+                    <span className="font-mono">-关键词</span>：排除关键词
+                  </Text>
+                  <Text>
+                    <span className="font-mono">"完整短语"</span>：按完整短语匹配
+                  </Text>
+                  <Text>
+                    <span className="font-mono">{"\\"}</span>：转义特殊字符
+                  </Text>
+                  <Text type="secondary" className="text-xs!">
+                    示例：原神 角色 | PV -复刻
+                  </Text>
+                </Flex>
+              }
+            >
+              <Button
+                type="text"
+                size="small"
+                shape="circle"
+                icon={<IconHelpCircle size={16} />}
+                aria-label="查看搜索语法"
+              />
+            </Popover>
+          </Flex>
         </Flex>
       </Flex>
 
