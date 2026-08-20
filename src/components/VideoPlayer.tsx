@@ -27,7 +27,7 @@ import type { NewsInfo } from "../api/types";
 import DownloadVideoModal from "./DownloadVideoModal";
 import "./VideoPlayer.css";
 
-const Player = createPlayer({ features: videoFeatures });
+const { Player } = createPlayer({ features: videoFeatures });
 
 type VideoPlayerProps = {
   news: NewsInfo;
@@ -218,7 +218,7 @@ export default function VideoPlayer({
   const [downloadOpen, setDownloadOpen] = useState(false);
 
   return (
-    <Player.Provider>
+    <Player>
       <VideoSkin className="video-player-skin aspect-video w-full overflow-hidden">
         <Poster src={news.cover ?? undefined} alt={news.title} />
         <Video
@@ -248,6 +248,6 @@ export default function VideoPlayer({
         videoUrl={news.video_url}
         onClose={() => setDownloadOpen(false)}
       />
-    </Player.Provider>
+    </Player>
   );
 }
