@@ -3,10 +3,15 @@ import { fetchTags } from "../api/tags";
 import type { TagGroupInfo, TagInfo } from "../api/types";
 import { useReportBackendError } from "../contexts/BackendErrorContext";
 
-function toDisplayTag(tag: TagInfo): TagInfo {
+function createUntaggedTag(
+  newsCount: TagInfo["news_count"],
+  recent: TagInfo["recent"],
+): TagInfo {
   return {
-    ...tag,
-    name: tag.name === "__untagged__" ? "其他" : tag.name,
+    name: "其他",
+    index: Number.MAX_SAFE_INTEGER,
+    news_count: newsCount,
+    recent,
   };
 }
 
@@ -33,12 +38,21 @@ export function useTags(gameId: string, sourceId: string | undefined) {
     void fetchTags(gameId, sourceId)
       .then((data) => {
         if (!cancelled) {
-          setTagGroups(
-            data.groups.map((group) => ({
-              ...group,
-              tags: group.tags.map(toDisplayTag),
-            })),
-          );
+          const groups = [...data.groups];
+          if (data.untagged.news_count.video > 0) {
+            groups.push({
+              name: null,
+              index: null,
+              tags: [
+                createUntaggedTag(
+                  data.untagged.news_count,
+                  data.untagged.recent,
+                ),
+              ],
+            });
+          }
+
+          setTagGroups(groups);
           setLoadedSourceId(sourceId);
         }
       })

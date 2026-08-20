@@ -1,5 +1,6 @@
 import { BackendError } from "./client";
 import type {
+  GameDataEntry,
   GameInfo,
   ListResponse,
   NewsCharacter,
@@ -13,6 +14,7 @@ import type {
   TagGroupInfo,
   TagInfo,
   TagsResponse,
+  UntaggedInfo,
 } from "./types";
 
 type RecordValue = Record<string, unknown>;
@@ -54,7 +56,6 @@ function isNewsCharacter(value: unknown): value is NewsCharacter {
   return (
     isRecord(value) &&
     isString(value.id) &&
-    isString(value.item_id) &&
     isString(value.name)
   );
 }
@@ -63,7 +64,7 @@ export function isNewsInfo(value: unknown): value is NewsInfo {
   return (
     isRecord(value) &&
     isString(value.id) &&
-    isString(value.source_id) &&
+    isString(value.source) &&
     isString(value.title) &&
     isString(value.source_url) &&
     isString(value.news_type) &&
@@ -82,7 +83,7 @@ function isRelatedVideoInfo(value: unknown): value is RelatedVideoInfo {
   return (
     isRecord(value) &&
     isString(value.id) &&
-    isString(value.source_id) &&
+    isString(value.source) &&
     isString(value.title) &&
     isNullableString(value.publish_time) &&
     isNullableString(value.cover) &&
@@ -123,6 +124,25 @@ export function isGameInfo(value: unknown): value is GameInfo {
   );
 }
 
+function isGameDataEntry(value: unknown): value is GameDataEntry {
+  return (
+    isRecord(value) &&
+    isString(value.id) &&
+    isNullableString(value.name) &&
+    isNullableString(value.icon)
+  );
+}
+
+export function isGameDataPage(
+  value: unknown,
+): value is PageResponse<GameDataEntry, unknown> {
+  return isPageResponse(
+    value,
+    isGameDataEntry,
+    (_meta: unknown): _meta is unknown => true,
+  );
+}
+
 export function isNewsSourceInfo(value: unknown): value is NewsSourceInfo {
   return (
     isRecord(value) &&
@@ -152,13 +172,22 @@ function isTagGroupInfo(value: unknown): value is TagGroupInfo {
   );
 }
 
+function isUntaggedInfo(value: unknown): value is UntaggedInfo {
+  return (
+    isRecord(value) &&
+    isNewsCount(value.news_count) &&
+    isRecentNews(value.recent)
+  );
+}
+
 export function isTagsResponse(value: unknown): value is TagsResponse {
   return (
     isRecord(value) &&
     isString(value.game_id) &&
-    isString(value.source_id) &&
+    isString(value.source) &&
     Array.isArray(value.groups) &&
-    value.groups.every(isTagGroupInfo)
+    value.groups.every(isTagGroupInfo) &&
+    isUntaggedInfo(value.untagged)
   );
 }
 

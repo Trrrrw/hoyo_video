@@ -12,6 +12,7 @@ export type NewsListQuery = {
   sourceId?: string;
   q?: string;
   tags?: string[];
+  characters?: string[];
   newsType?: string;
   during?: string;
   limit?: number;
@@ -27,12 +28,24 @@ export type NewsPage = PageResponse<
   NewsInfo,
   {
     game_id: string;
-    source_id: string;
+    source: string;
   }
 >;
 
-function toBackendTagName(tag: string): string {
-  return tag === "其他" ? "__untagged__" : tag;
+function toBackendDate(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  if (!/^\d{8}$/.test(value)) return value;
+
+  return `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6, 8)}`;
+}
+
+function getPublishedRange(during: string | undefined) {
+  const [start, end] = during?.split("-", 2) ?? [];
+
+  return {
+    published_from: toBackendDate(start),
+    published_to: toBackendDate(end),
+  };
 }
 
 export async function fetchNewsList(
@@ -41,6 +54,7 @@ export async function fetchNewsList(
     sourceId,
     q,
     tags,
+    characters,
     newsType,
     during,
     limit,
@@ -48,15 +62,21 @@ export async function fetchNewsList(
     reverse,
   }: NewsListRequest,
 ): Promise<NewsPage> {
+  const regularTags = tags?.filter((tag) => tag !== "其他");
+  const hasUntagged = tags?.includes("其他") || undefined;
+
   const response = await backendFetch(`/api/v1/games/${gameId}/news`, {
-    source_id: sourceId,
+    source: sourceId,
     q,
-    tags: tags?.map(toBackendTagName).join(","),
+    tag: regularTags && regularTags.length > 0 ? regularTags : undefined,
+    untagged: hasUntagged,
+    character:
+      characters && characters.length > 0 ? characters : undefined,
     news_type: newsType,
-    during,
+    ...getPublishedRange(during),
     limit,
     offset,
-    reverse,
+    order: reverse ? "asc" : "desc",
   });
 
   return parseJson<NewsPage>(
@@ -70,9 +90,9 @@ export async function fetchNewsList(
             typeof meta === "object" &&
             meta !== null &&
             "game_id" in meta &&
-            "source_id" in meta &&
+            "source" in meta &&
             typeof meta.game_id === "string" &&
-            typeof meta.source_id === "string"
+            typeof meta.source === "string"
           );
         },
       ),
@@ -86,7 +106,7 @@ export async function fetchNewsDetail(
   sourceId: string,
 ): Promise<NewsDetailInfo> {
   const response = await backendFetch(`/api/v1/games/${gameId}/news/${newsId}`, {
-    source_id: sourceId,
+    source: sourceId,
   });
 
   const news = await parseJson<NewsDetailInfo>(

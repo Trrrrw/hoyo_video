@@ -171,9 +171,22 @@ function VideoInfo({
             );
           })}
           {news.characters.map((character) => (
-            <Tag color="blue" key={`${character.id}-${character.item_id}`}>
-              {character.name}
-            </Tag>
+            <Link
+              key={character.id}
+              to={{
+                pathname: "/search",
+                search: new URLSearchParams({
+                  game: gameId ?? "",
+                  source: sourceId ?? "",
+                  character: character.id,
+                }).toString(),
+              }}
+              className="no-underline!"
+            >
+              <Tag color="blue" className="cursor-pointer">
+                {character.name}
+              </Tag>
+            </Link>
           ))}
         </Flex>
         <Paragraph className="mb-0! whitespace-pre-wrap">

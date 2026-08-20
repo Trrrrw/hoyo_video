@@ -307,7 +307,7 @@ export default function DownloadVideoModal({
   const videoFileName = `${safeTitle}${videoExtension}`;
   const coverFileName = `${safeTitle}-cover${coverExtension}`;
   const movieNfoFileName = `${safeTitle}.nfo`;
-  const movieNfoUrl = getMovieNfoUrl(gameId, news.source_id, news.id);
+  const movieNfoUrl = getMovieNfoUrl(gameId, news.source, news.id);
   const episodeCode = `S${formatEpisodeNumber(seasonNumber)}E${formatEpisodeNumber(episodeNumber)}`;
   const episodeFileBase = sanitizeFileName(
     `${seriesName} - ${episodeCode} - ${safeTitle}`,
@@ -325,12 +325,12 @@ export default function DownloadVideoModal({
     safeTitle,
   );
   const seriesNfoUrl = primaryTag
-    ? getSeriesNfoUrl(gameId, news.source_id, primaryTag)
+    ? getSeriesNfoUrl(gameId, news.source, primaryTag)
     : null;
   const episodeNfoUrl = primaryTag
     ? getEpisodeNfoUrl(
         gameId,
-        news.source_id,
+        news.source,
         primaryTag,
         news.id,
         seasonNumber,
@@ -369,7 +369,7 @@ export default function DownloadVideoModal({
     setEpisodeNumberLoading(true);
     void findSeriesEpisodeNumber(
       gameId,
-      news.source_id,
+      news.source,
       primaryTag,
       news.id,
     )
@@ -384,7 +384,7 @@ export default function DownloadVideoModal({
     return () => {
       cancelled = true;
     };
-  }, [gameId, news.id, news.source_id, open, primaryTag]);
+  }, [gameId, news.id, news.source, open, primaryTag]);
 
   const persistSettings = (settings = aria2Settings) => {
     if (rememberSettings) {

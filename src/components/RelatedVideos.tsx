@@ -40,8 +40,8 @@ export default function RelatedVideos({
 
             return (
               <Link
-                key={`${video.source_id}-${video.id}`}
-                to={`/${gameId}/videos/${video.source_id}/${video.id}`}
+                key={`${video.source}-${video.id}`}
+                to={`/${gameId}/videos/${video.source}/${video.id}`}
                 state={from ? { from } : undefined}
                 className="group flex min-w-0 gap-3 rounded-lg p-2 text-inherit! transition-colors hover:bg-black/5 focus-visible:bg-black/5 focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:outline-none dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
               >

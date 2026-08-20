@@ -109,7 +109,15 @@ export async function backendFetch(
   const url = new URL(path, BACKEND_BASE);
   if (query) {
     for (const [key, value] of Object.entries(query)) {
-      if (value != null) url.searchParams.set(key, String(value));
+      if (value == null) continue;
+
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          url.searchParams.append(key, String(item));
+        }
+      } else {
+        url.searchParams.set(key, String(value));
+      }
     }
   }
 

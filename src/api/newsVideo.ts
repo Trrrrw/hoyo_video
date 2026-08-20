@@ -16,7 +16,7 @@ export async function fetchNewsVideo(
 ): Promise<NewsVideo> {
   const response = await backendFetch(
     `/api/v1/games/${gameId}/news/${newsId}/video`,
-    { source_id: sourceId },
+    { source: sourceId },
   );
   const data = await parseJson<NewsVideoResponse>(
     response,

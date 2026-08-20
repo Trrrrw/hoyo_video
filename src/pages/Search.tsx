@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { backendUrl } from "../api/client";
 import { useCopyText } from "../hooks/useCopyText";
+import { useGameCharacters } from "../hooks/useGameCharacters";
 import { useGames } from "../hooks/useGames";
 import { useNewsList } from "../hooks/useNewsList";
 import { useSources } from "../hooks/useSources";
@@ -42,6 +43,7 @@ export default function Search() {
   const query = searchParams.get("q")?.trim() ?? "";
   const sourceId = searchParams.get("source");
   const selectedTags = searchParams.getAll("tag");
+  const selectedCharacters = searchParams.getAll("character");
   const during = searchParams.get("during") ?? undefined;
   const duringValue = parseDuringParam(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
@@ -65,6 +67,13 @@ export default function Search() {
   const { tags, isLoading: isTagsLoading } = useTags(
     gameId ?? "",
     source?.id,
+  );
+  const {
+    characters,
+    isLoading: isCharactersLoading,
+  } = useGameCharacters(gameId ?? "");
+  const hasSearchCriteria = Boolean(
+    query || selectedTags.length > 0 || selectedCharacters.length > 0,
   );
 
   useEffect(() => {
@@ -111,10 +120,12 @@ export default function Search() {
     hasMore,
     loadMore,
   } = useNewsList(gameId ?? "", {
-    sourceId: query && source ? source.id : undefined,
+    sourceId: hasSearchCriteria && source ? source.id : undefined,
     q: query || undefined,
     newsType: "video",
     tags: selectedTags.length > 0 ? selectedTags : undefined,
+    characters:
+      selectedCharacters.length > 0 ? selectedCharacters : undefined,
     during,
     limit: 24,
     reverse,
@@ -138,6 +149,7 @@ export default function Search() {
       (current) => {
         current.set("source", nextSourceId);
         current.delete("tag");
+        current.delete("character");
         return current;
       },
       { replace: true },
@@ -151,6 +163,7 @@ export default function Search() {
       else current.delete("q");
       current.delete("source");
       current.delete("tag");
+      current.delete("character");
       return current;
     });
   };
@@ -178,6 +191,19 @@ export default function Search() {
     );
   };
 
+  const handleCharactersChange = (nextCharacters: string[]) => {
+    setSearchParams(
+      (current) => {
+        current.delete("character");
+        nextCharacters.forEach((character) =>
+          current.append("character", character),
+        );
+        return current;
+      },
+      { replace: true },
+    );
+  };
+
   const handleReverseChange = (value: string) => {
     setSearchParams(
       (current) => {
@@ -197,6 +223,7 @@ export default function Search() {
       sourceId: source.id,
       q: query,
       tags: selectedTags,
+      characters: selectedCharacters,
       during,
     });
 
@@ -227,7 +254,7 @@ export default function Search() {
         draggable={false}
       />
       <Text type="secondary">
-        {query ? "没有找到匹配的视频" : "请输入关键词开始搜索"}
+        {hasSearchCriteria ? "没有找到匹配的视频" : "请输入关键词或选择筛选条件"}
       </Text>
     </Flex>
   );
@@ -333,6 +360,22 @@ export default function Search() {
                   onChange={handleTagsChange}
                   aria-label="筛选标签"
                 />
+                <Select
+                  mode="multiple"
+                  allowClear
+                  className="min-w-52"
+                  placeholder="筛选角色"
+                  loading={isCharactersLoading}
+                  value={selectedCharacters}
+                  options={characters.map((character) => ({
+                    label: character.name,
+                    value: character.id,
+                  }))}
+                  showSearch={{ optionFilterProp: "label" }}
+                  maxTagCount="responsive"
+                  onChange={handleCharactersChange}
+                  aria-label="筛选角色"
+                />
                 <RangePicker
                   allowEmpty={[true, true]}
                   format="YYYY年MM月DD日"
@@ -350,9 +393,11 @@ export default function Search() {
         ]}
       />
 
-      {query && (
+      {hasSearchCriteria && (
         <Flex align="center" justify="space-between" gap="small" wrap>
-          <Text type="secondary">“{query}” 的搜索结果</Text>
+          <Text type="secondary">
+            {query ? `“${query}” 的搜索结果` : "筛选结果"}
+          </Text>
           {page && <Text type="secondary">共 {page.total} 条</Text>}
         </Flex>
       )}

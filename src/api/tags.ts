@@ -7,7 +7,7 @@ export async function fetchTags(
   sourceId: string,
 ): Promise<TagsResponse> {
   const response = await backendFetch(`/api/v1/games/${gameId}/news/tags`, {
-    source_id: sourceId,
+    source: sourceId,
   });
 
   return parseJson<TagsResponse>(response, isTagsResponse, "标签列表");

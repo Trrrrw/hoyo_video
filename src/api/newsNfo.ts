@@ -21,7 +21,7 @@ export function getMovieNfoUrl(
 ) {
   return createNfoUrl(
     `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}/nfo`,
-    { source_id: sourceId },
+    { source: sourceId },
   );
 }
 
@@ -32,7 +32,7 @@ export function getSeriesNfoUrl(
 ) {
   return createNfoUrl(
     `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/nfo`,
-    { source_id: sourceId },
+    { source: sourceId },
   );
 }
 
@@ -46,7 +46,7 @@ export function getEpisodeNfoUrl(
 ) {
   return createNfoUrl(
     `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/episodes/${encodeURIComponent(newsId)}/nfo`,
-    { source_id: sourceId, season, episode },
+    { source: sourceId, season, episode },
   );
 }
 

@@ -21,12 +21,14 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     sourceId,
     q,
     tags,
+    characters,
     newsType,
     during,
     limit,
     reverse,
   } = query;
   const tagsQuery = tags?.join(",");
+  const charactersQuery = characters?.join(",");
 
   const fetchPage = useCallback(
     (offset: number) =>
@@ -34,13 +36,24 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
         sourceId: sourceId ?? "",
         q,
         tags: tagsQuery?.split(","),
+        characters: charactersQuery?.split(","),
         newsType,
         during,
         limit,
         offset,
         reverse,
       }),
-    [gameId, sourceId, q, tagsQuery, newsType, during, limit, reverse],
+    [
+      gameId,
+      sourceId,
+      q,
+      tagsQuery,
+      charactersQuery,
+      newsType,
+      during,
+      limit,
+      reverse,
+    ],
   );
 
   useEffect(() => {

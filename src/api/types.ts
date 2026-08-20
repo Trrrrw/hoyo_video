@@ -1,7 +1,12 @@
 /** URL 查询参数的通用键值类型 */
 export type QueryParams = Record<
   string,
-  string | number | boolean | undefined | null
+  | string
+  | number
+  | boolean
+  | readonly (string | number | boolean)[]
+  | undefined
+  | null
 >;
 
 /** 后端列表接口的最小响应结构 */
@@ -15,6 +20,18 @@ export type PageResponse<T, Meta> = ListResponse<T> & {
   limit: number;
   offset: number;
   meta: Meta;
+};
+
+export type GameDataEntry = {
+  id: string;
+  name: string | null;
+  icon: string | null;
+};
+
+export type GameCharacter = {
+  id: string;
+  name: string;
+  icon: string | null;
 };
 
 export type NewsCount = {
@@ -35,13 +52,12 @@ export type GameInfo = {
 
 export type NewsCharacter = {
   id: string;
-  item_id: string;
   name: string;
 };
 
 export type NewsInfo = {
   id: string;
-  source_id: string;
+  source: string;
   title: string;
   source_url: string;
   news_type: string;
@@ -57,7 +73,7 @@ export type NewsInfo = {
 export type RelatedVideoInfo = Pick<
   NewsInfo,
   | "id"
-  | "source_id"
+  | "source"
   | "title"
   | "publish_time"
   | "cover"
@@ -94,8 +110,14 @@ export type TagGroupInfo = {
   tags: TagInfo[];
 };
 
+export type UntaggedInfo = {
+  news_count: NewsCount;
+  recent: RecentNews;
+};
+
 export type TagsResponse = {
   game_id: string;
-  source_id: string;
+  source: string;
   groups: TagGroupInfo[];
+  untagged: UntaggedInfo;
 };
