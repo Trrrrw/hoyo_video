@@ -6,7 +6,7 @@ export type NewsVideo = {
 };
 
 type NewsVideoResponse = {
-  video_url: string | null;
+  video_url: string;
 };
 
 export async function fetchNewsVideo(
@@ -15,7 +15,7 @@ export async function fetchNewsVideo(
   sourceId: string,
 ): Promise<NewsVideo> {
   const response = await backendFetch(
-    `/api/v1/games/${gameId}/news/${newsId}/video`,
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}/media/video`,
     { source: sourceId },
   );
   const data = await parseJson<NewsVideoResponse>(

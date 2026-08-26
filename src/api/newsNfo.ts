@@ -20,7 +20,7 @@ export function getMovieNfoUrl(
   newsId: string,
 ) {
   return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}/nfo`,
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}/media/nfo`,
     { source: sourceId },
   );
 }
@@ -31,7 +31,7 @@ export function getSeriesNfoUrl(
   tagName: string,
 ) {
   return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/nfo`,
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/media/nfo`,
     { source: sourceId },
   );
 }
@@ -45,7 +45,7 @@ export function getEpisodeNfoUrl(
   episode: number,
 ) {
   return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/episodes/${encodeURIComponent(newsId)}/nfo`,
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/episodes/${encodeURIComponent(newsId)}/media/nfo`,
     { source: sourceId, season, episode },
   );
 }

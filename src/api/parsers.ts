@@ -128,8 +128,10 @@ function isGameDataEntry(value: unknown): value is GameDataEntry {
   return (
     isRecord(value) &&
     isString(value.id) &&
-    isNullableString(value.name) &&
-    isNullableString(value.icon)
+    "summary" in value &&
+    "assets" in value &&
+    (!("name" in value) || isNullableString(value.name)) &&
+    (!("icon" in value) || isNullableString(value.icon))
   );
 }
 
@@ -216,8 +218,8 @@ export function isPageResponse<T, Meta>(
 
 export function isNewsVideoResponse(
   value: unknown,
-): value is { video_url: string | null } {
-  return isRecord(value) && isNullableString(value.video_url);
+): value is { video_url: string } {
+  return isRecord(value) && isString(value.video_url);
 }
 
 export async function parseJson<T>(

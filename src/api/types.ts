@@ -24,8 +24,10 @@ export type PageResponse<T, Meta> = ListResponse<T> & {
 
 export type GameDataEntry = {
   id: string;
-  name: string | null;
-  icon: string | null;
+  name?: string | null;
+  icon?: string | null;
+  summary: unknown;
+  assets: unknown;
 };
 
 export type GameCharacter = {

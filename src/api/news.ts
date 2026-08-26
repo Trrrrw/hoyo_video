@@ -65,19 +65,22 @@ export async function fetchNewsList(
   const regularTags = tags?.filter((tag) => tag !== "其他");
   const hasUntagged = tags?.includes("其他") || undefined;
 
-  const response = await backendFetch(`/api/v1/games/${gameId}/news`, {
-    source: sourceId,
-    q,
-    tag: regularTags && regularTags.length > 0 ? regularTags : undefined,
-    untagged: hasUntagged,
-    character:
-      characters && characters.length > 0 ? characters : undefined,
-    news_type: newsType,
-    ...getPublishedRange(during),
-    limit,
-    offset,
-    order: reverse ? "asc" : "desc",
-  });
+  const response = await backendFetch(
+    `/api/v1/games/${encodeURIComponent(gameId)}/news`,
+    {
+      source: sourceId,
+      q,
+      tag: regularTags && regularTags.length > 0 ? regularTags : undefined,
+      untagged: hasUntagged,
+      character:
+        characters && characters.length > 0 ? characters : undefined,
+      news_type: newsType,
+      ...getPublishedRange(during),
+      limit,
+      offset,
+      order: reverse ? "asc" : "desc",
+    },
+  );
 
   return parseJson<NewsPage>(
     response,
@@ -105,9 +108,10 @@ export async function fetchNewsDetail(
   newsId: string,
   sourceId: string,
 ): Promise<NewsDetailInfo> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news/${newsId}`, {
-    source: sourceId,
-  });
+  const response = await backendFetch(
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}`,
+    { source: sourceId },
+  );
 
   const news = await parseJson<NewsDetailInfo>(
     response,
