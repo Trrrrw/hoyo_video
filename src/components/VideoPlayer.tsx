@@ -1,4 +1,5 @@
 import "@videojs/react/video/skin.css";
+import "@videojs/react/i18n/locales/zh-CN/register";
 import {
   BufferingIndicator,
   createPlayer,
@@ -8,10 +9,14 @@ import {
   selectQuality,
   selectSource,
   selectTime,
+  selectVolume,
+  Tooltip,
   useContainer,
+  useHotkey,
   usePlayer,
   videoFeatures,
 } from "@videojs/react";
+import { I18nProvider } from "@videojs/react/i18n";
 import { SpinnerIcon } from "@videojs/react/icons";
 import { VideoSkin, Video } from "@videojs/react/video";
 import {
@@ -21,13 +26,20 @@ import {
   IconPlayerTrackPrev,
   IconLink,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactElement } from "react";
 import { createPortal } from "react-dom";
 import type { NewsInfo } from "../api/types";
 import DownloadVideoModal from "./DownloadVideoModal";
 import "./VideoPlayer.css";
 
 const { Player } = createPlayer({ features: videoFeatures });
+const volumeStorageKey = "video-player-volume";
+
+type StoredVolume = {
+  volume: number;
+  muted: boolean;
+};
 
 type VideoPlayerProps = {
   news: NewsInfo;
@@ -47,35 +59,45 @@ function VideoPlayerNavigation({
   const controlsVisible = controls?.controlsVisible ?? true;
 
   return (
-    <nav
-      className="video-player-navigation"
-      data-visible={controlsVisible ? "" : undefined}
-      aria-label="视频操作"
-    >
-      <span className="video-player-navigation-surface media-surface">
-        <button
-          type="button"
-          className="media-button media-button--subtle media-button--icon"
-          aria-label="返回"
-          title="返回"
-          onClick={onBack}
-        >
-          <IconArrowLeft className="media-icon" aria-hidden="true" />
-        </button>
-      </span>
-      <span className="video-player-navigation-surface media-surface">
-        <a
-          className="media-button media-button--subtle media-button--icon"
-          href={sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="查看来源"
-          title="查看来源"
-        >
-          <IconLink className="media-icon" aria-hidden="true" />
-        </a>
-      </span>
-    </nav>
+    <Tooltip.Provider>
+      <nav
+        className="video-player-navigation"
+        data-visible={controlsVisible ? "" : undefined}
+        aria-label="视频操作"
+      >
+        <span className="video-player-navigation-surface media-surface">
+          <VideoPlayerControlTooltip
+            label="返回"
+            trigger={
+              <button
+                type="button"
+                className="media-button media-button--subtle media-button--icon"
+                aria-label="返回"
+                onClick={onBack}
+              >
+                <IconArrowLeft className="media-icon" aria-hidden="true" />
+              </button>
+            }
+          />
+        </span>
+        <span className="video-player-navigation-source video-player-navigation-surface media-surface">
+          <VideoPlayerControlTooltip
+            label="查看来源"
+            trigger={
+              <a
+                className="media-button media-button--subtle media-button--icon"
+                href={sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="查看来源"
+              >
+                <IconLink className="media-icon" aria-hidden="true" />
+              </a>
+            }
+          />
+        </span>
+      </nav>
+    </Tooltip.Provider>
   );
 }
 
@@ -87,23 +109,129 @@ function VideoPlayerSpinner() {
   );
 }
 
-function VideoPlayerLoadingIndicator() {
-  const source = usePlayer(selectSource);
-
-  if (!source?.source || source.canPlay) return null;
-
+function VideoPlayerControlTooltip({
+  label,
+  shortcut,
+  trigger,
+}: {
+  label: string;
+  shortcut?: string;
+  trigger: ReactElement;
+}) {
   return (
-    <div
-      className="video-player-loading-indicator"
-      role="status"
-      aria-label="视频加载中"
-    >
-      <VideoPlayerSpinner />
-    </div>
+    <Tooltip.Root side="top">
+      <Tooltip.Trigger render={trigger} />
+      <Tooltip.Popup className="video-player-tooltip media-surface media-tooltip">
+        <Tooltip.Label>{label}</Tooltip.Label>
+        {shortcut ? (
+          <Tooltip.Shortcut className="media-tooltip__kbd">
+            {shortcut}
+          </Tooltip.Shortcut>
+        ) : null}
+      </Tooltip.Popup>
+    </Tooltip.Root>
   );
 }
 
-function VideoPlayerCustomControls({ onDownload }: { onDownload: () => void }) {
+function VideoPlayerLoadingIndicator() {
+  const source = usePlayer(selectSource);
+  const playback = usePlayer(selectPlayback);
+  const initialLoading = Boolean(
+    source?.source &&
+      !source.canPlay &&
+      playback?.paused &&
+      !playback.started,
+  );
+
+  return (
+    <BufferingIndicator
+      delay={500}
+      render={(props, state) => {
+        const loadingState = initialLoading
+          ? "initial"
+          : state.visible
+            ? "buffering"
+            : undefined;
+
+        return (
+          <div
+            {...props}
+            className="video-player-loading-indicator"
+            data-visible={loadingState !== undefined ? "" : undefined}
+            data-loading-state={loadingState}
+            role="status"
+            aria-label="视频加载中"
+            aria-hidden={loadingState === undefined}
+          >
+            {loadingState !== undefined ? <VideoPlayerSpinner /> : null}
+          </div>
+        );
+      }}
+    />
+  );
+}
+
+function VideoPlayerVolumePersistence() {
+  const volume = usePlayer(selectVolume);
+  const restored = useRef(false);
+
+  useEffect(() => {
+    if (!volume) return;
+
+    if (!restored.current) {
+      if (
+        volume.volumeAvailability === "unavailable" &&
+        volume.mutedAvailability === "unavailable"
+      ) {
+        return;
+      }
+
+      restored.current = true;
+
+      try {
+        const storedValue = localStorage.getItem(volumeStorageKey);
+        if (storedValue) {
+          const stored = JSON.parse(storedValue) as Partial<StoredVolume>;
+          const storedVolume = stored.volume;
+          const storedMuted = stored.muted;
+
+          if (
+            typeof storedVolume === "number" &&
+            Number.isFinite(storedVolume) &&
+            storedVolume >= 0 &&
+            storedVolume <= 1 &&
+            typeof storedMuted === "boolean"
+          ) {
+            volume.setVolume(storedVolume);
+            if (storedMuted !== volume.muted) volume.toggleMuted();
+            return;
+          }
+        }
+      } catch {
+        // Ignore unavailable storage and malformed values
+      }
+    }
+
+    try {
+      localStorage.setItem(
+        volumeStorageKey,
+        JSON.stringify({ volume: volume.volume, muted: volume.muted }),
+      );
+    } catch {
+      // The player remains usable when storage is unavailable
+    }
+  }, [volume]);
+
+  return null;
+}
+
+function VideoPlayerCustomControls({
+  onDownload,
+  sourceUrl,
+}: {
+  onDownload: () => void;
+  sourceUrl: string;
+}) {
   const container = useContainer();
   const playback = usePlayer(selectPlayback);
   const quality = usePlayer(selectQuality);
@@ -137,6 +265,20 @@ function VideoPlayerCustomControls({ onDownload }: { onDownload: () => void }) {
     }
   };
 
+  useHotkey({
+    keys: "-",
+    onActivate: () => seekFrame(-1),
+  });
+  useHotkey({
+    keys: "=",
+    onActivate: () => seekFrame(1),
+  });
+  useHotkey({
+    keys: "d",
+    repeatable: false,
+    onActivate: onDownload,
+  });
+
   useEffect(() => {
     if (!container) {
       setControlGroups(null);
@@ -169,43 +311,83 @@ function VideoPlayerCustomControls({ onDownload }: { onDownload: () => void }) {
   if (!controlGroups) return null;
 
   return (
-    <>
+    <Tooltip.Provider>
       {createPortal(
         <>
-          <button
-            type="button"
-            className="media-button media-button--subtle media-button--icon"
-            aria-label="上一帧"
-            title="上一帧"
-            onClick={() => seekFrame(-1)}
-          >
-            <IconPlayerTrackPrev className="media-icon" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="media-button media-button--subtle media-button--icon"
-            aria-label="下一帧"
-            title="下一帧"
-            onClick={() => seekFrame(1)}
-          >
-            <IconPlayerTrackNext className="media-icon" aria-hidden="true" />
-          </button>
+          <VideoPlayerControlTooltip
+            label="上一帧"
+            shortcut="-"
+            trigger={
+              <button
+                type="button"
+                className="media-button media-button--subtle media-button--icon"
+                aria-label="上一帧"
+                aria-keyshortcuts="-"
+                onClick={() => seekFrame(-1)}
+              >
+                <IconPlayerTrackPrev
+                  className="media-icon"
+                  aria-hidden="true"
+                />
+              </button>
+            }
+          />
+          <VideoPlayerControlTooltip
+            label="下一帧"
+            shortcut="="
+            trigger={
+              <button
+                type="button"
+                className="media-button media-button--subtle media-button--icon"
+                aria-label="下一帧"
+                aria-keyshortcuts="="
+                onClick={() => seekFrame(1)}
+              >
+                <IconPlayerTrackNext
+                  className="media-icon"
+                  aria-hidden="true"
+                />
+              </button>
+            }
+          />
         </>,
         controlGroups.left,
       )}
       {createPortal(
-        <button
-          type="button"
-          className="video-player-download-control media-button media-button--subtle media-button--icon"
-          aria-label="下载视频"
-          title="下载视频"
-          onClick={onDownload}
-        >
-          <IconDownload className="media-icon" aria-hidden="true" />
-        </button>,
+        <>
+          <VideoPlayerControlTooltip
+            label="查看来源"
+            trigger={
+              <a
+                className="video-player-source-control media-button media-button--subtle media-button--icon"
+                href={sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="查看来源"
+              >
+                <IconLink className="media-icon" aria-hidden="true" />
+              </a>
+            }
+          />
+          <VideoPlayerControlTooltip
+            label="下载视频"
+            shortcut="D"
+            trigger={
+              <button
+                type="button"
+                className="video-player-download-control media-button media-button--subtle media-button--icon"
+                aria-label="下载视频"
+                aria-keyshortcuts="d"
+                onClick={onDownload}
+              >
+                <IconDownload className="media-icon" aria-hidden="true" />
+              </button>
+            }
+          />
+        </>,
         controlGroups.right,
       )}
-    </>
+    </Tooltip.Provider>
   );
 }
 
@@ -219,27 +401,23 @@ export default function VideoPlayer({
 
   return (
     <Player>
-      <VideoSkin className="video-player-skin aspect-video w-full overflow-hidden">
-        <Poster src={news.cover ?? undefined} alt={news.title} />
-        <Video
-          src={news.video_url ?? undefined}
-          playsInline
-          autoPlay={!import.meta.env.DEV}
-        />
-        <VideoPlayerLoadingIndicator />
-        <VideoPlayerNavigation onBack={onBack} sourceUrl={news.source_url} />
-        <BufferingIndicator
-          className="media-buffering-indicator"
-          render={(props) => (
-            <div {...props}>
-              <VideoPlayerSpinner />
-            </div>
-          )}
-        />
-      <VideoPlayerCustomControls
-        onDownload={() => setDownloadOpen(true)}
-      />
-      </VideoSkin>
+      <I18nProvider locale="zh-CN">
+        <VideoSkin className="video-player-skin aspect-video w-full overflow-hidden">
+          <Poster src={news.cover ?? undefined} alt={news.title} />
+          <Video
+            src={news.video_url ?? undefined}
+            playsInline
+            autoPlay={!import.meta.env.DEV}
+          />
+          <VideoPlayerVolumePersistence />
+          <VideoPlayerLoadingIndicator />
+          <VideoPlayerNavigation onBack={onBack} sourceUrl={news.source_url} />
+          <VideoPlayerCustomControls
+            onDownload={() => setDownloadOpen(true)}
+            sourceUrl={news.source_url}
+          />
+        </VideoSkin>
+      </I18nProvider>
       <DownloadVideoModal
         open={downloadOpen}
         news={news}

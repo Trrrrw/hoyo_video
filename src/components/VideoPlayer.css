@@ -6,10 +6,20 @@
   position: absolute;
   inset: 0;
   z-index: 10;
-  display: grid;
+  display: none;
   place-items: center;
   color: oklch(1 0 0);
   pointer-events: none;
+}
+
+.video-player-loading-indicator[data-visible] {
+  display: grid;
+}
+
+/* The packaged skin owns this indicator, so hide it and render all loading
+   states through VideoPlayerLoadingIndicator */
+.video-player-skin > .media-buffering-indicator {
+  display: none !important;
 }
 
 .video-player-spinner {
@@ -20,6 +30,11 @@
   place-items: center;
   border-radius: calc(infinity * 1px);
   --media-icon-size: 1.5rem;
+}
+
+.video-player-skin .video-player-tooltip {
+  --media-tooltip-side-offset: 0.5rem;
+  color: oklch(1 0 0);
 }
 
 .video-player-navigation {
@@ -69,6 +84,20 @@
   text-shadow: 0 1px 0 var(--media-current-shadow-color);
 }
 
+.video-player-source-control {
+  display: none !important;
+}
+
+@container media-root (width < 32rem) {
+  .video-player-navigation-source {
+    display: none;
+  }
+
+  .video-player-source-control {
+    display: grid !important;
+  }
+}
+
 /* Keep the default play, volume, timeline, and fullscreen controls while
    replacing only its seek and settings buttons */
 .video-player-skin .media-controls .media-button--seek,
@@ -78,20 +107,24 @@
 }
 
 .video-player-skin .media-controls .media-button-group:last-child {
-  & .video-player-download-control {
+  & .video-player-source-control {
     order: 1;
+  }
+
+  & .video-player-download-control {
+    order: 2;
   }
 
   & .media-button--cast,
   & .media-button--airplay {
-    order: 2;
-  }
-
-  & .media-button--pip {
     order: 3;
   }
 
-  & .media-button--fullscreen {
+  & .media-button--pip {
     order: 4;
+  }
+
+  & .media-button--fullscreen {
+    order: 5;
   }
 }

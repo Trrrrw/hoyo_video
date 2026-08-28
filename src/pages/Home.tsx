@@ -5,6 +5,8 @@ import { backendUrl } from "../api/client";
 import { useNavigate } from "react-router";
 import DocumentTitle from "../components/DocumentTitle";
 
+const searchGameStorageKey = "home-search-game-id";
+
 export default function Home() {
   return (
     <>
@@ -62,11 +64,28 @@ function RandomHomeMark() {
 function SearchInput() {
   const { Search } = Input;
   const { games, isLoading } = useGames();
-  const [gameId, setGameId] = useState<string>();
+  const [preferredGameId, setPreferredGameId] = useState<string | undefined>(
+    () => {
+      try {
+        return localStorage.getItem(searchGameStorageKey) ?? undefined;
+      } catch {
+        return undefined;
+      }
+    },
+  );
+  const gameId = games.some((game) => game.id === preferredGameId)
+    ? preferredGameId
+    : games[0]?.id;
 
   useEffect(() => {
-    setGameId((current) => current ?? games[0]?.id);
-  }, [games]);
+    if (!gameId) return;
+
+    try {
+      localStorage.setItem(searchGameStorageKey, gameId);
+    } catch {
+      // Search remains usable when storage is unavailable
+    }
+  }, [gameId]);
 
   const selectOptions = games.map((game) => ({
     value: game.id,
@@ -100,7 +119,7 @@ function SearchInput() {
         suffixIcon={null}
         className="w-13!"
         value={gameId}
-        onChange={setGameId}
+        onChange={setPreferredGameId}
         options={selectOptions}
         disabled={isLoading}
         placeholder={
