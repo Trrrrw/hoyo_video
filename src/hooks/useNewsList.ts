@@ -7,23 +7,9 @@ import {
 import type { NewsInfo } from "../api/types";
 import { useReportBackendError } from "../contexts/BackendErrorContext";
 
-function arraysEqual(
-  left: readonly string[] | undefined,
-  right: readonly string[] | undefined,
-) {
-  if (left === right) return true;
-  if (!left || !right || left.length !== right.length) return false;
-  return left.every((value, index) => value === right[index]);
-}
-
-function useStableStringArray(value: string[] | undefined) {
-  const stableValue = useRef(value);
-
-  if (!arraysEqual(stableValue.current, value)) {
-    stableValue.current = value;
-  }
-
-  return stableValue.current;
+function parseStringArrayKey(key: string): string[] | undefined {
+  const value = JSON.parse(key) as string[] | null;
+  return value ?? undefined;
 }
 
 export function useNewsList(gameId: string, query: NewsListQuery) {
@@ -47,16 +33,16 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     limit,
     reverse,
   } = query;
-  const stableTags = useStableStringArray(tags);
-  const stableCharacters = useStableStringArray(characters);
+  const tagsKey = JSON.stringify(tags ?? null);
+  const charactersKey = JSON.stringify(characters ?? null);
 
   const fetchPage = useCallback(
     (offset: number) =>
       fetchNewsList(gameId, {
         sourceId: sourceId ?? "",
         q,
-        tags: stableTags,
-        characters: stableCharacters,
+        tags: parseStringArrayKey(tagsKey),
+        characters: parseStringArrayKey(charactersKey),
         newsType,
         during,
         limit,
@@ -67,8 +53,8 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
       gameId,
       sourceId,
       q,
-      stableTags,
-      stableCharacters,
+      tagsKey,
+      charactersKey,
       newsType,
       during,
       limit,
