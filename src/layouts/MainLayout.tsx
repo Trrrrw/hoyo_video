@@ -12,16 +12,28 @@ dayjs.locale("zh-cn");
 const { Content } = Layout;
 const downloadGuideDismissedKey = "download-guide-dismissed-v1";
 
+function isDownloadGuideBannerVisible() {
+  try {
+    return localStorage.getItem(downloadGuideDismissedKey) !== "true";
+  } catch {
+    return true;
+  }
+}
+
 export default function MainLayout() {
   const [siderOpen, setSiderOpen] = useState(false);
   const [downloadGuideOpen, setDownloadGuideOpen] = useState(false);
   const [downloadGuideBannerVisible, setDownloadGuideBannerVisible] = useState(
-    () => localStorage.getItem(downloadGuideDismissedKey) !== "true",
+    isDownloadGuideBannerVisible,
   );
 
   const dismissDownloadGuideBanner = () => {
     setDownloadGuideBannerVisible(false);
-    localStorage.setItem(downloadGuideDismissedKey, "true");
+    try {
+      localStorage.setItem(downloadGuideDismissedKey, "true");
+    } catch {
+      // The banner can still be dismissed for the current session
+    }
   };
 
   const openDownloadGuideFromBanner = () => {

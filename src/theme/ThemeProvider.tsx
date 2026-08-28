@@ -20,10 +20,19 @@ function getSystemTheme(): ResolvedTheme {
     : "light";
 }
 
+function getStoredThemeMode(): ThemeMode {
+  try {
+    const stored = localStorage.getItem(storageKey);
+    return stored === "light" || stored === "dark" || stored === "system"
+      ? stored
+      : "system";
+  } catch {
+    return "system";
+  }
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>(
-    () => (localStorage.getItem(storageKey) as ThemeMode) || "system",
-  );
+  const [mode, setMode] = useState<ThemeMode>(getStoredThemeMode);
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(getSystemTheme);
 
   useEffect(() => {
@@ -39,7 +48,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const resolvedTheme = mode === "system" ? systemTheme : mode;
 
   useEffect(() => {
-    localStorage.setItem(storageKey, mode);
+    try {
+      localStorage.setItem(storageKey, mode);
+    } catch {
+      // Theme switching remains usable when persistent storage is unavailable
+    }
+
     document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
     document.documentElement.style.colorScheme = resolvedTheme;
   }, [mode, resolvedTheme]);

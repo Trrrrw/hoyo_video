@@ -6,9 +6,12 @@ export async function fetchTags(
   gameId: string,
   sourceId: string,
 ): Promise<TagsResponse> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news/tags`, {
-    source: sourceId,
-  });
+  const response = await backendFetch(
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/tags`,
+    {
+      source: sourceId,
+    },
+  );
 
   return parseJson<TagsResponse>(response, isTagsResponse, "标签列表");
 }

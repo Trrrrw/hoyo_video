@@ -32,6 +32,19 @@ function normalizeRpcUrl(value: string) {
   return url.href;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isAria2Version(value: unknown): value is Aria2Version {
+  return (
+    isRecord(value) &&
+    typeof value.version === "string" &&
+    Array.isArray(value.enabledFeatures) &&
+    value.enabledFeatures.every((feature) => typeof feature === "string")
+  );
+}
+
 async function callAria2<T>(
   settings: Aria2Settings,
   method: string,
@@ -82,16 +95,20 @@ async function callAria2<T>(
   }
 }
 
-export function getAria2Version(settings: Aria2Settings) {
-  return callAria2<Aria2Version>(settings, "aria2.getVersion");
+export async function getAria2Version(settings: Aria2Settings) {
+  const result = await callAria2<unknown>(settings, "aria2.getVersion");
+  if (!isAria2Version(result)) {
+    throw new Error("Aria2 返回了无效版本信息");
+  }
+  return result;
 }
 
-export function addAria2Uri(
+export async function addAria2Uri(
   settings: Aria2Settings,
   uri: string,
   options: { dir?: string; out: string; allowOverwrite?: boolean },
 ) {
-  return callAria2<string>(settings, "aria2.addUri", [
+  const result = await callAria2<unknown>(settings, "aria2.addUri", [
     [uri],
     {
       ...(options.dir ? { dir: options.dir } : {}),
@@ -101,4 +118,9 @@ export function addAria2Uri(
       out: options.out,
     },
   ]);
+
+  if (typeof result !== "string") {
+    throw new Error("Aria2 返回了无效任务 ID");
+  }
+  return result;
 }

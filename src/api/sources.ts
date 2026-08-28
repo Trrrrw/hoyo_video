@@ -5,7 +5,9 @@ import type { ListResponse, NewsSourceInfo } from "./types";
 export async function fetchSources(
   gameId: string,
 ): Promise<NewsSourceInfo[]> {
-  const response = await backendFetch(`/api/v1/games/${gameId}/news/sources`);
+  const response = await backendFetch(
+    `/api/v1/games/${encodeURIComponent(gameId)}/news/sources`,
+  );
   const data = await parseJson<ListResponse<NewsSourceInfo>>(
     response,
     (value): value is ListResponse<NewsSourceInfo> =>

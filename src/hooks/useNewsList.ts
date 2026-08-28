@@ -7,6 +7,11 @@ import {
 import type { NewsInfo } from "../api/types";
 import { useReportBackendError } from "../contexts/BackendErrorContext";
 
+function parseStringArrayKey(key: string): string[] | undefined {
+  const value = JSON.parse(key) as string[] | null;
+  return value ?? undefined;
+}
+
 export function useNewsList(gameId: string, query: NewsListQuery) {
   const handleBackendError = useReportBackendError();
   const [news, setNews] = useState<NewsInfo[]>([]);
@@ -16,6 +21,7 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
   const [hasMore, setHasMore] = useState(true);
   const [nextOffset, setNextOffset] = useState(0);
   const requestVersion = useRef(0);
+  const loadingMore = useRef(false);
 
   const {
     sourceId,
@@ -27,16 +33,16 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     limit,
     reverse,
   } = query;
-  const tagsQuery = tags?.join(",");
-  const charactersQuery = characters?.join(",");
+  const tagsKey = JSON.stringify(tags ?? null);
+  const charactersKey = JSON.stringify(characters ?? null);
 
   const fetchPage = useCallback(
     (offset: number) =>
       fetchNewsList(gameId, {
         sourceId: sourceId ?? "",
         q,
-        tags: tagsQuery?.split(","),
-        characters: charactersQuery?.split(","),
+        tags: parseStringArrayKey(tagsKey),
+        characters: parseStringArrayKey(charactersKey),
         newsType,
         during,
         limit,
@@ -47,8 +53,8 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
       gameId,
       sourceId,
       q,
-      tagsQuery,
-      charactersQuery,
+      tagsKey,
+      charactersKey,
       newsType,
       during,
       limit,
@@ -60,6 +66,7 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     let cancelled = false;
     const version = ++requestVersion.current;
 
+    loadingMore.current = false;
     setNews([]);
     setPage(undefined);
     setIsLoading(true);
@@ -98,16 +105,20 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     return () => {
       cancelled = true;
     };
-  }, [
-    fetchPage,
-    handleBackendError,
-    sourceId,
-  ]);
+  }, [fetchPage, handleBackendError, sourceId]);
 
   const loadMore = useCallback(async () => {
-    if (isLoading || isLoadingMore || !hasMore || !sourceId) return;
+    if (
+      isLoading ||
+      loadingMore.current ||
+      !hasMore ||
+      !sourceId
+    ) {
+      return;
+    }
 
     const version = requestVersion.current;
+    loadingMore.current = true;
     setIsLoadingMore(true);
 
     try {
@@ -121,14 +132,16 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     } catch (error) {
       if (requestVersion.current === version) handleBackendError(error);
     } finally {
-      if (requestVersion.current === version) setIsLoadingMore(false);
+      if (requestVersion.current === version) {
+        loadingMore.current = false;
+        setIsLoadingMore(false);
+      }
     }
   }, [
     fetchPage,
     handleBackendError,
     hasMore,
     isLoading,
-    isLoadingMore,
     nextOffset,
     sourceId,
   ]);
