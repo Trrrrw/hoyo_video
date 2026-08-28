@@ -7,6 +7,25 @@ import {
 import type { NewsInfo } from "../api/types";
 import { useReportBackendError } from "../contexts/BackendErrorContext";
 
+function arraysEqual(
+  left: readonly string[] | undefined,
+  right: readonly string[] | undefined,
+) {
+  if (left === right) return true;
+  if (!left || !right || left.length !== right.length) return false;
+  return left.every((value, index) => value === right[index]);
+}
+
+function useStableStringArray(value: string[] | undefined) {
+  const stableValue = useRef(value);
+
+  if (!arraysEqual(stableValue.current, value)) {
+    stableValue.current = value;
+  }
+
+  return stableValue.current;
+}
+
 export function useNewsList(gameId: string, query: NewsListQuery) {
   const handleBackendError = useReportBackendError();
   const [news, setNews] = useState<NewsInfo[]>([]);
@@ -16,6 +35,7 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
   const [hasMore, setHasMore] = useState(true);
   const [nextOffset, setNextOffset] = useState(0);
   const requestVersion = useRef(0);
+  const loadingMore = useRef(false);
 
   const {
     sourceId,
@@ -27,16 +47,16 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     limit,
     reverse,
   } = query;
-  const tagsQuery = tags?.join(",");
-  const charactersQuery = characters?.join(",");
+  const stableTags = useStableStringArray(tags);
+  const stableCharacters = useStableStringArray(characters);
 
   const fetchPage = useCallback(
     (offset: number) =>
       fetchNewsList(gameId, {
         sourceId: sourceId ?? "",
         q,
-        tags: tagsQuery?.split(","),
-        characters: charactersQuery?.split(","),
+        tags: stableTags,
+        characters: stableCharacters,
         newsType,
         during,
         limit,
@@ -47,8 +67,8 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
       gameId,
       sourceId,
       q,
-      tagsQuery,
-      charactersQuery,
+      stableTags,
+      stableCharacters,
       newsType,
       during,
       limit,
@@ -60,6 +80,7 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     let cancelled = false;
     const version = ++requestVersion.current;
 
+    loadingMore.current = false;
     setNews([]);
     setPage(undefined);
     setIsLoading(true);
@@ -98,16 +119,20 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     return () => {
       cancelled = true;
     };
-  }, [
-    fetchPage,
-    handleBackendError,
-    sourceId,
-  ]);
+  }, [fetchPage, handleBackendError, sourceId]);
 
   const loadMore = useCallback(async () => {
-    if (isLoading || isLoadingMore || !hasMore || !sourceId) return;
+    if (
+      isLoading ||
+      loadingMore.current ||
+      !hasMore ||
+      !sourceId
+    ) {
+      return;
+    }
 
     const version = requestVersion.current;
+    loadingMore.current = true;
     setIsLoadingMore(true);
 
     try {
@@ -121,14 +146,16 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     } catch (error) {
       if (requestVersion.current === version) handleBackendError(error);
     } finally {
-      if (requestVersion.current === version) setIsLoadingMore(false);
+      if (requestVersion.current === version) {
+        loadingMore.current = false;
+        setIsLoadingMore(false);
+      }
     }
   }, [
     fetchPage,
     handleBackendError,
     hasMore,
     isLoading,
-    isLoadingMore,
     nextOffset,
     sourceId,
   ]);
