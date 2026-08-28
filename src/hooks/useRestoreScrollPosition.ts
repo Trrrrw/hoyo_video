@@ -13,6 +13,30 @@ type RestoreScrollPositionOptions = {
   onRestoreComplete?: () => void;
 };
 
+function readStoredScrollTop(storageKey: string) {
+  try {
+    return Number(sessionStorage.getItem(storageKey) ?? "0");
+  } catch {
+    return 0;
+  }
+}
+
+function writeStoredScrollTop(storageKey: string, scrollTop: number) {
+  try {
+    sessionStorage.setItem(storageKey, String(scrollTop));
+  } catch {
+    // Scroll restoration is optional when storage is unavailable
+  }
+}
+
+function removeStoredScrollTop(storageKey: string) {
+  try {
+    sessionStorage.removeItem(storageKey);
+  } catch {
+    // Scroll restoration is optional when storage is unavailable
+  }
+}
+
 export function consumeRestoreNavigationState() {
   const historyState = window.history.state;
   if (!historyState || typeof historyState !== "object") return;
@@ -44,7 +68,7 @@ export function useRestoreScrollPosition({
 
     pendingScrollTop.current = null;
     if (restoredStorageKey.current !== storageKey) {
-      sessionStorage.removeItem(storageKey);
+      removeStoredScrollTop(storageKey);
     }
   }, [shouldRestore, storageKey]);
 
@@ -57,9 +81,7 @@ export function useRestoreScrollPosition({
       return;
     }
 
-    const savedScrollTop = Number(
-      sessionStorage.getItem(storageKey) ?? "0",
-    );
+    const savedScrollTop = readStoredScrollTop(storageKey);
     if (!Number.isFinite(savedScrollTop) || savedScrollTop <= 0) {
       restoredStorageKey.current = storageKey;
       onRestoreComplete?.();
@@ -145,14 +167,17 @@ export function useRestoreScrollPosition({
       const targetScrollTop = pendingScrollTop.current;
       if (targetScrollTop !== null && scrollTop < targetScrollTop) return;
 
-      sessionStorage.setItem(storageKey, String(scrollTop));
+      writeStoredScrollTop(storageKey, scrollTop);
     };
 
     const handleScroll = () => {
       if (navigationStarted) return;
 
       const scrollTop = Math.round(scrollElement.scrollTop);
-      if (pendingScrollTop.current !== null && scrollTop < pendingScrollTop.current) {
+      if (
+        pendingScrollTop.current !== null &&
+        scrollTop < pendingScrollTop.current
+      ) {
         return;
       }
 
