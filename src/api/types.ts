@@ -52,6 +52,14 @@ export type GameInfo = {
   recent_news: RecentNews;
 };
 
+export type GameVersion = {
+  id: string;
+  name?: string | null;
+  start_time: string;
+  end_time?: string | null;
+  time_status: string;
+};
+
 export type NewsCharacter = {
   id: string;
   name: string;

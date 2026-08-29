@@ -7,7 +7,7 @@ import {
   type TopItemListProps,
 } from "react-virtuoso";
 import dayjs from "dayjs";
-import { useLocation } from "react-router";
+import { useLocation, useNavigationType } from "react-router";
 import {
   forwardRef,
   type CSSProperties,
@@ -20,7 +20,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { NewsInfo } from "../../api/types";
+import type { GameVersion, NewsInfo } from "../../api/types";
 import {
   getTimelineDateKey,
   getTimelineGroupId,
@@ -31,6 +31,10 @@ import {
   useRestoreScrollPosition,
 } from "../../hooks/useRestoreScrollPosition";
 import { VideoCardSkeleton } from "../LoadingSkeletons";
+import {
+  readVirtuosoState,
+  storeVirtuosoState,
+} from "../../utils/virtuosoState";
 
 const { Text } = Typography;
 
@@ -47,9 +51,10 @@ type VideoTimelineProps = {
   onLoadMore?: () => void;
   empty?: ReactNode;
   className?: string;
+  versions?: GameVersion[];
 };
 
-type VideoMonthGroup = {
+type VideoTimeGroup = {
   key: string;
   label: string;
   items: NewsInfo[];
@@ -67,7 +72,7 @@ type TimelineRow = {
   paddingBottom: number;
 };
 
-type TimelineGroup = VideoMonthGroup & {
+type TimelineGroup = VideoTimeGroup & {
   isLoading?: boolean;
   rows: TimelineRow[];
 };
@@ -78,15 +83,82 @@ type TimelineAnchor = {
   rowIndex: number;
 };
 
-function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
-  const groups = new Map<string, VideoMonthGroup>();
+type VersionBoundary = {
+  version: GameVersion;
+  startTime: number;
+};
+
+function getFallbackGroup(
+  item: NewsInfo,
+): Pick<VideoTimeGroup, "key" | "label"> {
+  const date = item.publish_time ? dayjs(item.publish_time) : null;
+  const monthKey = getTimelineMonthKey(item.publish_time);
+  const monthLabel = date?.isValid() ? date.format("YYYY年MM月") : "未知时间";
+
+  return {
+    key: `missing:${monthKey}`,
+    label: monthLabel,
+  };
+}
+
+function getVersionLabel(version: GameVersion): string {
+  const id = version.id.trim();
+  const name = version.name?.trim();
+
+  if (id && name) return `${id} · ${name}`;
+  if (id) return id;
+  return name || "未知版本";
+}
+
+function findVersionBoundary(
+  publishTime: number,
+  boundaries: VersionBoundary[],
+): VersionBoundary | undefined {
+  let low = 0;
+  let high = boundaries.length - 1;
+  let match: VersionBoundary | undefined;
+
+  while (low <= high) {
+    const middle = Math.floor((low + high) / 2);
+    const boundary = boundaries[middle];
+
+    if (boundary.startTime <= publishTime) {
+      match = boundary;
+      low = middle + 1;
+    } else {
+      high = middle - 1;
+    }
+  }
+
+  return match;
+}
+
+function groupVideosByVersion(
+  items: NewsInfo[],
+  versions: GameVersion[],
+): VideoTimeGroup[] {
+  const groups = new Map<string, VideoTimeGroup>();
+  const boundaries = versions
+    .map((version) => ({
+      version,
+      startTime: dayjs(version.start_time).valueOf(),
+    }))
+    .filter((boundary) => Number.isFinite(boundary.startTime))
+    .sort((a, b) => a.startTime - b.startTime);
 
   for (const item of items) {
-    const date = item.publish_time ? dayjs(item.publish_time) : null;
-    const key = getTimelineMonthKey(item.publish_time);
-    const label = date?.isValid()
-      ? date.format("YYYY年MM月")
-      : "未知月份";
+    const publishTime = item.publish_time
+      ? dayjs(item.publish_time).valueOf()
+      : Number.NaN;
+    const boundary = Number.isFinite(publishTime)
+      ? findVersionBoundary(publishTime, boundaries)
+      : undefined;
+    const { key, label } = boundary
+      ? {
+          key: `version:${boundary.startTime}:${boundary.version.id}`,
+          label: getVersionLabel(boundary.version),
+        }
+      : getFallbackGroup(item);
     const group = groups.get(key);
 
     if (group) {
@@ -100,7 +172,7 @@ function groupVideosByMonth(items: NewsInfo[]): VideoMonthGroup[] {
 }
 
 function createTimelineGroups(
-  groups: VideoMonthGroup[],
+  groups: VideoTimeGroup[],
   columns: number,
   gap: number,
   showLoading: boolean,
@@ -256,13 +328,17 @@ export default function VideoTimeline({
   onLoadMore,
   empty = "暂无内容",
   className,
+  versions = [],
 }: VideoTimelineProps) {
   const location = useLocation();
+  const navigationType = useNavigationType();
   const locationState =
     location.state && typeof location.state === "object"
       ? (location.state as { restoreScroll?: boolean })
       : undefined;
   const shouldRestoreScroll = locationState?.restoreScroll === true;
+  const shouldRestoreSnapshot =
+    shouldRestoreScroll || navigationType === "POP";
   const hashTargetId = useMemo(
     () => getTimelineHashTarget(location.hash),
     [location.hash],
@@ -275,17 +351,20 @@ export default function VideoTimeline({
     useState<HTMLElement | null>(null);
   const [isTimelineAtTop, setIsTimelineAtTop] = useState(true);
   const [width, setWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const virtuosoRef = useRef<GroupedVirtuosoHandle | null>(null);
   const scrolledHashTarget = useRef<string | null>(null);
   const loadMoreInFlight = useRef(false);
-  const groups = useMemo(() => groupVideosByMonth(items), [items]);
+  const groups = useMemo(
+    () => groupVideosByVersion(items, versions),
+    [items, versions],
+  );
   const setScrollElement = useCallback(
     (element: HTMLElement | null | Window) => {
       const nextElement = element instanceof HTMLElement ? element : null;
       setScrollElementState(nextElement);
       if (nextElement) {
         setIsTimelineAtTop(nextElement.scrollTop <= 0);
-        setWidth(nextElement.getBoundingClientRect().width);
       }
     },
     [],
@@ -313,6 +392,29 @@ export default function VideoTimeline({
   const groupCounts = useMemo(
     () => timelineGroups.map((group) => group.rows.length),
     [timelineGroups],
+  );
+  const snapshotLayoutKey = useMemo(
+    () =>
+      JSON.stringify([
+        columns,
+        groupCounts,
+        items.map((item) => String(getKey(item))),
+      ]),
+    [columns, getKey, groupCounts, items],
+  );
+  const restoreState = useMemo(
+    () =>
+      shouldRestoreSnapshot && width > 0 && !isLoading && !isLoadingMore
+        ? readVirtuosoState(scrollStorageKey, snapshotLayoutKey)
+        : undefined,
+    [
+      isLoading,
+      isLoadingMore,
+      scrollStorageKey,
+      shouldRestoreSnapshot,
+      snapshotLayoutKey,
+      width,
+    ],
   );
 
   const renderGroup = useCallback(
@@ -414,6 +516,20 @@ export default function VideoTimeline({
     onLoadMore();
   }, [hasMore, isLoading, isLoadingMore, onLoadMore]);
 
+  const captureVirtuosoState = useCallback(() => {
+    if (isLoading || isLoadingMore || width <= 0) return;
+
+    virtuosoRef.current?.getState((snapshot) => {
+      storeVirtuosoState(scrollStorageKey, snapshotLayoutKey, snapshot);
+    });
+  }, [
+    isLoading,
+    isLoadingMore,
+    scrollStorageKey,
+    snapshotLayoutKey,
+    width,
+  ]);
+
   useRestoreScrollPosition({
     hasMore,
     isLoading,
@@ -421,19 +537,21 @@ export default function VideoTimeline({
     layoutVersion: `${columns}:${items.length}`,
     locationKey: `${location.pathname}${location.search}`,
     onLoadMore: requestLoadMore,
+    onNavigationStart: captureVirtuosoState,
     onRestoreComplete: consumeRestoreNavigationState,
     scrollElement,
-    shouldRestore: shouldRestoreScroll,
+    shouldRestore: shouldRestoreSnapshot && !restoreState,
     storageKey: scrollStorageKey,
   });
 
   useLayoutEffect(() => {
-    if (!scrollElement) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const updateWidth = () =>
-      setWidth(scrollElement.getBoundingClientRect().width);
+      setWidth(container.getBoundingClientRect().width);
     const observer = new ResizeObserver(updateWidth);
-    observer.observe(scrollElement);
+    observer.observe(container);
     window.addEventListener("resize", updateWidth);
     updateWidth();
 
@@ -441,7 +559,11 @@ export default function VideoTimeline({
       observer.disconnect();
       window.removeEventListener("resize", updateWidth);
     };
-  }, [scrollElement]);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (restoreState) consumeRestoreNavigationState();
+  }, [restoreState]);
 
   useEffect(() => {
     if (!scrollElement) return;
@@ -552,6 +674,7 @@ export default function VideoTimeline({
 
   return (
     <div
+      ref={containerRef}
       className={className}
       style={{
         boxSizing: "border-box",
@@ -561,45 +684,50 @@ export default function VideoTimeline({
         width: "100%",
       }}
     >
-      <GroupedVirtuoso
-        key={columns}
-        ref={virtuosoRef}
-        aria-label="视频时间轴"
-        className={`app-scrollbar timeline-virtuoso${
-          isTimelineAtTop ? " timeline-virtuoso-at-top" : ""
-        }`}
-        components={{
-          Group: TimelineGroup,
-          List: TimelineList,
-          TopItemList: TimelineTopItemList,
-        }}
-        defaultItemHeight={320}
-        endReached={requestLoadMore}
-        groupContent={renderGroup}
-        groupCounts={groupCounts}
-        increaseViewportBy={{ bottom: 600, top: 600 }}
-        itemSize={(element, field) => {
-          const size =
-            field === "offsetHeight" ? element.offsetHeight : element.offsetWidth;
-          if (
-            field === "offsetHeight" &&
-            element.hasAttribute("data-item-group-index") &&
-            size === 0
-          ) {
-            return 320;
-          }
-          return size;
-        }}
-        itemContent={renderRow}
-        overscan={200}
-        role="region"
-        scrollerRef={setScrollElement}
-        style={{
-          boxSizing: "border-box",
-          height: "100%",
-          width: "100%",
-        }}
-      />
+      {width > 0 && (
+        <GroupedVirtuoso
+          key={columns}
+          ref={virtuosoRef}
+          aria-label="视频时间轴"
+          className={`app-scrollbar timeline-virtuoso${
+            isTimelineAtTop ? " timeline-virtuoso-at-top" : ""
+          }`}
+          components={{
+            Group: TimelineGroup,
+            List: TimelineList,
+            TopItemList: TimelineTopItemList,
+          }}
+          defaultItemHeight={320}
+          endReached={requestLoadMore}
+          groupContent={renderGroup}
+          groupCounts={groupCounts}
+          increaseViewportBy={{ bottom: 600, top: 600 }}
+          itemSize={(element, field) => {
+            const size =
+              field === "offsetHeight"
+                ? element.offsetHeight
+                : element.offsetWidth;
+            if (
+              field === "offsetHeight" &&
+              element.hasAttribute("data-item-group-index") &&
+              size === 0
+            ) {
+              return 320;
+            }
+            return size;
+          }}
+          itemContent={renderRow}
+          overscan={200}
+          role="region"
+          restoreStateFrom={restoreState}
+          scrollerRef={setScrollElement}
+          style={{
+            boxSizing: "border-box",
+            height: "100%",
+            width: "100%",
+          }}
+        />
+      )}
       {scrollElement && (
         <FloatButton.BackTop
           target={() => scrollElement}

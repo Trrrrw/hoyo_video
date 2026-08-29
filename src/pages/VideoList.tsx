@@ -13,6 +13,7 @@ import {
   useSearchParams,
 } from "react-router";
 import { useGames } from "../hooks/useGames";
+import { useGameVersions } from "../hooks/useGameVersions";
 import { useNewsList } from "../hooks/useNewsList";
 import { useSources } from "../hooks/useSources";
 import { useTags } from "../hooks/useTags";
@@ -94,6 +95,9 @@ export default function VideoList() {
   const duringValue = parseDuringParam(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
   const isTimelineView = searchParams.get("view") === "timeline";
+  const { versions, isLoading: isVersionsLoading } = useGameVersions(
+    isTimelineView ? (gameId ?? "") : "",
+  );
 
   const {
     news,
@@ -311,7 +315,8 @@ export default function VideoList() {
 
         {isTimelineView ? (
         <VideoTimeline
-          items={news}
+          items={isVersionsLoading ? [] : news}
+          versions={versions}
           getKey={(item) => item.id}
           renderItem={(item) => (
             <VideoCard
@@ -324,7 +329,7 @@ export default function VideoList() {
           )}
           className="min-h-0 flex-1"
           height="auto"
-          isLoading={isNewsLoading}
+          isLoading={isNewsLoading || isVersionsLoading}
           isLoadingMore={isLoadingMore}
           hasMore={hasMore}
           onLoadMore={loadMore}

@@ -1,6 +1,6 @@
 import { FloatButton } from "antd";
-import { Virtuoso } from "react-virtuoso";
-import { useLocation } from "react-router";
+import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
+import { useLocation, useNavigationType } from "react-router";
 import {
   type CSSProperties,
   type Key,
@@ -17,6 +17,10 @@ import {
   useRestoreScrollPosition,
 } from "../../hooks/useRestoreScrollPosition";
 import { VideoCardSkeleton } from "../LoadingSkeletons";
+import {
+  readVirtuosoState,
+  storeVirtuosoState,
+} from "../../utils/virtuosoState";
 
 type CardGridProps<T> = {
   items: T[];
@@ -52,11 +56,14 @@ export default function CardGrid<T>({
   className,
 }: CardGridProps<T>) {
   const location = useLocation();
+  const navigationType = useNavigationType();
   const locationState =
     location.state && typeof location.state === "object"
       ? (location.state as { restoreScroll?: boolean })
       : undefined;
   const shouldRestoreScroll = locationState?.restoreScroll === true;
+  const shouldRestoreSnapshot =
+    shouldRestoreScroll || navigationType === "POP";
   const scrollStorageKey = useMemo(
     () => `card-grid-scroll:${location.pathname}${location.search}`,
     [location.pathname, location.search],
@@ -64,6 +71,8 @@ export default function CardGrid<T>({
   const [scrollElement, setScrollElementState] =
     useState<HTMLElement | null>(null);
   const [width, setWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const loadMoreInFlight = useRef(false);
 
   const setScrollElement = useCallback(
@@ -71,17 +80,17 @@ export default function CardGrid<T>({
       const scrollContainer =
         element instanceof HTMLElement ? element : null;
       setScrollElementState(scrollContainer);
-      if (scrollContainer) setWidth(scrollContainer.clientWidth);
     },
     [],
   );
 
   useLayoutEffect(() => {
-    if (!scrollElement) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const updateWidth = () => setWidth(scrollElement.clientWidth);
+    const updateWidth = () => setWidth(container.clientWidth);
     const observer = new ResizeObserver(updateWidth);
-    observer.observe(scrollElement);
+    observer.observe(container);
     window.addEventListener("resize", updateWidth);
     updateWidth();
 
@@ -89,7 +98,7 @@ export default function CardGrid<T>({
       observer.disconnect();
       window.removeEventListener("resize", updateWidth);
     };
-  }, [scrollElement]);
+  }, []);
 
   const contentWidth = Math.max(0, width - edgePadding * 2);
   const columns = Math.max(
@@ -188,6 +197,43 @@ export default function CardGrid<T>({
     },
     [columns, gap, getKey, isLoadingMore, items, renderItem, rowCount],
   );
+  const snapshotLayoutKey = useMemo(
+    () =>
+      JSON.stringify([
+        columns,
+        totalCount,
+        items.map((item) => String(getKey(item))),
+      ]),
+    [columns, getKey, items, totalCount],
+  );
+  const restoreState = useMemo(
+    () =>
+      shouldRestoreSnapshot && width > 0 && !isLoading && !isLoadingMore
+        ? readVirtuosoState(scrollStorageKey, snapshotLayoutKey)
+        : undefined,
+    [
+      isLoading,
+      isLoadingMore,
+      scrollStorageKey,
+      shouldRestoreSnapshot,
+      snapshotLayoutKey,
+      width,
+    ],
+  );
+
+  const captureVirtuosoState = useCallback(() => {
+    if (isLoading || isLoadingMore || width <= 0) return;
+
+    virtuosoRef.current?.getState((snapshot) => {
+      storeVirtuosoState(scrollStorageKey, snapshotLayoutKey, snapshot);
+    });
+  }, [
+    isLoading,
+    isLoadingMore,
+    scrollStorageKey,
+    snapshotLayoutKey,
+    width,
+  ]);
 
   useRestoreScrollPosition({
     hasMore,
@@ -196,11 +242,16 @@ export default function CardGrid<T>({
     layoutVersion: `${columns}:${rowCount}:${items.length}`,
     locationKey: `${location.pathname}${location.search}`,
     onLoadMore: requestLoadMore,
+    onNavigationStart: captureVirtuosoState,
     onRestoreComplete: consumeRestoreNavigationState,
     scrollElement,
-    shouldRestore: shouldRestoreScroll,
+    shouldRestore: shouldRestoreSnapshot && !restoreState,
     storageKey: scrollStorageKey,
   });
+
+  useLayoutEffect(() => {
+    if (restoreState) consumeRestoreNavigationState();
+  }, [restoreState]);
 
   if (!isLoading && items.length === 0 && !hasMore) {
     return <div className={className}>{empty}</div>;
@@ -208,6 +259,7 @@ export default function CardGrid<T>({
 
   return (
     <div
+      ref={containerRef}
       className={className}
       style={{
         boxSizing: "border-box",
@@ -217,18 +269,22 @@ export default function CardGrid<T>({
         width: "100%",
       }}
     >
-      <Virtuoso
-        className="app-scrollbar"
-        computeItemKey={computeItemKey}
-        defaultItemHeight={estimateRowHeight + gap}
-        endReached={requestLoadMore}
-        increaseViewportBy={{ bottom: 600, top: 600 }}
-        itemContent={itemContent}
-        overscan={200}
-        scrollerRef={setScrollElement}
-        style={gridStyle}
-        totalCount={totalCount}
-      />
+      {width > 0 && (
+        <Virtuoso
+          ref={virtuosoRef}
+          className="app-scrollbar"
+          computeItemKey={computeItemKey}
+          defaultItemHeight={estimateRowHeight + gap}
+          endReached={requestLoadMore}
+          increaseViewportBy={{ bottom: 600, top: 600 }}
+          itemContent={itemContent}
+          overscan={200}
+          restoreStateFrom={restoreState}
+          scrollerRef={setScrollElement}
+          style={gridStyle}
+          totalCount={totalCount}
+        />
+      )}
       {scrollElement && (
         <FloatButton.BackTop
           target={() => scrollElement}

@@ -10,6 +10,7 @@ type RestoreScrollPositionOptions = {
   isLoadingMore: boolean;
   hasMore: boolean;
   onLoadMore?: () => void;
+  onNavigationStart?: () => void;
   onRestoreComplete?: () => void;
 };
 
@@ -58,6 +59,7 @@ export function useRestoreScrollPosition({
   isLoadingMore,
   hasMore,
   onLoadMore,
+  onNavigationStart,
   onRestoreComplete,
 }: RestoreScrollPositionOptions) {
   const pendingScrollTop = useRef<number | null>(null);
@@ -149,6 +151,7 @@ export function useRestoreScrollPosition({
         return;
       }
 
+      onNavigationStart?.();
       navigationStarted = true;
       if (pendingSaveFrame !== null) {
         cancelAnimationFrame(pendingSaveFrame);
@@ -207,7 +210,7 @@ export function useRestoreScrollPosition({
         cancelAnimationFrame(pendingSaveFrame);
       }
     };
-  }, [locationKey, scrollElement, storageKey]);
+  }, [locationKey, onNavigationStart, scrollElement, storageKey]);
 
   return pendingScrollTop;
 }

@@ -40,6 +40,7 @@ function readPositiveInteger(value: string | undefined, fallback: number) {
 function getCompletedCacheTtl(url: URL) {
   if (
     url.pathname === "/api/v1/games" ||
+    url.pathname.endsWith("/versions") ||
     url.pathname.endsWith("/news/sources") ||
     url.pathname.endsWith("/news/tags")
   ) {
