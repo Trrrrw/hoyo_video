@@ -75,6 +75,7 @@ export function isNewsInfo(value: unknown): value is NewsInfo {
     isNullableString(value.cover) &&
     isNullableString(value.intro) &&
     isNullableString(value.publish_time) &&
+    isNullableString(value.video_playback) &&
     isNullableString(value.video_url) &&
     isNullableNumber(value.video_duration)
   );

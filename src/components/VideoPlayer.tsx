@@ -19,6 +19,7 @@ import {
 import { I18nProvider } from "@videojs/react/i18n";
 import { SpinnerIcon } from "@videojs/react/icons";
 import { VideoSkin, Video } from "@videojs/react/video";
+import { Alert, Button, Tooltip as AntdTooltip } from "antd";
 import {
   IconArrowLeft,
   IconDownload,
@@ -31,6 +32,10 @@ import type { ReactElement } from "react";
 import { createPortal } from "react-dom";
 import type { NewsInfo } from "../api/types";
 import DownloadVideoModal from "./DownloadVideoModal";
+import {
+  getEmbeddedVideo,
+  isEmbeddedPlayback,
+} from "../utils/videoPlayback";
 import "./VideoPlayer.css";
 
 const { Player } = createPlayer({ features: videoFeatures });
@@ -98,6 +103,75 @@ function VideoPlayerNavigation({
         </span>
       </nav>
     </Tooltip.Provider>
+  );
+}
+
+function EmbeddedVideoPlayer({
+  news,
+  onBack,
+}: Pick<VideoPlayerProps, "news" | "onBack">) {
+  const embeddedVideo =
+    getEmbeddedVideo(news.video_url) ?? getEmbeddedVideo(news.source_url);
+  const downloadNotice = embeddedVideo
+    ? `${embeddedVideo.platformName}平台视频不能直接下载，请通过嵌入播放器观看`
+    : "该视频无法直接下载，请前往原平台观看";
+
+  return (
+    <div>
+      <div className="relative aspect-video w-full overflow-hidden bg-black">
+        {embeddedVideo ? (
+          <iframe
+            className="h-full w-full border-0"
+            src={embeddedVideo.embedUrl}
+            title={`${news.title} - ${embeddedVideo.platformName} 播放器`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center p-6">
+            <Alert
+              type="error"
+              showIcon
+              title="暂不支持这个视频平台"
+              description="请通过下方提示栏中的来源链接前往原平台观看"
+            />
+          </div>
+        )}
+      </div>
+      <Alert
+        banner
+        showIcon
+        type="info"
+        title={downloadNotice}
+        action={
+          <div className="flex shrink-0 items-center gap-1">
+            <AntdTooltip title="返回">
+              <Button
+                type="text"
+                size="small"
+                shape="circle"
+                icon={<IconArrowLeft size={18} aria-hidden="true" />}
+                aria-label="返回"
+                onClick={onBack}
+              />
+            </AntdTooltip>
+            <AntdTooltip title="查看来源">
+              <Button
+                type="text"
+                size="small"
+                shape="circle"
+                icon={<IconLink size={18} aria-hidden="true" />}
+                aria-label="查看来源"
+                href={news.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </AntdTooltip>
+          </div>
+        }
+      />
+    </div>
   );
 }
 
@@ -398,6 +472,10 @@ export default function VideoPlayer({
   onBack,
 }: VideoPlayerProps) {
   const [downloadOpen, setDownloadOpen] = useState(false);
+
+  if (isEmbeddedPlayback(news)) {
+    return <EmbeddedVideoPlayer news={news} onBack={onBack} />;
+  }
 
   return (
     <Player>

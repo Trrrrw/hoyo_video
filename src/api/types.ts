@@ -76,6 +76,7 @@ export type NewsInfo = {
   cover: string | null;
   intro: string | null;
   publish_time: string | null;
+  video_playback: string | null;
   video_url: string | null;
   video_duration: number | null;
 };

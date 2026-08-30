@@ -20,6 +20,7 @@ import { fetchNewsVideo } from "../../api/newsVideo";
 import { formatDuration } from "../../utils/formatDuration";
 import { useEffect, useRef, useState } from "react";
 import DownloadVideoModal from "../DownloadVideoModal";
+import { isEmbeddedPlayback } from "../../utils/videoPlayback";
 
 const { Title, Text } = Typography;
 
@@ -30,29 +31,6 @@ type VideoCardProps = {
   sourceId: string;
   publishTimeHref?: string | null;
 };
-
-const dropdownMenuItems: MenuProps["items"] = [
-  {
-    label: "复制视频链接",
-    key: "1",
-    icon: <LinkOutlined />,
-  },
-  {
-    label: "下载",
-    key: "2",
-    icon: <DownloadOutlined />,
-  },
-  {
-    label: "分享",
-    key: "3",
-    icon: <ShareAltOutlined />,
-  },
-  {
-    label: "前往",
-    key: "4",
-    icon: <ExportOutlined />,
-  },
-];
 
 export default function VideoCard({
   video,
@@ -70,6 +48,30 @@ export default function VideoCard({
   const videoUrlRequest = useRef<Promise<string> | null>(null);
   const [downloadOpen, setDownloadOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const embeddedPlayback = isEmbeddedPlayback(video);
+  const dropdownMenuItems: MenuProps["items"] = [
+    {
+      label: "复制视频链接",
+      key: "1",
+      icon: <LinkOutlined />,
+    },
+    {
+      label: embeddedPlayback ? "该视频无法直接下载" : "下载",
+      key: "2",
+      icon: <DownloadOutlined />,
+      disabled: embeddedPlayback,
+    },
+    {
+      label: "分享",
+      key: "3",
+      icon: <ShareAltOutlined />,
+    },
+    {
+      label: "前往",
+      key: "4",
+      icon: <ExportOutlined />,
+    },
+  ];
   const videoDuration = video.video_duration;
   const publishTimeLabel = video.publish_time
     ? dayjs(video.publish_time).format("YYYY年MM月DD日HH:mm:ss")
@@ -119,6 +121,7 @@ export default function VideoCard({
       );
     }
     if (key === "2") {
+      if (embeddedPlayback) return;
       setDownloadOpen(true);
       if (!videoUrl) void resolveVideoUrl().catch(() => undefined);
     }
@@ -233,14 +236,16 @@ export default function VideoCard({
           />
         </Dropdown>
       </Flex>
-      <DownloadVideoModal
-        open={downloadOpen}
-        news={video}
-        gameId={gameId}
-        gameName={gameName}
-        videoUrl={videoUrl}
-        onClose={() => setDownloadOpen(false)}
-      />
+      {!embeddedPlayback && (
+        <DownloadVideoModal
+          open={downloadOpen}
+          news={video}
+          gameId={gameId}
+          gameName={gameName}
+          videoUrl={videoUrl}
+          onClose={() => setDownloadOpen(false)}
+        />
+      )}
     </Flex>
   );
 }
