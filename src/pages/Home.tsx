@@ -4,6 +4,7 @@ import { useGames } from "../hooks/useGames";
 import { backendUrl } from "../api/client";
 import { useNavigate } from "react-router";
 import DocumentTitle from "../components/DocumentTitle";
+import { getGameIconUrl } from "../utils/gameIcon";
 
 const searchGameStorageKey = "home-search-game-id";
 
@@ -87,19 +88,23 @@ function SearchInput() {
     }
   }, [gameId]);
 
-  const selectOptions = games.map((game) => ({
-    value: game.id,
-    label: game.icon ? (
-      <img
-        src={backendUrl(game.icon)}
-        alt={game.name}
-        className="size-5 rounded object-cover"
-        draggable={false}
-      />
-    ) : (
-      <span aria-label={game.name}>{game.name.slice(0, 1)}</span>
-    ),
-  }));
+  const selectOptions = games.map((game) => {
+    const iconUrl = getGameIconUrl(game);
+
+    return {
+      value: game.id,
+      label: iconUrl ? (
+        <img
+          src={backendUrl(iconUrl)}
+          alt={game.name}
+          className="size-5 rounded object-cover"
+          draggable={false}
+        />
+      ) : (
+        <span aria-label={game.name}>{game.name.slice(0, 1)}</span>
+      ),
+    };
+  });
 
   const navigate = useNavigate();
   const handleSearch = (keyword: string) => {

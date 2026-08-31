@@ -1,5 +1,5 @@
 import { Button, Flex, Layout, Tooltip } from "antd";
-import Logo from "../assets/logo.webp";
+import HeaderLogo from "../assets/logo-header.webp";
 import { Link } from "react-router";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import {
@@ -74,8 +74,10 @@ function LeftItems({
           gap="small"
         >
           <img
-            src={Logo}
+            src={HeaderLogo}
             alt=""
+            width={320}
+            height={117}
             className="h-8 w-auto"
             draggable="false"
             fetchPriority="high"

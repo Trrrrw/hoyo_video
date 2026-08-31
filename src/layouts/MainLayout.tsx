@@ -4,13 +4,15 @@ import AppHeader from "../components/AppHeader";
 import AppSider from "../components/AppSider";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
-import { useState } from "react";
-import DownloadGuideModal from "../components/DownloadGuideModal";
+import { lazy, Suspense, useState } from "react";
 
 dayjs.locale("zh-cn");
 
 const { Content } = Layout;
 const downloadGuideDismissedKey = "download-guide-dismissed-v1";
+const DownloadGuideModal = lazy(
+  () => import("../components/DownloadGuideModal"),
+);
 
 function isDownloadGuideBannerVisible() {
   try {
@@ -23,6 +25,7 @@ function isDownloadGuideBannerVisible() {
 export default function MainLayout() {
   const [siderOpen, setSiderOpen] = useState(false);
   const [downloadGuideOpen, setDownloadGuideOpen] = useState(false);
+  const [downloadGuideMounted, setDownloadGuideMounted] = useState(false);
   const [downloadGuideBannerVisible, setDownloadGuideBannerVisible] = useState(
     isDownloadGuideBannerVisible,
   );
@@ -36,9 +39,14 @@ export default function MainLayout() {
     }
   };
 
+  const openDownloadGuide = () => {
+    setDownloadGuideMounted(true);
+    setDownloadGuideOpen(true);
+  };
+
   const openDownloadGuideFromBanner = () => {
     dismissDownloadGuideBanner();
-    setDownloadGuideOpen(true);
+    openDownloadGuide();
   };
 
   return (
@@ -46,7 +54,7 @@ export default function MainLayout() {
       <AppHeader
         siderOpen={siderOpen}
         onToggleSider={() => setSiderOpen((open) => !open)}
-        onOpenDownloadGuide={() => setDownloadGuideOpen(true)}
+        onOpenDownloadGuide={openDownloadGuide}
       />
 
       {downloadGuideBannerVisible && (
@@ -84,10 +92,14 @@ export default function MainLayout() {
         </Content>
       </Layout>
 
-      <DownloadGuideModal
-        open={downloadGuideOpen}
-        onClose={() => setDownloadGuideOpen(false)}
-      />
+      {downloadGuideMounted && (
+        <Suspense fallback={null}>
+          <DownloadGuideModal
+            open={downloadGuideOpen}
+            onClose={() => setDownloadGuideOpen(false)}
+          />
+        </Suspense>
+      )}
     </Layout>
   );
 }

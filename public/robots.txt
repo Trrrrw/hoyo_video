@@ -1,0 +1,6 @@
+# Structured data is available from the Akasha API: https://akasha.trrw.cn
+# API documentation: https://akasha.trrw.cn/scalar
+# Agent guidance: https://video.trrw.cn/llms.txt
+
+User-agent: *
+Allow: /

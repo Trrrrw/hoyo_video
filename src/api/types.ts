@@ -42,12 +42,18 @@ export type NewsCount = {
   video: number;
 };
 
+export type GameIconVariant = {
+  size: number;
+  url: string;
+};
+
 export type GameInfo = {
   id: string;
   name: string;
   index: number;
   cover: string | null;
   icon: string | null;
+  icon_variants?: GameIconVariant[];
   news_count: NewsCount;
   recent_news: RecentNews;
 };

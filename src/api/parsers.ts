@@ -1,6 +1,7 @@
 import { BackendError } from "./client";
 import type {
   GameDataEntry,
+  GameIconVariant,
   GameInfo,
   GameVersion,
   ListResponse,
@@ -50,6 +51,16 @@ function isNewsCount(value: unknown): value is NewsCount {
     isNumber(value.total) &&
     isNumber(value.article) &&
     isNumber(value.video)
+  );
+}
+
+function isGameIconVariant(value: unknown): value is GameIconVariant {
+  return (
+    isRecord(value) &&
+    isNumber(value.size) &&
+    Number.isInteger(value.size) &&
+    value.size > 0 &&
+    isString(value.url)
   );
 }
 
@@ -121,6 +132,9 @@ export function isGameInfo(value: unknown): value is GameInfo {
     isNumber(value.index) &&
     isNullableString(value.cover) &&
     isNullableString(value.icon) &&
+    (!("icon_variants" in value) ||
+      (Array.isArray(value.icon_variants) &&
+        value.icon_variants.every(isGameIconVariant))) &&
     isNewsCount(value.news_count) &&
     isRecentNews(value.recent_news)
   );

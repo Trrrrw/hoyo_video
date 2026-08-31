@@ -23,6 +23,7 @@ import { useTags } from "../hooks/useTags";
 import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
 import EmptyMark from "../assets/home-mark/home-mark-1.avif";
+import { getGameIconUrl } from "../utils/gameIcon";
 import {
   formatDuringParam,
   parseDuringParam,
@@ -291,19 +292,23 @@ export default function Search() {
             suffixIcon={null}
             className="w-13!"
             value={game.id}
-            options={games.map((item) => ({
-              label: item.icon ? (
-                <img
-                  src={backendUrl(item.icon)}
-                  alt={item.name}
-                  className="size-5 rounded object-cover"
-                  draggable={false}
-                />
-              ) : (
-                <span aria-label={item.name}>{item.name.slice(0, 1)}</span>
-              ),
-              value: item.id,
-            }))}
+            options={games.map((item) => {
+              const iconUrl = getGameIconUrl(item);
+
+              return {
+                label: iconUrl ? (
+                  <img
+                    src={backendUrl(iconUrl)}
+                    alt={item.name}
+                    className="size-5 rounded object-cover"
+                    draggable={false}
+                  />
+                ) : (
+                  <span aria-label={item.name}>{item.name.slice(0, 1)}</span>
+                ),
+                value: item.id,
+              };
+            })}
             onChange={handleGameChange}
             aria-label="选择游戏"
           />

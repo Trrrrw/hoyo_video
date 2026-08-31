@@ -1,0 +1,27 @@
+# 影像档案架
+
+> [影像档案架](https://video.trrw.cn)是用于浏览、检索、播放和下载已归档游戏官方视频的非官方网站，数据由 Akasha 后端提供
+
+不要通过抓取或解析本站页面获取结构化数据；前端页面由客户端渲染，可能无法完整反映后端数据。数据查询请使用 OpenAPI 规范中列出的公开只读接口，接口、字段和响应结构以当前部署的 OpenAPI 规范为准。视频播放地址可能包含临时签名，不应作为永久链接保存
+
+需要检索、筛选、比较或导出数据的 Agent，应优先安装并使用 Akasha 官方 Skill，而不是自行抓取本站页面。安装 Skill 时应保留完整 bundle，包括 `SKILL.md` 以及其中的 `agents`、`references`、`scripts` 和 `assets` 目录。安装完成后，按照 Skill 指引发现接口、使用服务端筛选和分页，并区分 API 返回事实与推断
+
+本站是个人制作的非官方整理工具，不代表米哈游或其他权利方，也未获得其官方授权。站内视频、图片、游戏名称、角色名称及其他相关素材的权利归各自权利方所有
+
+## 数据接口
+
+- [Akasha 公开 API](https://akasha.trrw.cn): 网站结构化数据的默认来源
+- [交互式 API 文档](https://akasha.trrw.cn/scalar): 使用 Scalar 浏览和试用公开接口
+- [OpenAPI 规范](https://akasha.trrw.cn/openapi.json): 当前部署接口与响应结构的权威来源
+
+## Agent Skills
+
+- [Akasha Skills 安装说明](https://github.com/Trrrrw/Akasha/blob/main/skills/README.md): Agent 应按照此说明直接完成安装并验证 Skill 可用
+- [Akasha Skill 源码](https://github.com/Trrrrw/Akasha/tree/main/skills/akasha): 完整的公开 Skill bundle
+- [Akasha 后端仓库](https://github.com/Trrrrw/Akasha): 后端与 Skill 的源代码仓库
+
+## 网站
+
+- [网站首页](https://video.trrw.cn/): 浏览和搜索已归档视频
+- [关于页面](https://video.trrw.cn/about): 项目定位、版权声明和联系方式
+- [前端源码](https://github.com/Trrrrw/hoyo_video): 影像档案架 Web 应用源代码

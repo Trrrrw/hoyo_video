@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { InfoCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import { useGames } from "../hooks/useGames";
 import { useEffect, useState } from "react";
+import { getGameIconUrl } from "../utils/gameIcon";
 
 const { Sider } = Layout;
 const { useBreakpoint } = Grid;
@@ -99,18 +100,22 @@ function SiderTopItems({
     ...games
       .filter((game) => game.news_count.video > 0)
       .sort((a, b) => a.index - b.index)
-      .map((game) => ({
-        key: game.id,
-        icon: game.icon ? (
-          <img
-            src={backendUrl(game.icon)}
-            alt=""
-            className="size-3.5 rounded object-cover"
-            draggable={false}
-          />
-        ) : null,
-        label: <Link to={`/${game.id}`}>{game.name}</Link>,
-      })),
+      .map((game) => {
+        const iconUrl = getGameIconUrl(game);
+
+        return {
+          key: game.id,
+          icon: iconUrl ? (
+            <img
+              src={backendUrl(iconUrl)}
+              alt=""
+              className="size-3.5 rounded object-cover"
+              draggable={false}
+            />
+          ) : null,
+          label: <Link to={`/${game.id}`}>{game.name}</Link>,
+        };
+      }),
   ];
 
   return (
