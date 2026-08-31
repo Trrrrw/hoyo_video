@@ -1,15 +1,12 @@
 import { Outlet } from "react-router";
 import { Alert, Button, Layout } from "antd";
 import AppHeader from "../components/AppHeader";
-import AppSider from "../components/AppSider";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-import { lazy, Suspense, useState } from "react";
-
-dayjs.locale("zh-cn");
+import { lazy, Suspense, useEffect, useState } from "react";
 
 const { Content } = Layout;
 const downloadGuideDismissedKey = "download-guide-dismissed-v1";
+const desktopSiderMediaQuery = "(min-width: 768px)";
+const AppSider = lazy(() => import("../components/AppSider"));
 const DownloadGuideModal = lazy(
   () => import("../components/DownloadGuideModal"),
 );
@@ -22,10 +19,29 @@ function isDownloadGuideBannerVisible() {
   }
 }
 
+function useDesktopSider() {
+  const [isDesktop, setIsDesktop] = useState(
+    () => window.matchMedia(desktopSiderMediaQuery).matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(desktopSiderMediaQuery);
+    const updateIsDesktop = () => setIsDesktop(mediaQuery.matches);
+
+    updateIsDesktop();
+    mediaQuery.addEventListener("change", updateIsDesktop);
+    return () => mediaQuery.removeEventListener("change", updateIsDesktop);
+  }, []);
+
+  return isDesktop;
+}
+
 export default function MainLayout() {
   const [siderOpen, setSiderOpen] = useState(false);
+  const [mobileSiderMounted, setMobileSiderMounted] = useState(false);
   const [downloadGuideOpen, setDownloadGuideOpen] = useState(false);
   const [downloadGuideMounted, setDownloadGuideMounted] = useState(false);
+  const isDesktopSider = useDesktopSider();
   const [downloadGuideBannerVisible, setDownloadGuideBannerVisible] = useState(
     isDownloadGuideBannerVisible,
   );
@@ -49,11 +65,18 @@ export default function MainLayout() {
     openDownloadGuide();
   };
 
+  const toggleSider = () => {
+    if (!siderOpen) {
+      setMobileSiderMounted(true);
+    }
+    setSiderOpen((open) => !open);
+  };
+
   return (
     <Layout className="h-dvh">
       <AppHeader
         siderOpen={siderOpen}
-        onToggleSider={() => setSiderOpen((open) => !open)}
+        onToggleSider={toggleSider}
         onOpenDownloadGuide={openDownloadGuide}
       />
 
@@ -82,10 +105,14 @@ export default function MainLayout() {
       )}
 
       <Layout className="flex-1! min-h-0 min-w-0">
-        <AppSider
-          mobileOpen={siderOpen}
-          onMobileOpenChange={setSiderOpen}
-        />
+        {(isDesktopSider || mobileSiderMounted) && (
+          <Suspense fallback={null}>
+            <AppSider
+              mobileOpen={siderOpen}
+              onMobileOpenChange={setSiderOpen}
+            />
+          </Suspense>
+        )}
 
         <Content className="flex! min-h-0 min-w-0 overflow-hidden p-0">
           <Outlet />

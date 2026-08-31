@@ -1,4 +1,7 @@
 import dayjs, { type Dayjs } from "dayjs";
+import "dayjs/locale/zh-cn";
+
+dayjs.locale("zh-cn");
 
 export type DateRangeValue = readonly [Dayjs | null, Dayjs | null];
 
