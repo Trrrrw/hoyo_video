@@ -146,8 +146,7 @@ export function isGameVersion(value: unknown): value is GameVersion {
     isString(value.id) &&
     (!("name" in value) || isNullableString(value.name)) &&
     isString(value.start_time) &&
-    (!("end_time" in value) || isNullableString(value.end_time)) &&
-    isString(value.time_status)
+    (!("end_time" in value) || isNullableString(value.end_time))
   );
 }
 
