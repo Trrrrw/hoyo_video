@@ -1,4 +1,4 @@
-import Error404 from "../assets/404.avif";
+import Error404 from "../assets/404.webp";
 import ErrorPage, { BackButton, HomeButton } from "../components/ErrorPage";
 
 export default function NotFound() {
