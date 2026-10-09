@@ -26,7 +26,7 @@ export default function Home() {
 }
 
 const homeMarks = Object.values(
-  import.meta.glob("../assets/home-mark/*.avif", {
+  import.meta.glob("../assets/home-mark/*.webp", {
     eager: true,
     query: "?url",
     import: "default",

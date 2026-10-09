@@ -22,7 +22,7 @@ import { useSources } from "../hooks/useSources";
 import { useTags } from "../hooks/useTags";
 import CardGrid from "../components/cards/CardGrid";
 import VideoCard from "../components/cards/VideoCard";
-import EmptyMark from "../assets/home-mark/home-mark-1.avif";
+import EmptyMark from "../assets/home-mark/home-mark-1.webp";
 import { getGameIconUrl } from "../utils/gameIcon";
 import {
   formatDuringParam,

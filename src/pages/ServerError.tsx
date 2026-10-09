@@ -1,4 +1,4 @@
-import Error500 from "../assets/500.avif";
+import Error500 from "../assets/500.webp";
 import ErrorPage, { HomeButton, ReloadButton } from "../components/ErrorPage";
 
 export default function ServerError() {
