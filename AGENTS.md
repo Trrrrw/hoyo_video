@@ -25,5 +25,5 @@ Prefer the closest relevant guidance file instead of expanding this root file wi
 ## Workspace and toolchain
 
 - This directory is an independent repository in the local workspace, alongside the backend and other clients; consult the parent workspace guide for local paths.
-- Use the Node.js version in `.nvmrc` and pnpm version in `package.json#packageManager`; keep frozen installs reproducible.
+- Use the local nvm default Node.js and the cloud build version in `edgeone.json`; use pnpm from `package.json#packageManager` and keep frozen installs reproducible.
 - Keep text files in LF format as specified by `.gitattributes`.
