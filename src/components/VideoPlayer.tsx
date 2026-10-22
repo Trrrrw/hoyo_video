@@ -211,7 +211,7 @@ function VideoPlayerLoadingIndicator() {
   const source = usePlayer(selectSource);
   const playback = usePlayer(selectPlayback);
   const initialLoading = Boolean(
-    source?.source &&
+    source?.currentSrc &&
       !source.canPlay &&
       playback?.paused &&
       !playback.started,
@@ -277,7 +277,7 @@ function VideoPlayerVolumePersistence() {
             typeof storedMuted === "boolean"
           ) {
             volume.setVolume(storedVolume);
-            if (storedMuted !== volume.muted) volume.toggleMuted();
+            volume.setMuted(storedMuted);
             return;
           }
         }
@@ -481,7 +481,9 @@ export default function VideoPlayer({
     <Player>
       <I18nProvider locale="zh-CN">
         <VideoSkin className="video-player-skin aspect-video w-full overflow-hidden">
-          <Poster src={news.cover ?? undefined} alt={news.title} />
+          <Poster.Root>
+            <Poster.Image src={news.cover ?? undefined} alt={news.title} />
+          </Poster.Root>
           <Video
             src={news.video_url ?? undefined}
             playsInline
