@@ -21,3 +21,9 @@
 - Ant Design-specific guidance already lives in `.agents/skills/antd/SKILL.md`.
 
 Prefer the closest relevant guidance file instead of expanding this root file with subsystem details.
+
+## Workspace and toolchain
+
+- This directory is an independent repository in the local workspace, alongside the backend and other clients; consult the parent workspace guide for local paths.
+- Use the Node.js version in `.nvmrc` and pnpm version in `package.json#packageManager`; keep frozen installs reproducible.
+- Keep text files in LF format as specified by `.gitattributes`.
