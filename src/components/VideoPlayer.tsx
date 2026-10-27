@@ -79,7 +79,7 @@ function VideoPlayerNavigation({
                 aria-label="返回"
                 onClick={onBack}
               >
-                <IconArrowLeft className="media-icon" aria-hidden="true" />
+                <IconArrowLeft className="media-button-icon" aria-hidden="true" />
               </button>
             }
           />
@@ -95,7 +95,7 @@ function VideoPlayerNavigation({
                 rel="noopener noreferrer"
                 aria-label="查看来源"
               >
-                <IconLink className="media-icon" aria-hidden="true" />
+                <IconLink className="media-button-icon" aria-hidden="true" />
               </a>
             }
           />
@@ -177,7 +177,7 @@ function EmbeddedVideoPlayer({
 function VideoPlayerSpinner() {
   return (
     <span className="video-player-spinner media-surface">
-      <SpinnerIcon className="media-icon" />
+      <SpinnerIcon className="media-button-icon" />
     </span>
   );
 }
@@ -197,7 +197,7 @@ function VideoPlayerControlTooltip({
       <Tooltip.Popup className="video-player-tooltip media-surface media-tooltip">
         <Tooltip.Label>{label}</Tooltip.Label>
         {shortcut ? (
-          <Tooltip.Shortcut className="media-tooltip__kbd">
+          <Tooltip.Shortcut className="media-tooltip-shortcut">
             {shortcut}
           </Tooltip.Shortcut>
         ) : null}
@@ -361,14 +361,13 @@ function VideoPlayerCustomControls({
     if (!container) return;
 
     const findControlGroups = () => {
-      const groups = container.querySelectorAll<HTMLElement>(
-        ".media-controls .media-button-group",
-      );
-      if (groups.length < 2) return false;
+      const left = container.querySelector<HTMLElement>(".video-controls-primary");
+      const right = container.querySelector<HTMLElement>(".video-controls-secondary");
+      if (!left || !right) return false;
 
       setControlGroups({
-        left: groups[0]!,
-        right: groups[groups.length - 1]!,
+        left,
+        right,
       });
       return true;
     };
@@ -399,13 +398,13 @@ function VideoPlayerCustomControls({
             trigger={
               <button
                 type="button"
-                className="media-button media-button--subtle media-button--icon"
+                className="video-player-frame-control media-button"
                 aria-label="上一帧"
                 aria-keyshortcuts="-"
                 onClick={() => seekFrame(-1)}
               >
                 <IconPlayerTrackPrev
-                  className="media-icon"
+                  className="media-button-icon"
                   aria-hidden="true"
                 />
               </button>
@@ -417,13 +416,13 @@ function VideoPlayerCustomControls({
             trigger={
               <button
                 type="button"
-                className="media-button media-button--subtle media-button--icon"
+                className="video-player-frame-control media-button"
                 aria-label="下一帧"
                 aria-keyshortcuts="="
                 onClick={() => seekFrame(1)}
               >
                 <IconPlayerTrackNext
-                  className="media-icon"
+                  className="media-button-icon"
                   aria-hidden="true"
                 />
               </button>
@@ -444,7 +443,7 @@ function VideoPlayerCustomControls({
                 rel="noopener noreferrer"
                 aria-label="查看来源"
               >
-                <IconLink className="media-icon" aria-hidden="true" />
+                <IconLink className="media-button-icon" aria-hidden="true" />
               </a>
             }
           />
@@ -459,7 +458,7 @@ function VideoPlayerCustomControls({
                 aria-keyshortcuts="d"
                 onClick={onDownload}
               >
-                <IconDownload className="media-icon" aria-hidden="true" />
+                <IconDownload className="media-button-icon" aria-hidden="true" />
               </button>
             }
           />

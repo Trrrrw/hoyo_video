@@ -98,15 +98,26 @@
   }
 }
 
-/* Keep the default play, volume, timeline, and fullscreen controls while
-   replacing only its seek and settings buttons */
-.video-player-skin .media-controls .media-button--seek,
-.video-player-skin .media-controls .media-button--settings,
-.video-player-skin .media-controls button.media-button--settings {
+/* Keep the packaged controls while adding frame stepping before the timeline */
+.video-player-skin .video-controls-settings-button {
   display: none !important;
 }
 
-.video-player-skin .media-controls .media-button-group:last-child {
+.video-player-skin .video-controls-primary {
+  & .media-play-button {
+    order: -3;
+  }
+
+  & .video-controls-volume-button {
+    order: -2;
+  }
+
+  & .video-player-frame-control {
+    order: -1;
+  }
+}
+
+.video-player-skin .video-controls-secondary {
   & .video-player-source-control {
     order: 1;
   }
@@ -115,16 +126,16 @@
     order: 2;
   }
 
-  & .media-button--cast,
-  & .media-button--airplay {
+  & .media-cast-button,
+  & .media-airplay-button {
     order: 3;
   }
 
-  & .media-button--pip {
+  & .media-pip-button {
     order: 4;
   }
 
-  & .media-button--fullscreen {
+  & .media-fullscreen-button {
     order: 5;
   }
 }
