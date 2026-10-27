@@ -84,9 +84,11 @@ export default function Search() {
     }
   }, [game, gameId, isGamesLoading, navigate]);
 
-  useEffect(() => {
+  const [previousQuery, setPreviousQuery] = useState(query);
+  if (previousQuery !== query) {
+    setPreviousQuery(query);
     setSearchValue(query);
-  }, [query]);
+  }
 
   useEffect(() => {
     if (!sourcesReady) return;

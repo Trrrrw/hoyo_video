@@ -608,10 +608,13 @@ export default function VideoTimeline({
 
     const scrollRect = scrollElement.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
-    scrollElement.scrollTop = Math.max(
-      0,
-      targetRect.top - scrollRect.top + scrollElement.scrollTop - 8,
-    );
+    scrollElement.scrollTo({
+      top: Math.max(
+        0,
+        targetRect.top - scrollRect.top + scrollElement.scrollTop - 8,
+      ),
+      behavior: "instant",
+    });
     return true;
   }, [hashTargetId, scrollElement]);
 

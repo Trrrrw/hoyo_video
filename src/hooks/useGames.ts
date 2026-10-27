@@ -40,13 +40,6 @@ export function useGames() {
   useEffect(() => {
     let cancelled = false;
 
-    if (cachedGames !== undefined) {
-      setIsLoading(false);
-      return () => {
-        cancelled = true;
-      };
-    }
-
     void getGames()
       .then((data) => {
         if (!cancelled) setGames(data);

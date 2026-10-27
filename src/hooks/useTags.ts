@@ -18,18 +18,22 @@ function createUntaggedTag(
 export function useTags(gameId: string, sourceId: string | undefined) {
   const handleBackendError = useReportBackendError();
   const [tagGroups, setTagGroups] = useState<TagGroupInfo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Boolean(sourceId));
   const [loadedSourceId, setLoadedSourceId] = useState<string>();
+
+  const requestKey = JSON.stringify([gameId, sourceId]);
+  const [previousRequestKey, setPreviousRequestKey] = useState(requestKey);
+  if (previousRequestKey !== requestKey) {
+    setPreviousRequestKey(requestKey);
+    setTagGroups([]);
+    setIsLoading(Boolean(sourceId));
+    setLoadedSourceId(undefined);
+  }
 
   useEffect(() => {
     let cancelled = false;
 
-    setTagGroups([]);
-    setIsLoading(true);
-    setLoadedSourceId(undefined);
-
     if (!sourceId) {
-      setIsLoading(false);
       return () => {
         cancelled = true;
       };

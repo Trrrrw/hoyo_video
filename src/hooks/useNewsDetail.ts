@@ -10,21 +10,26 @@ export function useNewsDetail(
 ) {
   const handleBackendError = useReportBackendError();
   const [news, setNews] = useState<NewsDetailInfo>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(
+    Boolean(gameId && newsId && sourceId),
+  );
+
+  const requestKey = JSON.stringify([gameId, newsId, sourceId]);
+  const [previousRequestKey, setPreviousRequestKey] = useState(requestKey);
+  if (previousRequestKey !== requestKey) {
+    setPreviousRequestKey(requestKey);
+    setNews(undefined);
+    setIsLoading(Boolean(gameId && newsId && sourceId));
+  }
 
   useEffect(() => {
     let cancelled = false;
 
-    setNews(undefined);
-
     if (!gameId || !newsId || !sourceId) {
-      setIsLoading(false);
       return () => {
         cancelled = true;
       };
     }
-
-    setIsLoading(true);
 
     void fetchNewsDetail(gameId, newsId, sourceId)
       .then((data) => {

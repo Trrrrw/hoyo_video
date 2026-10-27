@@ -313,6 +313,11 @@ function VideoPlayerCustomControls({
     left: HTMLElement;
     right: HTMLElement;
   } | null>(null);
+  const [previousContainer, setPreviousContainer] = useState(container);
+  if (previousContainer !== container) {
+    setPreviousContainer(container);
+    setControlGroups(null);
+  }
   const frameRate = quality?.activeVideoRendition?.frameRate;
   const frameDuration =
     frameRate && Number.isFinite(frameRate) && frameRate > 0
@@ -353,10 +358,7 @@ function VideoPlayerCustomControls({
   });
 
   useEffect(() => {
-    if (!container) {
-      setControlGroups(null);
-      return;
-    }
+    if (!container) return;
 
     const findControlGroups = () => {
       const groups = container.querySelectorAll<HTMLElement>(
@@ -371,14 +373,18 @@ function VideoPlayerCustomControls({
       return true;
     };
 
-    if (findControlGroups()) return;
-
+    const frame = requestAnimationFrame(() => {
+      if (findControlGroups()) observer.disconnect();
+    });
     const observer = new MutationObserver(() => {
       if (findControlGroups()) observer.disconnect();
     });
     observer.observe(container, { childList: true, subtree: true });
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, [container]);
 
   if (!controlGroups) return null;

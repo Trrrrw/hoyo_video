@@ -46,7 +46,7 @@ function videoListUrl(
   if (tagName) params.set("tag", tagName);
   if (during) params.set("during", during);
   if (reverse) params.set("reverse", "true");
-  if (view === "timeline") params.set("view", view);
+  if (view === "timeline" || view === "grid") params.set("view", view);
 
   return `/${gameId}/videos?${params}`;
 }
@@ -94,7 +94,7 @@ export default function VideoList() {
   const during = searchParams.get("during") ?? undefined;
   const duringValue = parseDuringParam(searchParams.get("during"));
   const reverse = searchParams.get("reverse") === "true";
-  const isTimelineView = searchParams.get("view") === "timeline";
+  const isTimelineView = searchParams.get("view") !== "grid";
   const { versions, isLoading: isVersionsLoading } = useGameVersions(
     isTimelineView ? (gameId ?? "") : "",
   );
@@ -133,7 +133,7 @@ export default function VideoList() {
     setSearchParams(
       (current) => {
         if (checked) current.set("view", "timeline");
-        else current.delete("view");
+        else current.set("view", "grid");
         return current;
       },
       { replace: true },
@@ -233,7 +233,7 @@ export default function VideoList() {
                   undefined,
                   during,
                   reverse,
-                  isTimelineView ? "timeline" : undefined,
+                  isTimelineView ? "timeline" : "grid",
                 ),
               },
               ...tags.map((item) => ({
@@ -245,7 +245,7 @@ export default function VideoList() {
                   item.name,
                   during,
                   reverse,
-                  isTimelineView ? "timeline" : undefined,
+                  isTimelineView ? "timeline" : "grid",
                 ),
               })),
             ],

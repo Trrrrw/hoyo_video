@@ -6,18 +6,21 @@ import { useReportBackendError } from "../contexts/BackendErrorContext";
 export function useSources(gameId: string) {
   const handleBackendError = useReportBackendError();
   const [sources, setSources] = useState<NewsSourceInfo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Boolean(gameId));
   const [loadedGameId, setLoadedGameId] = useState<string>();
+
+  const [previousGameId, setPreviousGameId] = useState(gameId);
+  if (previousGameId !== gameId) {
+    setPreviousGameId(gameId);
+    setSources([]);
+    setIsLoading(Boolean(gameId));
+    setLoadedGameId(undefined);
+  }
 
   useEffect(() => {
     let cancelled = false;
 
-    setSources([]);
-    setIsLoading(true);
-    setLoadedGameId(undefined);
-
     if (!gameId) {
-      setIsLoading(false);
       return () => {
         cancelled = true;
       };

@@ -132,6 +132,9 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
           Boolean(sourceId),
           sourceId ? getCachedNewsList(requestKey) : undefined,
         );
+  if (state.requestKey !== requestKey) {
+    setState(visibleState);
+  }
   const {
     news,
     page,
@@ -173,7 +176,6 @@ export function useNewsList(gameId: string, query: NewsListQuery) {
     const cached = sourceId ? getCachedNewsList(requestKey) : undefined;
 
     loadingMore.current = false;
-    setState(createNewsListState(requestKey, Boolean(sourceId), cached));
 
     if (!sourceId) {
       return () => {

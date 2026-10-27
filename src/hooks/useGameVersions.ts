@@ -33,14 +33,17 @@ export function useGameVersions(gameId: string) {
     () => Boolean(gameId) && !cachedVersions.has(gameId),
   );
 
-  useEffect(() => {
-    let cancelled = false;
+  const [previousGameId, setPreviousGameId] = useState(gameId);
+  if (previousGameId !== gameId) {
+    setPreviousGameId(gameId);
     const cached = cachedVersions.get(gameId);
-
     setVersions(cached ?? []);
     setIsLoading(Boolean(gameId) && !cached);
+  }
 
-    if (!gameId || cached) {
+  useEffect(() => {
+    let cancelled = false;
+    if (!gameId) {
       return () => {
         cancelled = true;
       };

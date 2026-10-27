@@ -108,7 +108,10 @@ export function useRestoreScrollPosition({
         return;
       }
 
-      scrollElement.scrollTop = Math.min(targetScrollTop, maxScrollTop);
+      scrollElement.scrollTo({
+        top: Math.min(targetScrollTop, maxScrollTop),
+        behavior: "instant",
+      });
       pendingScrollTop.current = null;
       restoredStorageKey.current = storageKey;
       onRestoreComplete?.();

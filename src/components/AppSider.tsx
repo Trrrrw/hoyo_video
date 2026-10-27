@@ -21,7 +21,6 @@ export default function AppSider({
   onMobileOpenChange,
 }: AppSiderProps) {
   const screens = useBreakpoint();
-  const [collapsed, setCollapsed] = useState(false);
   const [animatedMobileOpen, setAnimatedMobileOpen] = useState(false);
 
   const mode: SiderMode = screens.xl
@@ -30,8 +29,14 @@ export default function AppSider({
       ? "compact"
       : "hidden";
 
-  useEffect(() => {
+  const [collapsed, setCollapsed] = useState(mode !== "wide");
+  const [previousMode, setPreviousMode] = useState(mode);
+  if (previousMode !== mode) {
+    setPreviousMode(mode);
     setCollapsed(mode !== "wide");
+  }
+
+  useEffect(() => {
     if (mode !== "hidden") {
       onMobileOpenChange(false);
     }

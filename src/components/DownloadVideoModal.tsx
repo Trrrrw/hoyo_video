@@ -199,7 +199,7 @@ function BrowserDownloadPanel({
   coverUrl: string | null;
   nfoUrl: string;
 }) {
-  const platform = useMemo(detectDownloadPlatform, []);
+  const platform = useMemo(() => detectDownloadPlatform(), []);
   const instruction =
     platform === "ios"
       ? "请长按下面的链接，在弹出菜单中选择“下载链接文件”。"
@@ -295,10 +295,23 @@ export default function DownloadVideoModal({
     useState<DownloadAction>(null);
   const [seasonNumber, setSeasonNumber] = useState(1);
   const [episodeNumber, setEpisodeNumber] = useState(1);
-  const [episodeNumberLoading, setEpisodeNumberLoading] = useState(false);
+  const primaryTag = news.tags[0];
+  const [episodeNumberLoading, setEpisodeNumberLoading] = useState(
+    Boolean(open && primaryTag),
+  );
+  const episodeRequestKey = JSON.stringify([
+    gameId, news.id, news.source, open, primaryTag,
+  ]);
+  const [previousEpisodeRequestKey, setPreviousEpisodeRequestKey] =
+    useState(episodeRequestKey);
+  if (previousEpisodeRequestKey !== episodeRequestKey) {
+    setPreviousEpisodeRequestKey(episodeRequestKey);
+    setSeasonNumber(1);
+    setEpisodeNumber(1);
+    setEpisodeNumberLoading(Boolean(open && primaryTag));
+  }
 
   const safeTitle = sanitizeFileName(news.title);
-  const primaryTag = news.tags[0];
   const safePrimaryTag = sanitizeFileName(primaryTag ?? "其他视频");
   const safeGameName = sanitizeFileName(gameName || "未知游戏");
   const seriesName = sanitizeFileName(`《${safeGameName}》${safePrimaryTag}`);
@@ -360,13 +373,8 @@ export default function DownloadVideoModal({
   useEffect(() => {
     let cancelled = false;
 
-    setSeasonNumber(1);
-    setEpisodeNumber(1);
-    setEpisodeNumberLoading(false);
-
     if (!open || !primaryTag) return;
 
-    setEpisodeNumberLoading(true);
     void findSeriesEpisodeNumber(
       gameId,
       news.source,
