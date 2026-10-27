@@ -15,7 +15,7 @@
     "@ant-design/icons": "~6.3.4",
     "@tabler/icons-react": "^3.49.0",
     "@videojs/react": "10.2.0",
-    "antd": "^6.6.7",
+    "antd": "^6.6.8",
     "dayjs": "^1.11.23",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -23,7 +23,7 @@
     "react-virtuoso": "^4.18.19"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.7",
+    "@babel/core": "^8.0.9",
     "@rolldown/plugin-babel": "^0.2.4",
     "@tailwindcss/vite": "^4.3.3",
     "@types/babel__core": "^7.20.5",
@@ -33,7 +33,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "oxlint": "^1.89.0",
-    "oxlint-tsgolint": "^7.0.2004",
+    "oxlint-tsgolint": "^7.0.2005",
     "tailwindcss": "^4.3.3",
     "typescript": "~7.0.2",
     "vite": "^8.3.5"

@@ -3,7 +3,6 @@ import "@videojs/react/i18n/locales/zh-CN/register";
 import {
   BufferingIndicator,
   createPlayer,
-  Poster,
   selectControls,
   selectPlayback,
   selectQuality,
@@ -478,12 +477,9 @@ export default function VideoPlayer({
   }
 
   return (
-    <Player>
+    <Player poster={news.cover ?? undefined}>
       <I18nProvider locale="zh-CN">
         <VideoSkin className="video-player-skin aspect-video w-full overflow-hidden">
-          <Poster.Root>
-            <Poster.Image src={news.cover ?? undefined} alt={news.title} />
-          </Poster.Root>
           <Video
             src={news.video_url ?? undefined}
             playsInline
