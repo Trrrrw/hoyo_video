@@ -1,10 +1,7 @@
 import { backendUrl } from "./client";
 import { fetchNewsList } from "./news";
 
-function createNfoUrl(
-  path: string,
-  query: Record<string, string | number>,
-) {
+function createNfoUrl(path: string, query: Record<string, string | number>) {
   const url = new URL(backendUrl(path));
 
   for (const [key, value] of Object.entries(query)) {
@@ -19,9 +16,8 @@ export function getMovieNfoUrl(
   sourceId: string,
   newsId: string,
 ) {
-  return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}/media/nfo`,
-    { source: sourceId },
+  return backendUrl(
+    `/api/v1/news/${encodeURIComponent(gameId)}/${encodeURIComponent(sourceId)}/${encodeURIComponent(newsId)}/media/nfo`,
   );
 }
 
@@ -30,9 +26,8 @@ export function getSeriesNfoUrl(
   sourceId: string,
   tagName: string,
 ) {
-  return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/media/nfo`,
-    { source: sourceId },
+  return backendUrl(
+    `/api/v1/news/${encodeURIComponent(gameId)}/${encodeURIComponent(sourceId)}/series/${encodeURIComponent(tagName)}/media/nfo`,
   );
 }
 
@@ -45,8 +40,8 @@ export function getEpisodeNfoUrl(
   episode: number,
 ) {
   return createNfoUrl(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/series/${encodeURIComponent(tagName)}/episodes/${encodeURIComponent(newsId)}/media/nfo`,
-    { source: sourceId, season, episode },
+    `/api/v1/news/${encodeURIComponent(gameId)}/${encodeURIComponent(sourceId)}/series/${encodeURIComponent(tagName)}/episodes/${encodeURIComponent(newsId)}/media/nfo`,
+    { season, episode },
   );
 }
 

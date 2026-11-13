@@ -24,13 +24,7 @@ type NewsListRequest = Omit<NewsListQuery, "sourceId"> & {
   offset?: number;
 };
 
-export type NewsPage = PageResponse<
-  NewsInfo,
-  {
-    game_id: string;
-    source: string;
-  }
->;
+export type NewsPage = PageResponse<NewsInfo, null>;
 
 function toBackendDate(value: string | undefined): string | undefined {
   if (!value) return undefined;
@@ -65,40 +59,24 @@ export async function fetchNewsList(
   const regularTags = tags?.filter((tag) => tag !== "其他");
   const hasUntagged = tags?.includes("其他") || undefined;
 
-  const response = await backendFetch(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news`,
-    {
-      source: sourceId,
-      q,
-      tag: regularTags && regularTags.length > 0 ? regularTags : undefined,
-      untagged: hasUntagged,
-      character:
-        characters && characters.length > 0 ? characters : undefined,
-      news_type: newsType,
-      ...getPublishedRange(during),
-      limit,
-      offset,
-      order: reverse ? "asc" : "desc",
-    },
-  );
+  const response = await backendFetch("/api/v1/news", {
+    game: gameId,
+    source: sourceId,
+    q,
+    tag: regularTags && regularTags.length > 0 ? regularTags : undefined,
+    untagged: hasUntagged,
+    character: characters && characters.length > 0 ? characters : undefined,
+    news_type: newsType,
+    ...getPublishedRange(during),
+    limit,
+    offset,
+    order: reverse ? "asc" : "desc",
+  });
 
   return parseJson<NewsPage>(
     response,
     (value): value is NewsPage =>
-      isPageResponse(
-        value,
-        isNewsInfo,
-        (meta): meta is NewsPage["meta"] => {
-          return (
-            typeof meta === "object" &&
-            meta !== null &&
-            "game_id" in meta &&
-            "source" in meta &&
-            typeof meta.game_id === "string" &&
-            typeof meta.source === "string"
-          );
-        },
-      ),
+      isPageResponse(value, isNewsInfo, (meta): meta is null => meta === null),
     "视频列表",
   );
 }
@@ -109,8 +87,7 @@ export async function fetchNewsDetail(
   sourceId: string,
 ): Promise<NewsDetailInfo> {
   const response = await backendFetch(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/${encodeURIComponent(newsId)}`,
-    { source: sourceId },
+    `/api/v1/news/${encodeURIComponent(gameId)}/${encodeURIComponent(sourceId)}/${encodeURIComponent(newsId)}`,
   );
 
   const news = await parseJson<NewsDetailInfo>(

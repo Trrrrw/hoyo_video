@@ -2,12 +2,8 @@ import { backendFetch } from "./client";
 import { isListResponse, isNewsSourceInfo, parseJson } from "./parsers";
 import type { ListResponse, NewsSourceInfo } from "./types";
 
-export async function fetchSources(
-  gameId: string,
-): Promise<NewsSourceInfo[]> {
-  const response = await backendFetch(
-    `/api/v1/games/${encodeURIComponent(gameId)}/news/sources`,
-  );
+export async function fetchSources(gameId: string): Promise<NewsSourceInfo[]> {
+  const response = await backendFetch("/api/v1/news/sources", { game: gameId });
   const data = await parseJson<ListResponse<NewsSourceInfo>>(
     response,
     (value): value is ListResponse<NewsSourceInfo> =>

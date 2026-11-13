@@ -1,6 +1,6 @@
 import { BackendError } from "./client";
 import type {
-  GameDataEntry,
+  GameCharacter,
   GameIconVariant,
   GameInfo,
   GameVersion,
@@ -65,16 +65,13 @@ function isGameIconVariant(value: unknown): value is GameIconVariant {
 }
 
 function isNewsCharacter(value: unknown): value is NewsCharacter {
-  return (
-    isRecord(value) &&
-    isString(value.id) &&
-    isString(value.name)
-  );
+  return isRecord(value) && isString(value.id) && isString(value.name);
 }
 
 export function isNewsInfo(value: unknown): value is NewsInfo {
   return (
     isRecord(value) &&
+    isString(value.game_id) &&
     isString(value.id) &&
     isString(value.source) &&
     isString(value.title) &&
@@ -111,7 +108,9 @@ export function isNewsDetailInfo(value: unknown): value is NewsDetailInfo {
   if (!isNewsInfo(value)) return false;
 
   const relatedVideos = (value as RecordValue).related_videos;
-  return Array.isArray(relatedVideos) && relatedVideos.every(isRelatedVideoInfo);
+  return (
+    Array.isArray(relatedVideos) && relatedVideos.every(isRelatedVideoInfo)
+  );
 }
 
 function isRecentNews(value: unknown): value is RecentNews {
@@ -150,23 +149,21 @@ export function isGameVersion(value: unknown): value is GameVersion {
   );
 }
 
-function isGameDataEntry(value: unknown): value is GameDataEntry {
+function isGameCharacter(value: unknown): value is GameCharacter {
   return (
     isRecord(value) &&
     isString(value.id) &&
-    "summary" in value &&
-    "assets" in value &&
-    (!("name" in value) || isNullableString(value.name)) &&
-    (!("icon" in value) || isNullableString(value.icon))
+    isString(value.name) &&
+    isNullableString(value.icon)
   );
 }
 
-export function isGameDataPage(
+export function isCharacterPage(
   value: unknown,
-): value is PageResponse<GameDataEntry, unknown> {
+): value is PageResponse<GameCharacter, unknown> {
   return isPageResponse(
     value,
-    isGameDataEntry,
+    isGameCharacter,
     (_meta: unknown): _meta is unknown => true,
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchGameCharacters } from "../api/gameData";
+import { fetchGameCharacters } from "../api/characters";
 import type { GameCharacter } from "../api/types";
 import { useReportBackendError } from "../contexts/BackendErrorContext";
 
@@ -29,8 +29,8 @@ function getGameCharacters(gameId: string): Promise<GameCharacter[]> {
 
 export function useGameCharacters(gameId: string) {
   const handleBackendError = useReportBackendError();
-  const [characters, setCharacters] = useState<GameCharacter[]>(() =>
-    cachedCharacters.get(gameId) ?? [],
+  const [characters, setCharacters] = useState<GameCharacter[]>(
+    () => cachedCharacters.get(gameId) ?? [],
   );
   const [isLoading, setIsLoading] = useState(
     () => Boolean(gameId) && !cachedCharacters.has(gameId),

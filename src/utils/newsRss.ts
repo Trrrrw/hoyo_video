@@ -28,9 +28,10 @@ export function buildNewsRssUrl({
   q,
   limit = defaultRssLimit,
 }: NewsRssUrlOptions): string {
-  const url = new URL(backendUrl(`/api/v1/games/${gameId}/news/rss`));
+  const url = new URL(backendUrl("/api/v1/news/rss"));
   const [start, end] = during?.split("-", 2) ?? [];
 
+  url.searchParams.set("game", gameId);
   url.searchParams.set("source", sourceId);
   url.searchParams.set("news_type", "video");
   url.searchParams.set("limit", String(limit));

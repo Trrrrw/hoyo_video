@@ -22,14 +22,6 @@ export type PageResponse<T, Meta> = ListResponse<T> & {
   meta: Meta;
 };
 
-export type GameDataEntry = {
-  id: string;
-  name?: string | null;
-  icon?: string | null;
-  summary: unknown;
-  assets: unknown;
-};
-
 export type GameCharacter = {
   id: string;
   name: string;
@@ -71,6 +63,7 @@ export type NewsCharacter = {
 };
 
 export type NewsInfo = {
+  game_id: string;
   id: string;
   source: string;
   title: string;
